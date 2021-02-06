@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: Check-Online API. Goods Release.
   termsOfService: https://forms.gle/kPqAx6WYcaSYtZpN6
-  version: "4.9.129"
+  version: "4.9.126"
   contact:
     name: Check-Online
     email: info@check-online.com.ua
@@ -714,7 +714,7 @@ paths:
                   success:
                     type: boolean
                   id:
-                    type: string
+                    type: number
                     description: Id смены
               example: { "success": true, "id": "142866" }
 
