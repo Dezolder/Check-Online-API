@@ -530,7 +530,7 @@ paths:
                       openedByCashierWithKeyId:
                         type: string
                       id:
-                        type: string
+                        type: number
                       name:
                         type: string
                         description: Название ПРРО, указанное при регистрации (форма J/F 1316602).
@@ -549,6 +549,7 @@ paths:
                       "openedByCashierWithName": "Тестовий платник 4 (Тест)",
                       "openedByCashierWithKeyId": "83545ae583811d9f74aab0e9e38010eec2086ca96847ddc1750871425b75955f",
                       "id": 4000066888,
+                      "name": "CheckOnline"
                     },
                 }
         400:
