@@ -715,7 +715,7 @@ paths:
                   success:
                     type: boolean
                   id:
-                    type: number
+                    type: string
                     description: Id смены
               example: { "success": true, "id": "142866" }
 
