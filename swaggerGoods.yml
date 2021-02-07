@@ -890,9 +890,9 @@ paths:
                       shiftId:
                         type: string
                       serviceInputTotal:
-                        type: number
+                        type: string
                       serviceOutputTotal:
-                        type: number
+                        type: string
                       totalsBySale:
                         type: object
                         properties:
@@ -913,7 +913,7 @@ paths:
                                 name:
                                   type: string
                                 totalSum:
-                                  type: number
+                                  type: string
                           totalsByTaxRate:
                             type: array
                             items:
@@ -926,13 +926,13 @@ paths:
                                 name:
                                   type: string
                                 percent:
-                                  type: number
+                                  type: string
                                 sign:
                                   type: boolean
                                 turnover:
-                                  type: number
+                                  type: string
                                 sum:
-                                  type: number
+                                  type: string
                       totalsByReturn:
                         type: object
                         properties:
@@ -953,7 +953,7 @@ paths:
                                 name:
                                   type: string
                                 totalSum:
-                                  type: number
+                                  type: string
                           totalsByTaxRate:
                             type: array
                             items:
@@ -966,13 +966,13 @@ paths:
                                 name:
                                   type: string
                                 percent:
-                                  type: number
+                                  type: string
                                 sign:
                                   type: boolean
                                 turnover:
-                                  type: number
+                                  type: string
                                 sum:
-                                  type: number
+                                  type: string
               example:
                 {
                   "success": true,
@@ -1146,9 +1146,9 @@ paths:
                       shiftId:
                         type: string
                       serviceInputTotal:
-                        type: number
+                        type: string
                       serviceOutputTotal:
-                        type: number
+                        type: string
                       totalsBySale:
                         type: object
                         properties:
@@ -1169,7 +1169,7 @@ paths:
                                 name:
                                   type: string
                                 totalSum:
-                                  type: number
+                                  type: string
                           totalsByTaxRate:
                             type: array
                             items:
@@ -1182,13 +1182,13 @@ paths:
                                 name:
                                   type: string
                                 percent:
-                                  type: number
+                                  type: string
                                 sign:
                                   type: boolean
                                 turnover:
-                                  type: number
+                                  type: string
                                 sum:
-                                  type: number
+                                  type: string
                       totalsByReturn:
                         type: object
                         properties:
@@ -1209,7 +1209,7 @@ paths:
                                 name:
                                   type: string
                                 totalSum:
-                                  type: number
+                                  type: string
                           totalsByTaxRate:
                             type: array
                             items:
@@ -1222,13 +1222,13 @@ paths:
                                 name:
                                   type: string
                                 percent:
-                                  type: number
+                                  type: string
                                 sign:
                                   type: boolean
                                 turnover:
-                                  type: number
+                                  type: string
                                 sum:
-                                  type: number
+                                  type: string
               example:
                 {
                   "success": true,
@@ -1926,7 +1926,7 @@ paths:
                       offline:
                         type: boolean
                       shiftId:
-                        type: number
+                        type: string
               example:
                 {
                   "success": true,
