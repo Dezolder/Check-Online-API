@@ -7,7 +7,7 @@ info:
     name: Check-Online
     email: info@check-online.com.ua
   description: >-
-    <p><img src="./static/logo.png" alt="Check-Online Logo">
+    <p><img src="https://github.com/Dezolder/Check-Online-API/raw/main/logo.png" alt="Check-Online Logo">
     <p>
     <button><a href="http://127.0.0.1:55551/">API Товары</a></button> <button><a href="http://127.0.0.1:55551/currency">API Валюта</a></button>
     <p>
