@@ -2,9 +2,9 @@ openapi: 3.0.3
 info:
   title: Check-Online API. Goods Release.
   termsOfService: https://forms.gle/kPqAx6WYcaSYtZpN6
-  version: "4.9.127"
+  version: "4.9.130"
   contact:
-    name: Check-Online5
+    name: Check-Online
     email: info@check-online.com.ua
   description: >-
     <p><img src="https://github.com/Dezolder/Check-Online-API/raw/main/logo.png" alt="Check-Online Logo">
@@ -1432,9 +1432,9 @@ paths:
                       paymentTypeId:
                         type: number
                         description: Поле paymentTypeId соответствует полю id в таблице Формы оплаты (см тэг PayForm этого API), формируемой при начальной настройке пРРО.
-                      # paymentTypeCode:
+                      # paymentTypeCode: Устарело. Заменено на paymentTypeId
                       #   type: number
-                      # paymentTypeName:
+                      # paymentTypeName: Устарело. Заменено на paymentTypeId
                       #   type: string
                       sum:
                         type: number
@@ -1961,7 +1961,7 @@ paths:
               properties:
                 commandName:
                   type: string
-                  default: "sale"
+                  default: "return"
                 cashierId:
                   type: string
                 registrarId:
@@ -2060,7 +2060,7 @@ paths:
                 - registrarId
             example:
               {
-                "commandName": "sale",
+                "commandName": "return",
                 "cashierId": "83545ae583811d9f74aab0e9e38010eec2086ca96847ddc1750871425b75955f",
                 "registrarId": "4000066888",
                 "fiscalNumber": "2186792",
