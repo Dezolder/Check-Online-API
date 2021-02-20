@@ -1199,7 +1199,7 @@ paths:
                                 name:
                                   type: string
                                 totalSum:
-                                  type: number
+                                  type: string
                           totalsByTaxRate:
                             type: array
                             items:
