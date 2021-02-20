@@ -1458,21 +1458,21 @@ paths:
                       # paymentTypeName: Устарело. Заменено на paymentTypeId
                       #   type: string
                       sum:
-                        type: number
+                        type: string
                         description: Общая сумма. Если задано sumWithoutRounding, то sum округлено до десятых по правилам округления (4сотых и менее - в меньшую, 5сотых и более - в большую)
-                        example: 90.00
+                        example: "90.00"
                       provided:
-                        type: number
+                        type: string
                         description: Сумма внесённых денег. Применяется только к наличным способам оплаты.
-                        example: 100.00
+                        example: "100.00"
                       remains:
-                        type: number
+                        type: string
                         description: Сдача. Применяется только к наличным способам оплаты.
-                        example: 10.00
+                        example: "10.00"
                       sumWithoutRounding:
-                        type: number
+                        type: string
                         description: Общая сумма без округления. Применяется только к наличным способам оплаты.
-                        example: 89.99
+                        example: "89.99"
                     required:
                       - sum
                       - paymentTypeId
@@ -1565,8 +1565,8 @@ paths:
                       "remains": "15.60",
                       "sumWithoutRounding": "6084.42",
                     },
-                    { "paymentTypeId": 2, "sum": 400.02 },
-                    { "paymentTypeId": 3, "sum": 100.01 },
+                    { "paymentTypeId": 2, "sum": "400.02" },
+                    { "paymentTypeId": 3, "sum": "100.01" },
                   ],
                 "comment": "Спасибо за Покупку!",
               }
