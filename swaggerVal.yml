@@ -1399,7 +1399,7 @@ paths:
                 cashierId:
                   type: string
                 registrarId:
-                  type: string
+                  type: number
                 data:
                   type: object
                   required:
@@ -1558,7 +1558,7 @@ paths:
                 cashierId:
                   type: string
                 registrarId:
-                  type: string
+                  type: number
                 data:
                   type: object
                   required:
@@ -1717,7 +1717,7 @@ paths:
                 cashierId:
                   type: string
                 registrarId:
-                  type: string
+                  type: number
                 data:
                   type: object
                   required:
@@ -1876,7 +1876,7 @@ paths:
                 cashierId:
                   type: string
                 registrarId:
-                  type: string
+                  type: number
                 data:
                   type: object
                   required:
@@ -2037,7 +2037,7 @@ paths:
                 cashierId:
                   type: string
                 registrarId:
-                  type: string
+                  type: number
                 сurrencies:
                   type: array
                   items:
@@ -2189,7 +2189,7 @@ paths:
                 cashierId:
                   type: string
                 registrarId:
-                  type: string
+                  type: number
                 сurrencies:
                   type: array
                   items:
