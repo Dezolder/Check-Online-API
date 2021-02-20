@@ -2027,9 +2027,9 @@ paths:
                           type: number
                           description: Соответствует полю id в таблице Налоговых Групп (см тэг Tax этого API), формируемой при начальной настройке пРРО.
                       discountSum:
-                        type: string
+                        type: number
                         description: Скидка применённая к Товару
-                        example: "5.00"
+                        example: 5.00
                       comment:
                         type: string
                         description: Комментарий применённый к Товару
