@@ -1605,13 +1605,8 @@ paths:
                               type: string
                             price:
                               type: string
-                            taxRateIds:
-                              type: array
-                              items:
-                                type: number
-                          required:
-                            - price
-                            - taxRateIds
+                            taxRateLetters:
+                              type: string
                       taxes:
                         type: array
                         items:
@@ -2195,10 +2190,8 @@ paths:
                               type: string
                             price:
                               type: string
-                            taxRateIds:
-                              type: array
-                              items:
-                                type: number
+                            taxRateLetters:
+                              type: string
                           required:
                             - price
                             - taxRateIds
