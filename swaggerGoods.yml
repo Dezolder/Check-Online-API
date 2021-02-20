@@ -718,6 +718,27 @@ paths:
                     type: string
                     description: Id смены
               example: { "success": true, "id": "142866" }
+        400:
+          description: Bad Request
+          content:
+            application/json;charset=utf-8:
+              schema:
+                properties:
+                  success:
+                    type: boolean
+                  errorMessage:
+                    type: string
+                    description: Описание ошибки
+                  errorCode:
+                    type: number
+                    description: Код ошибки
+              example: 
+                {
+                    "success": false,
+                    "errorMessage": "Касир з таким ідентифікатором не знайдений",
+                    "errorCode": 1
+                }
+
 
   /command/closeShift:
     post:
