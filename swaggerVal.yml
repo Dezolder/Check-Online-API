@@ -2,9 +2,9 @@ openapi: 3.0.3
 info:
   title: Check-Online API. Currency Release.
   termsOfService: https://forms.gle/kPqAx6WYcaSYtZpN6
-  version: "4.9.126"
+  version: "4.9.132"
   contact:
-    name: Check-Online555
+    name: Check-Online
     email: info@check-online.com.ua
   description: >-
     <p><img src="https://github.com/Dezolder/Check-Online-API/raw/main/logo.png" alt="Check-Online Logo">
@@ -113,7 +113,7 @@ paths:
                   "id": "57360e9ebab39243f28c1858043ec3fb7d60cd1d64d847f94c6c26db838eef23",
                 }
         400:
-          description: OK
+          description: NOK
           content:
             application/json;charset=utf-8:
               schema:
@@ -234,7 +234,7 @@ paths:
                   "id": "57360e9ebab39243f28c1858043ec3fb7d60cd1d64d847f94c6c26db838eef23",
                 }
         400:
-          description: OK
+          description: NOK
           content:
             application/json;charset=utf-8:
               schema:
@@ -532,7 +532,7 @@ paths:
                       openedByCashierWithKeyId:
                         type: string
                       id:
-                        type: string
+                        type: number
                       name:
                         type: string
                         description: Название ПРРО, указанное при регистрации (форма J/F 1316602).
@@ -551,10 +551,11 @@ paths:
                       "openedByCashierWithName": "Для РРО № 4000066889",
                       "openedByCashierWithKeyId": "57360e9ebab39243f28c1858043ec3fb7d60cd1d64d847f94c6c26db838eef23",
                       "id": 4000066889,
+                      "name": "CheckOnline",
                     },
                 }
         400:
-          description: OK
+          description: NOK
           content:
             application/json;charset=utf-8:
               schema:
@@ -649,14 +650,13 @@ paths:
                         type: string
               example:
                 {
-                  "success": true,
-                  "data":
-                    {
-                      "loggedIn": true,
-                      "id": "57360e9ebab39243f28c1858043ec3fb7d60cd1d64d847f94c6c26db838eef23",
-                      "name": "Для РРО № 4000066889",
-                      "expirationDate": "14:16:50 25.01.2023",
-                    },
+                    "success": true,
+                    "data": {
+                        "loggedIn": true,
+                        "id": "57360e9ebab39243f28c1858043ec3fb7d60cd1d64d847f94c6c26db838eef23",
+                        "name": "Для РРО № 4000066889",
+                        "expirationDate": "14:16:50 25.01.2023"
+                    }
                 }
         400:
           description: Bad Request
@@ -716,9 +716,29 @@ paths:
                   success:
                     type: boolean
                   id:
-                    type: number
+                    type: string
                     description: Id смены
               example: { "success": true, "id": "142733" }
+        400:
+          description: Bad Request
+          content:
+            application/json;charset=utf-8:
+              schema:
+                properties:
+                  success:
+                    type: boolean
+                  errorMessage:
+                    type: string
+                    description: Описание ошибки
+                  errorCode:
+                    type: number
+                    description: Код ошибки
+              example:
+                {
+                  "success": false,
+                  "errorMessage": "Касир з таким ідентифікатором не знайдений",
+                  "errorCode": 1,
+                }              
 
   /command/closeShift:
     post:
@@ -891,11 +911,14 @@ paths:
                       shiftId:
                         type: string
                       serviceInputTotal:
-                        type: number
+                        type: string
                       serviceOutputTotal:
-                        type: number
+                        type: string
                       totalsBySale:
-                        type: number
+                        type: object
+                        properties:
+                          ordersCount:
+                            type: number
                       Currency:
                         type: array
                         items:
@@ -1106,16 +1129,16 @@ paths:
                       shiftId:
                         type: string
                       serviceInputTotal:
-                        type: number
+                        type: string
                       serviceOutputTotal:
-                        type: number
+                        type: string
                       totalsBySale:
                         type: object
                         properties:
                           ordersCount:
                             type: number
                           totalSum:
-                            type: number
+                            type: string
                           totalsByPaymentType:
                             type: array
                             items:
@@ -1126,7 +1149,7 @@ paths:
                                 name:
                                   type: string
                                 totalSum:
-                                  type: number
+                                  type: string
                           totalsByTaxRate:
                             type: array
                             items:
@@ -1139,13 +1162,13 @@ paths:
                                 name:
                                   type: string
                                 percent:
-                                  type: number
+                                  type: string
                                 sign:
                                   type: boolean
                                 turnover:
-                                  type: number
+                                  type: string
                                 sum:
-                                  type: number
+                                  type: string
                       totalsByReturn:
                         type: array
                         items:
@@ -1154,7 +1177,7 @@ paths:
                           ordersCount:
                             type: number
                           totalSum:
-                            type: number
+                            type: string
                           totalsByPaymentType:
                             type: array
                             items:
@@ -1178,13 +1201,13 @@ paths:
                                 name:
                                   type: string
                                 percent:
-                                  type: number
+                                  type: string
                                 sign:
                                   type: boolean
                                 turnover:
-                                  type: number
+                                  type: string
                                 sum:
-                                  type: number
+                                  type: string
               example:
                 {
                   "success": true,
