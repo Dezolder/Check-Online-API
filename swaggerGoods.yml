@@ -1583,7 +1583,7 @@ paths:
                             amount:
                               type: string
                             price:
-                              type: number
+                              type: string
                             taxRateIds:
                               type: array
                               items:
@@ -2173,7 +2173,7 @@ paths:
                             amount:
                               type: string
                             price:
-                              type: number
+                              type: string
                             taxRateIds:
                               type: array
                               items:
