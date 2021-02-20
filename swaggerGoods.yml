@@ -1606,6 +1606,10 @@ paths:
                               type: string
                             taxRateLetters:
                               type: string
+                            discountSum:
+                              type: string
+                            comment:
+                              type: string
                       taxes:
                         type: array
                         items:
@@ -2191,9 +2195,10 @@ paths:
                               type: string
                             taxRateLetters:
                               type: string
-                          required:
-                            - price
-                            - taxRateIds
+                            discountSum:
+                              type: string
+                            comment:
+                              type: string
                       taxes:
                         type: array
                         items:
