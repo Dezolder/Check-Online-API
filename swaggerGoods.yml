@@ -1581,7 +1581,7 @@ paths:
                             unitName:
                               type: string
                             amount:
-                              type: number
+                              type: string
                             price:
                               type: number
                             taxRateIds:
@@ -2171,7 +2171,7 @@ paths:
                             unitName:
                               type: string
                             amount:
-                              type: number
+                              type: string
                             price:
                               type: number
                             taxRateIds:
