@@ -2694,7 +2694,7 @@ paths:
                           type: number
                           description: Код вида налога/сбора. 0-ПДВ,1-Акциз,2-ПФ...
                         percent:
-                          type: number
+                          type: string
                           description: Процент налога/сбора
                         name:
                           type: string
