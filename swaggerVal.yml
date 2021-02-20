@@ -255,6 +255,7 @@ paths:
         content:
           application/json;charset=utf-8:
             schema:
+              type: object
               properties:
                 commandName:
                   type: string
@@ -304,6 +305,7 @@ paths:
         content:
           application/json;charset=utf-8:
             schema:
+              type: object
               properties:
                 commandName:
                   type: string
@@ -356,6 +358,7 @@ paths:
         content:
           application/json;charset=utf-8:
             schema:
+              type: object
               properties:
                 commandName:
                   type: string
@@ -387,6 +390,7 @@ paths:
         content:
           application/json;charset=utf-8:
             schema:
+              type: object
               properties:
                 commandName:
                   type: string
@@ -482,6 +486,7 @@ paths:
         content:
           application/json;charset=utf-8:
             schema:
+              type: object
               properties:
                 commandName:
                   type: string
@@ -688,6 +693,7 @@ paths:
         content:
           application/json;charset=utf-8:
             schema:
+              type: object
               properties:
                 commandName:
                   type: string
@@ -751,6 +757,7 @@ paths:
         content:
           application/json;charset=utf-8:
             schema:
+              type: object
               properties:
                 commandName:
                   type: string
@@ -791,6 +798,7 @@ paths:
         content:
           application/json;charset=utf-8:
             schema:
+              type: object
               properties:
                 commandName:
                   type: string
@@ -835,6 +843,7 @@ paths:
         content:
           application/json;charset=utf-8:
             schema:
+              type: object
               properties:
                 commandName:
                   type: string
@@ -875,6 +884,7 @@ paths:
         content:
           application/json;charset=utf-8:
             schema:
+              type: object
               properties:
                 commandName:
                   type: string
@@ -1096,6 +1106,7 @@ paths:
         content:
           application/json;charset=utf-8:
             schema:
+              type: object
               properties:
                 commandName:
                   type: string
@@ -1380,6 +1391,7 @@ paths:
         content:
           application/json;charset=utf-8:
             schema:
+              type: object
               properties:
                 commandName:
                   type: string
@@ -1538,6 +1550,7 @@ paths:
         content:
           application/json;charset=utf-8:
             schema:
+              type: object
               properties:
                 commandName:
                   type: string
@@ -1696,6 +1709,7 @@ paths:
         content:
           application/json;charset=utf-8:
             schema:
+              type: object
               properties:
                 commandName:
                   type: string
@@ -1854,6 +1868,7 @@ paths:
         content:
           application/json;charset=utf-8:
             schema:
+              type: object
               properties:
                 commandName:
                   type: string
@@ -2014,6 +2029,7 @@ paths:
         content:
           application/json;charset=utf-8:
             schema:
+              type: object
               properties:
                 commandName:
                   type: string
@@ -2165,6 +2181,7 @@ paths:
         content:
           application/json;charset=utf-8:
             schema:
+              type: object
               properties:
                 commandName:
                   type: string
@@ -2317,6 +2334,7 @@ paths:
         content:
           application/json;charset=utf-8:
             schema:
+              type: object
               properties:
                 commandName:
                   type: string
