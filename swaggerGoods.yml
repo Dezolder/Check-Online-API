@@ -2068,7 +2068,7 @@ paths:
                 discountSum:
                   type: string
                   description: Скидка применённая на весь Чек. Значение поля может быть произвольным, если discountSum отсутствует в объекте products. Не применяется, если в объекте products есть Акцизные товары.
-                  example: 50.00
+                  example: "50.00"
                 comment:
                   type: string
                   description: Комментарий применённый ко всему Чеку
