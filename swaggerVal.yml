@@ -744,7 +744,7 @@ paths:
                   "success": false,
                   "errorMessage": "Касир з таким ідентифікатором не знайдений",
                   "errorCode": 1,
-                }              
+                }
 
   /command/closeShift:
     post:
@@ -1443,7 +1443,8 @@ paths:
                       description: Комментарий к валютной операции (текст)
                 comment:
                   type: string
-                  description: Комментарий к чеку (текст)
+                  description: Комментарий применённый ко всему Чеку (текст)
+                  example: "Спасибо за покупку!"
               required:
                 - commandName
                 - cashierId

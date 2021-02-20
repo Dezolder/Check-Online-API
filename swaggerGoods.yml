@@ -751,6 +751,7 @@ paths:
         content:
           application/json;charset=utf-8:
             schema:
+              type: object
               properties:
                 commandName:
                   type: string
@@ -791,6 +792,7 @@ paths:
         content:
           application/json;charset=utf-8:
             schema:
+              type: object
               properties:
                 commandName:
                   type: string
@@ -835,6 +837,7 @@ paths:
         content:
           application/json;charset=utf-8:
             schema:
+              type: object
               properties:
                 commandName:
                   type: string
@@ -875,6 +878,7 @@ paths:
         content:
           application/json;charset=utf-8:
             schema:
+              type: object
               properties:
                 commandName:
                   type: string
@@ -1134,6 +1138,7 @@ paths:
         content:
           application/json;charset=utf-8:
             schema:
+              type: object
               properties:
                 commandName:
                   type: string
@@ -1387,6 +1392,7 @@ paths:
         content:
           application/json;charset=utf-8:
             schema:
+              type: object
               properties:
                 commandName:
                   type: string
@@ -1487,7 +1493,6 @@ paths:
                   type: string
                   description: Комментарий применённый ко всему Чеку
                   example: "Спасибо за покупку!"
-
               required:
                 - commandName
                 - cashierId
@@ -1833,47 +1838,61 @@ paths:
                     properties:
                       sum:
                         type: string
+                      companyName:
+                        type: string
+                        description: Наименование продавца (256 символов)
                       pointName:
                         type: string
+                        description: Наименование точки продажи (256 символов)
                       pointAddress:
                         type: string
+                        description: Адрес точки продаж (256 символов)
                       tin:
                         type: string
+                        description: ЄДРПОУ/ДРФО/№ паспорта продавца (10 символів)
                       ipn:
                         type: string
+                        description: Налоговый номер или Индивидуальный номер плательщика НДС (12 символов)
                       cashierName:
                         type: string
+                        description: ФИО кассира (128 символов)
                       receiptNumber:
                         type: string
+                        description: Локальный номер документа (текст)
                       fiscalNumber:
                         type: string
+                        description: Фискальный номер документа (128 символов)
                       dateTime:
                         type: string
+                        description: Время операции (ггххсс)
                       receiptLink:
                         type: string
                         format: url
+                        description: URL фискального чека на портале ДПС
                       offline:
                         type: boolean
+                        description: Отметка Оффлайн режима
                       shiftId:
                         type: string
+                        description: Номер смены (текст)
               example:
                 {
-                  "success": true,
-                  "data":
-                    {
-                      "sum": "8.00",
-                      "pointName": "Тестовий платник 4",
-                      "pointAddress": "УКРАЇНА, АР КРИММ. СІМФЕРОПОЛЬ СЕЛИЩЕ БІТУМНЕ, АВТОНОМНА РЕСПУБЛІКА КРИМ/М.СІМФЕРОПОЛЬ СІМФЕРОПОЛЬ ГРЕСІВСЬКИЙ БІТУМНЕ Улица 1, 3",
-                      "tin": "34554363",
-                      "ipn": "123456789020",
-                      "cashierName": "Тестовий платник 4 (Тест)",
-                      "receiptNumber": "177",
-                      "fiscalNumber": "1011613",
-                      "dateTime": "18:41:58 22.12.2020",
-                      "receiptLink": "https://cabinet.tax.gov.ua/cashregs/check?id=1011613&fn=4000066888&date=20201222",
-                      "offline": false,
-                      "shiftId": "65464",
-                    },
+                    "success": true,
+                    "data": {
+                        "sum": "8.00",
+                        "companyName": "Тестовий платник 4",
+                        "pointName": "Магазин Іван-Тест",
+                        "pointAddress": "УКРАЇНА, СУМСЬКА ОБЛ., М. СУМИ, вул. Соборна 1",
+                        "tin": "34554363",
+                        "ipn": "123456789020",
+                        "cashierName": "Для РРО № 4000066879",
+                        "receiptNumber": "574",
+                        "fiscalNumber": "3449934",
+                        "dateTime": "12:47:58 20.02.2021",
+                        "receiptLink": "https://cabinet.tax.gov.ua/cashregs/check?id=3449934&fn=4000066879&date=20210220",
+                        "offline": false,
+                        "shiftId": "224929"
+                    }
                 }
 
   /command/serviceOutput:
