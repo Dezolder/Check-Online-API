@@ -2029,7 +2029,7 @@ paths:
                       discountSum:
                         type: string
                         description: Скидка применённая к Товару
-                        example: 5.00
+                        example: "5.00"
                       comment:
                         type: string
                         description: Комментарий применённый к Товару
