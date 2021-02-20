@@ -2338,7 +2338,7 @@ paths:
               properties:
                 commandName:
                   type: string
-                  default: "additionalInputCurrency"
+                  default: "outputCurrency"
                 cashierId:
                   type: string
                 registrarId:
@@ -2377,7 +2377,7 @@ paths:
                 - registrarId
             example:
               {
-                "commandName": "additionalInputCurrency",
+                "commandName": "outputCurrency",
                 "cashierId": "57360e9ebab39243f28c1858043ec3fb7d60cd1d64d847f94c6c26db838eef23",
                 "registrarId": 4000066889,
                 "сurrencies":
