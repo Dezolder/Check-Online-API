@@ -549,7 +549,7 @@ paths:
                       "openedByCashierWithName": "Тестовий платник 4 (Тест)",
                       "openedByCashierWithKeyId": "83545ae583811d9f74aab0e9e38010eec2086ca96847ddc1750871425b75955f",
                       "id": 4000066888,
-                      "name": "CheckOnline"
+                      "name": "CheckOnline",
                     },
                 }
         400:
@@ -732,13 +732,12 @@ paths:
                   errorCode:
                     type: number
                     description: Код ошибки
-              example: 
+              example:
                 {
-                    "success": false,
-                    "errorMessage": "Касир з таким ідентифікатором не знайдений",
-                    "errorCode": 1
+                  "success": false,
+                  "errorMessage": "Касир з таким ідентифікатором не знайдений",
+                  "errorCode": 1,
                 }
-
 
   /command/closeShift:
     post:
