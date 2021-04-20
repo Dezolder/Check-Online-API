@@ -1790,6 +1790,424 @@ paths:
                     },
                 }
 
+
+
+
+
+  /command/cashWithdrawal:
+    post:
+      tags:
+        - "Check"
+      summary: Продажа
+      description: Продажа товаров или услуг подлежащие фискализации
+      requestBody:
+        required: true
+        content:
+          application/json;charset=utf-8:
+            schema:
+              type: object
+              properties:
+                commandName:
+                  type: string
+                  default: "sale"
+                cashierId:
+                  type: string
+                registrarId:
+                  type: string
+                products:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        description: Внутренний код товара
+                      barCode:
+                        type: string
+                        description: Штрихкод товара
+                      uktzed:
+                        type: string
+                        description: Код товара согласно УКТЗЕД
+                      name:
+                        type: string
+                        description: Наименование товара, услуги или операции
+                      description:
+                        type: string
+                        description: Описание товара/услуги
+                      unitCode:
+                        type: string
+                        description: Код единици измерения согласно классификатору
+                      unitName:
+                        type: string
+                        description: Наименование единиц измерения товара
+                      amount:
+                        type: string
+                        description: Количество/Объём товара
+                      price:
+                        type: string
+                        description: Цена за единицу товара
+                      taxRateIds:
+                        type: array
+                        description: Налоговые ставки применённые к товару.
+                        items:
+                          type: number
+                          description: Соответствует полю id в таблице Налоговых Групп (см тэг Tax этого API), формируемой при начальной настройке пРРО.
+                      discountSum:
+                        type: string
+                        description: Скидка применённая к Товару
+                        example: "5.00"
+                      comment:
+                        type: string
+                        description: Комментарий применённый к Товару
+                        example: "Комментарий к Товару"
+                    required:
+                      - price
+                      - taxRateIds
+                payments:
+                  type: array
+                  description: Формы оплаты применённые к товару
+                  items:
+                    type: object
+                    properties:
+                      paymentTypeId:
+                        type: number
+                        description: Поле paymentTypeId соответствует полю id в таблице Формы оплаты (см тэг PayForm этого API), формируемой при начальной настройке пРРО.
+                      # paymentTypeCode: Устарело. Заменено на paymentTypeId
+                      #   type: number
+                      # paymentTypeName: Устарело. Заменено на paymentTypeId
+                      #   type: string
+                      sum:
+                        type: string
+                        description: Общая сумма. Если задано sumWithoutRounding, то sum округлено до десятых по правилам округления (4сотых и менее - в меньшую, 5сотых и более - в большую)
+                        example: "90.00"
+                      provided:
+                        type: string
+                        description: Сумма внесённых денег. Применяется только к наличным способам оплаты.
+                        example: "100.00"
+                      remains:
+                        type: string
+                        description: Сдача. Применяется только к наличным способам оплаты.
+                        example: "10.00"
+                      sumWithoutRounding:
+                        type: string
+                        description: Общая сумма без округления. Применяется только к наличным способам оплаты.
+                        example: "89.99"
+                    required:
+                      - sum
+                      - paymentTypeId
+                      # - paymentTypeCode
+                      # - paymentTypeName
+                discountSum:
+                  type: string
+                  description: Скидка применённая на весь Чек. Значение поля может быть произвольным, если discountSum отсутствует в объекте products. Не применяется, если в объекте products есть Акцизные товары.
+                  example: "50.00"
+
+                comment:
+                  type: string
+                  description: Комментарий применённый ко всему Чеку
+                  example: "Спасибо за покупку!"
+              required:
+                - commandName
+                - cashierId
+                - registrarId
+            example:
+              {
+                "commandName": "sale",
+                "cashierId": "83545ae583811d9f74aab0e9e38010eec2086ca96847ddc1750871425b75955f",
+                "registrarId": "4000066888",
+                "products":
+                  [
+                    {
+                      "code": "42342",
+                      "name": "Коньки",
+                      "description": "Элит",
+                      "unitCode": "2009",
+                      "unitName": "шт",
+                      "amount": "1",
+                      "price": "315.15",
+                      "taxRateIds": [1],
+                      "discountSum": "10.00",
+                      "comment": "Этот товар выбирают 98% наших покупателей!",
+                    },
+                    {
+                      "code": "12332",
+                      "name": "Шлем",
+                      "description": "Стандарт",
+                      "unitCode": "2009",
+                      "unitName": "шт",
+                      "amount": "10",
+                      "price": "340.50",
+                      "taxRateIds": [2],
+                      "comment": "На складе осталось 5шт этого товара!",
+                    },
+                    {
+                      "code": "42342",
+                      "name": "Шайба",
+                      "description": "Канада",
+                      "unitCode": "2009",
+                      "unitName": "шт",
+                      "amount": "2",
+                      "price": "55.90",
+                      "taxRateIds": [3],
+                      "comment": "Вам начислен Бонус за покупку этого товара 20!",
+                    },
+                    {
+                      "code": "8765",
+                      "name": "Спирт",
+                      "description": "Экстра",
+                      "unitCode": "2009",
+                      "unitName": "л",
+                      "amount": "1",
+                      "price": "259.90",
+                      "taxRateIds": [1, 4],
+                      "discountSum": "15.00",
+                      "comment": "Этот товар Вам достался со скидкой 15.00!",
+                    },
+                    {
+                      "code": "987",
+                      "name": "Лёд",
+                      "description": "ХимПром",
+                      "unitCode": "2009",
+                      "unitName": "кг",
+                      "amount": "8",
+                      "price": "314.70",
+                      "taxRateIds": [5],
+                    },
+                  ],
+                "payments":
+                  [
+                    {
+                      "paymentTypeId": 1,
+                      "sum": "6084.40",
+                      "provided": "6100.00",
+                      "remains": "15.60",
+                      "sumWithoutRounding": "6084.42",
+                    },
+                    { "paymentTypeId": 2, "sum": "400.02" },
+                    { "paymentTypeId": 3, "sum": "100.01" },
+                  ],
+                "comment": "Спасибо за Покупку!",
+              }
+      responses:
+        200:
+          description: OK
+          content:
+            application/json;charset=utf-8:
+              schema:
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      products:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            code:
+                              type: string
+                            barCode:
+                              type: string
+                            uktzed:
+                              type: string
+                            name:
+                              type: string
+                            description:
+                              type: string
+                            unitCode:
+                              type: string
+                            unitName:
+                              type: string
+                            amount:
+                              type: string
+                            price:
+                              type: string
+                            taxRateLetters:
+                              type: string
+                            discountSum:
+                              type: string
+                            comment:
+                              type: string
+                      taxes:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            type:
+                              type: number
+                            letter:
+                              type: string
+                            name:
+                              type: string
+                            percent:
+                              type: string
+                            sign:
+                              type: boolean
+                            sum:
+                              type: string
+                      total:
+                        type: string
+                        description: Общая сумма по чеку (15.2 цифры)
+                      companyName:
+                        type: string
+                        description: Наименование продавца (256 символов)
+                      pointName:
+                        type: string
+                        description: Наименование точки продажи (256 символов)
+                      pointAddress:
+                        type: string
+                        description: Адрес точки продаж (256 символов)
+                      tin:
+                        type: string
+                        description: ЄДРПОУ/ДРФО/№ паспорта продавца (10 символів)
+                      ipn:
+                        type: string
+                        description: Налоговый номер или Индивидуальный номер плательщика НДС (12 символов)
+                      cashierName:
+                        type: string
+                        description: ФИО кассира (128 символов)
+                      receiptNumber:
+                        type: string
+                        description: Локальный номер документа (текст)
+                      fiscalNumber:
+                        type: string
+                        description: Фискальный номер документа (128 символов)
+                      dateTime:
+                        type: string
+                        description: Время операции (ггххсс)
+                      receiptLink:
+                        type: string
+                        format: url
+                        description: URL фискального чека на портале ДПС
+                      offline:
+                        type: boolean
+                        description: Отметка Оффлайн режима
+                      shiftId:
+                        type: string
+                        description: Номер смены (текст)
+              example:
+                {
+                  "success": true,
+                  "data":
+                    {
+                      "products":
+                        [
+                          {
+                            "code": "42342",
+                            "name": "Коньки",
+                            "description": "Элит",
+                            "amount": "1.00",
+                            "price": "315.15",
+                            "unitCode": "2009",
+                            "unitName": "шт",
+                            "taxRateLetters": "A",
+                          },
+                          {
+                            "code": "12332",
+                            "name": "Шлем",
+                            "description": "Стандарт",
+                            "amount": "10.00",
+                            "price": "340.50",
+                            "unitCode": "2009",
+                            "unitName": "шт",
+                            "taxRateLetters": "Б",
+                          },
+                          {
+                            "code": "42342",
+                            "name": "Шайба",
+                            "description": "Канада",
+                            "amount": "2.00",
+                            "price": "55.90",
+                            "unitCode": "2009",
+                            "unitName": "шт",
+                            "taxRateLetters": "В",
+                          },
+                          {
+                            "code": "8765",
+                            "name": "Спирт",
+                            "description": "Экстра",
+                            "amount": "1.00",
+                            "price": "259.90",
+                            "unitCode": "2009",
+                            "unitName": "л",
+                            "taxRateLetters": "AМ",
+                          },
+                          {
+                            "code": "987",
+                            "name": "Лёд",
+                            "description": "ХимПром",
+                            "amount": "8.00",
+                            "price": "314.70",
+                            "unitCode": "2009",
+                            "unitName": "кг",
+                            "taxRateLetters": "Д",
+                          },
+                        ],
+                      "taxes":
+                        [
+                          {
+                            "type": 1,
+                            "name": "Акциз",
+                            "letter": "М",
+                            "percent": "5.00",
+                            "sign": false,
+                            "sum": "11.66",
+                          },
+                          {
+                            "type": 0,
+                            "name": "ПДВ",
+                            "letter": "A",
+                            "percent": "20.00",
+                            "sign": false,
+                            "sum": "89.73",
+                          },
+                          {
+                            "type": 0,
+                            "name": "ПДВ",
+                            "letter": "Б",
+                            "percent": "7.00",
+                            "sign": false,
+                            "sum": "222.76",
+                          },
+                          {
+                            "type": 0,
+                            "name": "ПДВ",
+                            "letter": "В",
+                            "percent": "0.00",
+                            "sign": false,
+                            "sum": "0.00",
+                          },
+                          {
+                            "type": 0,
+                            "name": "ПДВ",
+                            "letter": "Д",
+                            "percent": "0.00",
+                            "sign": false,
+                            "sum": "0.00",
+                          },
+                        ],
+                      "total": "6584.43",
+                      "companyName": "Тестовий платник 4",
+                      "pointName": "Магазин Іван-Тест",
+                      "pointAddress": "УКРАЇНА, СУМСЬКА ОБЛ., М. СУМИ, вул. Соборна 1",
+                      "tin": "34554363",
+                      "ipn": "123456789020",
+                      "cashierName": "Для РРО № 4000066888",
+                      "receiptNumber": "13",
+                      "fiscalNumber": "2186577",
+                      "dateTime": "17:26:16 30.01.2021",
+                      "receiptLink": "https://cabinet.tax.gov.ua/cashregs/check?id=2186577&fn=4000066888&date=20210130",
+                      "offline": false,
+                      "shiftId": "142866",
+                    },
+                }
+
+
+
+
+
+
   /command/serviceInput:
     post:
       tags:
