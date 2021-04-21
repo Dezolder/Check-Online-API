@@ -1958,17 +1958,7 @@ paths:
                           properties:
                             code:
                               type: string
-                            barCode:
-                              type: string
-                            uktzed:
-                              type: string
                             name:
-                              type: string
-                            description:
-                              type: string
-                            unitCode:
-                              type: string
-                            unitName:
                               type: string
                             amount:
                               type: string
