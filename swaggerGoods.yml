@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: Check-Online API. Goods Release.
   termsOfService: https://forms.gle/kPqAx6WYcaSYtZpN6
-  version: "4.9.165"
+  version: "4.9.166"
   contact:
     name: Check-Online
     email: info@check-online.com.ua
@@ -1831,8 +1831,8 @@ paths:
     post:
       tags:
         - "Check"
-      summary: Продажа
-      description: Продажа товаров или услуг подлежащие фискализации
+      summary: Выдача налички
+      description: Выдача наличных средств подлежащих фискализации
       requestBody:
         required: true
         content:
@@ -1948,7 +1948,7 @@ paths:
                   ],
                 "payments": [{ "paymentTypeId": 1, "sum": "315.16" }],
                 "commissionSum": "10.00",
-                "comment": "Спасибо за Покупку!",
+                "comment": "пРРО Чек-Онлайн",
               }
       responses:
         200:
@@ -1962,6 +1962,9 @@ paths:
                   data:
                     type: object
                     properties:
+                      commissionSum:
+                        type: string
+                        description: "Сумма комиссии (15.2 цифры)"
                       products:
                         type: array
                         items:
@@ -2009,9 +2012,6 @@ paths:
                       total:
                         type: string
                         description: Общая сумма по чеку (15.2 цифры)
-                      commissionSum:
-                        type: string
-                        description: "Сумма комиссии (15.2 цифры)"
                       companyName:
                         type: string
                         description: Наименование продавца (256 символов)
@@ -2054,6 +2054,7 @@ paths:
                   "success": true,
                   "data":
                     {
+                      "commissionSum": "10.00",
                       "products":
                         [
                           {
@@ -2076,7 +2077,6 @@ paths:
                           },
                         ],
                       "total": "315.16",
-                      "commissionSum": "10.00",
                       "companyName": "Тестовий платник 4",
                       "pointName": "Магазин Іван-Тест",
                       "pointAddress": "УКРАЇНА, СУМСЬКА ОБЛ., М. СУМИ, вул. Соборна 1",
