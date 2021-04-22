@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: Check-Online API. Goods Release.
   termsOfService: https://forms.gle/kPqAx6WYcaSYtZpN6
-  version: "4.9.168"
+  version: "4.9.170"
   contact:
     name: Check-Online
     email: info@check-online.com.ua
@@ -1897,6 +1897,10 @@ paths:
                         type: string
                         description: Общая сумма наличными.
                         example: "90.00"
+                      sumWithoutRounding:
+                        type: string
+                        description: Общая сумма наличными.
+                        example: "90.01"
                     required:
                       - sum
                       - paymentTypeId
@@ -1932,7 +1936,7 @@ paths:
                       "comment": "Готивка на касси",
                     },
                   ],
-                "payments": [{ "paymentTypeId": 1, "sum": "315.16" }],
+                "payments": [{ "paymentTypeId": 1, "sum": "315.16", "sumWithoutRounding": "90.01" }],
                 "commissionSum": "10.00",
                 "comment": "пРРО Чек-Онлайн",
               }
