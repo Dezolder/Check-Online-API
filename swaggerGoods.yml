@@ -1896,11 +1896,11 @@ paths:
                       sum:
                         type: string
                         description: Общая сумма наличными.
-                        example: "90.00"
+                        example: "315.15"
                       sumWithoutRounding:
                         type: string
-                        description: Общая сумма наличными.
-                        example: "90.01"
+                        description: Общая сумма без округления.
+                        example: "315.16"
                     required:
                       - sum
                       - paymentTypeId
@@ -1931,12 +1931,12 @@ paths:
                       "code": "42342",
                       "name": "Готивка",
                       "amount": "1",
-                      "price": "315.16",
+                      "price": "315.15",
                       "taxRateIds": [5],
                       "comment": "Готивка на касси",
                     },
                   ],
-                "payments": [{ "paymentTypeId": 1, "sum": "315.16", "sumWithoutRounding": "90.01" }],
+                "payments": [{ "paymentTypeId": 1, "sum": "315.16", "sumWithoutRounding": "315.16" }],
                 "commissionSum": "10.00",
                 "comment": "пРРО Чек-Онлайн",
               }
