@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: Check-Online API. Goods Release.
   termsOfService: https://forms.gle/kPqAx6WYcaSYtZpN6
-  version: "4.9.188.1"
+  version: "4.9.188"
   contact:
     name: Check-Online
     email: info@check-online.com.ua
@@ -912,6 +912,25 @@ paths:
                   data:
                     type: object
                     properties:
+                      receiptNumber:
+                        type: string
+                        description: Локальный номер документа.
+                      fiscalNumber:
+                        type: string
+                        description: Фискальный номер документа.
+                      receiptLink:
+                        type: string
+                        description: Гиперссылка на документ на портале ДПС.
+                      pointName:
+                        type: string
+                      pointAddress:
+                        type: string
+                      tin:
+                        type: string
+                      ipn:
+                        type: string
+                      cashierName:
+                        type: string  
                       shiftId:
                         type: string
                       serviceInputTotal:
@@ -1003,11 +1022,19 @@ paths:
                         properties:
                           ordersCount:
                             type: number
+                            description: Колличество операций с наличными.
                           totalSum:
                             type: string
+                            description: Сумма по операциям с наличными.
                           totalCommissionSum:
                             type: string
                             description: Сумма Комиссии в документах по выдаче налички
+                      dateTime:
+                          type: string
+                          description: Дата формирования запроса документа.
+                      offline:
+                          type: boolean
+                          description: Признак источника данных. False - с сайта ДПС. True - локальные.
 
               example:
                 {
@@ -1186,6 +1213,16 @@ paths:
                   data:
                     type: object
                     properties:
+                      pointName:
+                        type: string
+                      pointAddress:
+                        type: string
+                      tin:
+                        type: string
+                      ipn:
+                        type: string
+                      cashierName:
+                        type: string  
                       shiftId:
                         type: string
                       serviceInputTotal:
@@ -1282,6 +1319,9 @@ paths:
                           totalCommissionSum:
                             type: string
                             description: Сумма Комиссии в документах по выдаче налички
+                      dateTime:
+                          type: string
+                          description: Дата формирования запроса документа.
               example:
                 {
                   "success": true,
@@ -1409,18 +1449,16 @@ paths:
                           "totalSum": "2206.11",
                           "totalCommissionSum": "0.00"
                           },
-                      "dateTime": "00:27:42 03.02.2021",
-                      "offline": false,
+                      "dateTime": "00:27:42 03.02.2021"
                     },
                 }
 
-
   /command/getReportForPeriod:
-    get:
+    post:
       tags:
-        - "Shift"
-      summary: Сумма Z-Отчётов за перод
-      description: По фискальному номеру пРРО и датам, собраются все зарегистрированные зедки за указанный период, и представляются в виде "Суммируещего Z-отчёта".
+        - "Casher"
+      summary: Получить суммирующий Z-Отчёт за перод.
+      description: По фискальному номеру пРРО и датам, собраются все зарегистрированные Z-Отчёты за указанный период, и представляются в виде "Суммируещего Z-отчёта".
       requestBody:
         required: true
         content:
@@ -1438,11 +1476,11 @@ paths:
                 from:
                   type: string
                   format: hh:mm:ss dd.mm.yyyy
-                  description: Начало интересуещего периода
+                  description: Начало интересующего периода
                 to:
                   type: string  
                   format: hh:mm:ss dd.mm.yyyy
-                  description: Завершение интересуещего периода
+                  description: Завершение интересующего периода
               required:
                 - commandName
                 - cashierId
@@ -1469,6 +1507,24 @@ paths:
                   data:
                     type: object
                     properties:
+                      startOfPeriod:
+                        type: string
+                        format: hh:mm:ss dd.mm.yyyy
+                        description: Начало интересующего периода
+                      endOfPeriod:
+                        type: string
+                        format: hh:mm:ss dd.mm.yyyy
+                        description: Завершение интересующего периода            
+                      pointName:
+                        type: string
+                      pointAddress:
+                        type: string
+                      tin:
+                        type: string
+                      ipn:
+                        type: string
+                      cashierName:
+                        type: string  
                       shiftId:
                         type: string
                       serviceInputTotal:
@@ -1551,166 +1607,202 @@ paths:
                                   type: string
                                 sum:
                                   type: string
+                      cashTotals:
+                        type: object
+                        properties:
+                          ordersCount:
+                            type: number
+                            description: Колличество операций с наличными.
+                          totalSum:
+                            type: string
+                            description: Сумма по операциям с наличными.
+                          totalCommissionSum:
+                            type: string
+                            description: Сумма Комиссии в документах по выдаче налички.
+                      dateTime:
+                          type: string
+                          description: Дата формирования запроса на получение Суммируещего Z-отчёта.
+                          format: hh:mm:ss dd.mm.yyyy
               example:
                 {
-                  "success": true,
-                  "data":
-                    {
-                      "pointName": "Тестовий платник 4",
-                      "pointAddress": "УКРАЇНА, АР КРИММ. СІМФЕРОПОЛЬ СЕЛИЩЕ БІТУМНЕ, АВТОНОМНА РЕСПУБЛІКА КРИМ/М.СІМФЕРОПОЛЬ СІМФЕРОПОЛЬ ГРЕСІВСЬКИЙ БІТУМНЕ Улица 1, 3",
-                      "tin": "34554363",
-                      "ipn": "123456789020",
-                      "cashierName": "Для РРО № 4000066889",
-                      "shiftId": "65464",
-                      "serviceInputTotal": "8.00",
-                      "serviceOutputTotal": "2200005.00",
-                      "totalsBySale":
-                        {
-                          "ordersCount": 2,
-                          "totalSum": "13168.86",
-                          "totalsByPaymentType":
-                            [
-                              {
-                                "code": "0",
-                                "name": "Готівка",
-                                "totalSum": "12168.80",
-                              },
-                              {
-                                "code": "1",
-                                "name": "Банківська картка",
-                                "totalSum": "800.04",
-                              },
-                              {
-                                "code": "2",
-                                "name": "Попередня оплата",
-                                "totalSum": "200.02",
-                              },
+                    "success": true,
+                    "data": {
+                        "startOfPeriod": "01:00:00 01.06.2021",
+                        "endOfPeriod": "01:00:00 10.06.2021",
+                        "pointName": "Магазин Іван-Тест",
+                        "pointAddress": "УКРАЇНА, СУМСЬКА ОБЛ., М. СУМИ, вул. Соборна 1",
+                        "tin": "34554363",
+                        "ipn": "123456789020",
+                        "cashierName": "Для РРО № 4000066879",
+                        "shiftId": "",
+                        "serviceInputTotal": "0.00",
+                        "serviceOutputTotal": "0.00",
+                        "totalsBySale": {
+                            "ordersCount": 18,
+                            "totalSum": "94782.19",
+                            "totalDiscountSum": "0.00",
+                            "totalsByPaymentType": [
+                                {
+                                    "code": "0",
+                                    "name": "Готівка",
+                                    "totalSum": "24337.60"
+                                },
+                                {
+                                    "code": "1",
+                                    "name": "Банківська картка",
+                                    "totalSum": "1600.08"
+                                },
+                                {
+                                    "code": "1",
+                                    "name": "ГРОШI",
+                                    "totalSum": "50000.00"
+                                },
+                                {
+                                    "code": "2",
+                                    "name": "Банковские карты",
+                                    "totalSum": "631.92"
+                                },
+                                {
+                                    "code": "2",
+                                    "name": "КАРТКА",
+                                    "totalSum": "1025.60"
+                                },
+                                {
+                                    "code": "2",
+                                    "name": "Попередня оплата",
+                                    "totalSum": "400.04"
+                                },
+                                {
+                                    "code": "3",
+                                    "name": "КРЕДИТ",
+                                    "totalSum": "16786.95"
+                                }
                             ],
-                          "totalsByTaxRate":
-                            [
-                              {
-                                "type": 0,
-                                "letter": "A",
-                                "name": "ПДВ",
-                                "percent": "20.00",
-                                "sign": false,
-                                "turnover": "1150.10",
-                                "sum": "179.46",
-                              },
-                              {
-                                "type": 0,
-                                "letter": "Б",
-                                "name": "ПДВ",
-                                "percent": "7.00",
-                                "sign": false,
-                                "turnover": "6810.00",
-                                "sum": "445.52",
-                              },
-                              {
-                                "type": 0,
-                                "letter": "В",
-                                "name": "ПДВ",
-                                "percent": "0.00",
-                                "sign": false,
-                                "turnover": "223.60",
-                                "sum": "0.00",
-                              },
-                              {
-                                "type": 0,
-                                "letter": "Д",
-                                "name": "ПДВ",
-                                "percent": "0.00",
-                                "sign": false,
-                                "turnover": "5035.20",
-                                "sum": "0.00",
-                              },
-                              {
-                                "type": 1,
-                                "letter": "М",
-                                "name": "Акциз",
-                                "percent": "5.00",
-                                "sign": false,
-                                "turnover": "519.80",
-                                "sum": "23.32",
-                              },
-                            ],
+                            "totalsByTaxRate": [
+                                {
+                                    "type": 0,
+                                    "letter": "A",
+                                    "name": "ПДВ",
+                                    "percent": "20.00",
+                                    "sign": false,
+                                    "turnover": "73210.85",
+                                    "sum": "11661.20"
+                                },
+                                {
+                                    "type": 0,
+                                    "letter": "Б",
+                                    "name": "ПДВ",
+                                    "percent": "7.00",
+                                    "sign": false,
+                                    "turnover": "13620.00",
+                                    "sum": "890.40"
+                                },
+                                {
+                                    "type": 0,
+                                    "letter": "В",
+                                    "name": "ПДВ",
+                                    "percent": "0.00",
+                                    "sign": false,
+                                    "turnover": "447.20",
+                                    "sum": "0.00"
+                                },
+                                {
+                                    "type": 0,
+                                    "letter": "Д",
+                                    "name": "ПДВ",
+                                    "percent": "0.00",
+                                    "sign": false,
+                                    "turnover": "10702.32",
+                                    "sum": "0.00"
+                                },
+                                {
+                                    "type": 1,
+                                    "letter": "М",
+                                    "name": "Акциз",
+                                    "percent": "5.00",
+                                    "sign": false,
+                                    "turnover": "1039.60",
+                                    "sum": "46.64"
+                                }
+                            ]
                         },
-                      "totalsByReturn":
-                        {
-                          "ordersCount": 3,
-                          "totalSum": "6586.43",
-                          "totalsByPaymentType":
-                            [
-                              {
-                                "code": "0",
-                                "name": "Готівка",
-                                "totalSum": "6086.40",
-                              },
-                              {
-                                "code": "1",
-                                "name": "Банківська картка",
-                                "totalSum": "400.02",
-                              },
-                              {
-                                "code": "2",
-                                "name": "Попередня оплата",
-                                "totalSum": "100.01",
-                              },
+                        "totalsByReturn": {
+                            "ordersCount": 5,
+                            "totalSum": "32922.15",
+                            "totalDiscountSum": "0.00",
+                            "totalsByPaymentType": [
+                                {
+                                    "code": "0",
+                                    "name": "Готівка",
+                                    "totalSum": "30422.00"
+                                },
+                                {
+                                    "code": "1",
+                                    "name": "Банківська картка",
+                                    "totalSum": "2000.10"
+                                },
+                                {
+                                    "code": "2",
+                                    "name": "Попередня оплата",
+                                    "totalSum": "500.05"
+                                }
                             ],
-                          "totalsByTaxRate":
-                            [
-                              {
-                                "type": 0,
-                                "letter": "A",
-                                "name": "ПДВ",
-                                "percent": "20.00",
-                                "sign": false,
-                                "turnover": "577.05",
-                                "sum": "90.07",
-                              },
-                              {
-                                "type": 0,
-                                "letter": "Б",
-                                "name": "ПДВ",
-                                "percent": "7.00",
-                                "sign": false,
-                                "turnover": "3405.00",
-                                "sum": "222.76",
-                              },
-                              {
-                                "type": 0,
-                                "letter": "В",
-                                "name": "ПДВ",
-                                "percent": "0.00",
-                                "sign": false,
-                                "turnover": "111.80",
-                                "sum": "0.00",
-                              },
-                              {
-                                "type": 0,
-                                "letter": "Д",
-                                "name": "ПДВ",
-                                "percent": "0.00",
-                                "sign": false,
-                                "turnover": "2517.60",
-                                "sum": "0.00",
-                              },
-                              {
-                                "type": 1,
-                                "letter": "М",
-                                "name": "Акциз",
-                                "percent": "5.00",
-                                "sign": false,
-                                "turnover": "259.90",
-                                "sum": "11.66",
-                              },
-                            ],
+                            "totalsByTaxRate": [
+                                {
+                                    "type": 0,
+                                    "letter": "A",
+                                    "name": "ПДВ",
+                                    "percent": "20.00",
+                                    "sign": false,
+                                    "turnover": "2875.25",
+                                    "sum": "449.00"
+                                },
+                                {
+                                    "type": 0,
+                                    "letter": "Б",
+                                    "name": "ПДВ",
+                                    "percent": "7.00",
+                                    "sign": false,
+                                    "turnover": "17025.00",
+                                    "sum": "1113.00"
+                                },
+                                {
+                                    "type": 0,
+                                    "letter": "В",
+                                    "name": "ПДВ",
+                                    "percent": "0.00",
+                                    "sign": false,
+                                    "turnover": "559.00",
+                                    "sum": "0.00"
+                                },
+                                {
+                                    "type": 0,
+                                    "letter": "Д",
+                                    "name": "ПДВ",
+                                    "percent": "0.00",
+                                    "sign": false,
+                                    "turnover": "12588.00",
+                                    "sum": "0.00"
+                                },
+                                {
+                                    "type": 1,
+                                    "letter": "М",
+                                    "name": "Акциз",
+                                    "percent": "5.00",
+                                    "sign": false,
+                                    "turnover": "1299.50",
+                                    "sum": "58.30"
+                                }
+                            ]
                         },
-                      "dateTime": "22:17:23 22.12.2020",
-                      "offline": false,
-                    },
+                        "cashTotals": {
+                            "ordersCount": 8,
+                            "totalSum": "8979.84",
+                            "totalCommissionSum": "40.00"
+                        },
+                        "dateTime": "12:01:57 17.06.2021"
+                    }
                 }
-
 
 
   /command/sale:
