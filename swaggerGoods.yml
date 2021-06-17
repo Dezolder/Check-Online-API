@@ -1510,11 +1510,14 @@ paths:
                       startOfPeriod:
                         type: string
                         format: hh:mm:ss dd.mm.yyyy
-                        description: Начало интересующего периода
+                        description: Начало интересующего периода.
                       endOfPeriod:
                         type: string
                         format: hh:mm:ss dd.mm.yyyy
-                        description: Завершение интересующего периода            
+                        description: Завершение интересующего периода.
+                      shiftsCount:
+                        type: number
+                        description: Количество смен в периоде.     
                       pointName:
                         type: string
                       pointAddress:
@@ -1625,6 +1628,7 @@ paths:
                     "data": {
                         "startOfPeriod": "01:00:00 01.06.2021",
                         "endOfPeriod": "01:00:00 10.06.2021",
+                        "shiftsCount": 7,
                         "pointName": "Магазин Іван-Тест",
                         "pointAddress": "УКРАЇНА, СУМСЬКА ОБЛ., М. СУМИ, вул. Соборна 1",
                         "tin": "34554363",
@@ -1635,6 +1639,7 @@ paths:
                         "totalsBySale": {
                             "ordersCount": 18,
                             "totalSum": "94782.19",
+                            "totalDiscountSum": "0.00",
                             "totalsByPaymentType": [
                                 {
                                     "code": "0",
@@ -1723,6 +1728,7 @@ paths:
                         "totalsByReturn": {
                             "ordersCount": 5,
                             "totalSum": "32922.15",
+                            "totalDiscountSum": "0.00",
                             "totalsByPaymentType": [
                                 {
                                     "code": "0",
@@ -1793,10 +1799,9 @@ paths:
                             "totalSum": "8979.84",
                             "totalCommissionSum": "40.00"
                         },
-                        "dateTime": "12:01:57 17.06.2021"
+                        "dateTime": "15:13:49 17.06.2021"
                     }
                 }
-
 
   /command/sale:
     post:
