@@ -1525,8 +1525,6 @@ paths:
                         type: string
                       cashierName:
                         type: string  
-                      shiftId:
-                        type: string
                       serviceInputTotal:
                         type: string
                       serviceOutputTotal:
@@ -1632,7 +1630,6 @@ paths:
                         "tin": "34554363",
                         "ipn": "123456789020",
                         "cashierName": "Для РРО № 4000066879",
-                        "shiftId": "",
                         "serviceInputTotal": "0.00",
                         "serviceOutputTotal": "0.00",
                         "totalsBySale": {
