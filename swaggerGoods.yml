@@ -1569,9 +1569,7 @@ paths:
                                 sum:
                                   type: string
                       totalsByReturn:
-                        type: array
-                        items:
-                          type: object
+                        type: object
                         properties:
                           ordersCount:
                             type: number
@@ -1640,7 +1638,6 @@ paths:
                         "totalsBySale": {
                             "ordersCount": 18,
                             "totalSum": "94782.19",
-                            "totalDiscountSum": "0.00",
                             "totalsByPaymentType": [
                                 {
                                     "code": "0",
@@ -1729,7 +1726,6 @@ paths:
                         "totalsByReturn": {
                             "ordersCount": 5,
                             "totalSum": "32922.15",
-                            "totalDiscountSum": "0.00",
                             "totalsByPaymentType": [
                                 {
                                     "code": "0",
