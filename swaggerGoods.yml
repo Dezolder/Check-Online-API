@@ -2009,7 +2009,7 @@ paths:
                     { "paymentTypeId": 2, "sum": "400.02" },
                     { "paymentTypeId": 3, "sum": "100.01" },
                   ],
-                "comment": "Спасибо за Покупку!",
+                "comment": "ПРРО Check-Online",
               }
       responses:
         200:
@@ -2393,7 +2393,8 @@ paths:
                           "paymentTypeId": "3",
                           "sum": "-200.00"
                       }
-                  ]
+                  ],
+                "comment": "ПРРО Check-Online"
               }
       responses:
         200:
@@ -2624,7 +2625,7 @@ paths:
                 comment:
                   type: string
                   description: Комментарий применённый ко всему Чеку
-                  example: "пРРО Чек-Онлайн"
+                  example: "ПРРО Check-Online"
               required:
                 - commandName
                 - cashierId
@@ -2649,7 +2650,7 @@ paths:
                   ],
                 "payments": [{ "paymentTypeId": 1, "sum": "315.16", "sumWithoutRounding": "315.16" }],
                 "commissionSum": "10.00",
-                "comment": "пРРО Чек-Онлайн",
+                "comment": "ПРРО Check-Online",
               }
       responses:
         200:
@@ -3087,7 +3088,7 @@ paths:
                 comment:
                   type: string
                   description: Комментарий применённый ко всему Чеку
-                  example: "Спасибо за покупку!"
+                  example: "ПРРО Check-Online"
               required:
                 - commandName
                 - cashierId
@@ -3169,7 +3170,7 @@ paths:
                     { "paymentTypeId": 2, "sum": 400.02 },
                     { "paymentTypeId": 3, "sum": 100.01 },
                   ],
-                "comment": "Спасибо за Покупку!",
+                "comment": "ПРРО Check-Online",
               }
       responses:
         200:
