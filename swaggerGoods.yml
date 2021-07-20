@@ -2335,71 +2335,71 @@ paths:
                 - products
                 - payments
             example:
-              {
-                "commandName": "pawn",
-                "cashierId": "83545ae583811d9f74aab0e9e38010eec2086ca96847ddc1750871425b75955f",
-                "registrarId": "4000066888",
-                  "products": [
-                      {
-                          "name": "Договор№1 Цепочка",
-                          "amount": "1.00",
-                          "price": "500.01",
-                          "moneyDirection": "toClient",
-                          "taxRateIds": [
-                              6
-                          ],
-                          "comment": "Цепочка под залог"
-                      },
-                      {
-                          "name": "Договор№2 Колечко",
-                          "amount": "1.00",
-                          "price": "400.00",
-                          "moneyDirection": "toClient",
-                          "taxRateIds": [
-                              6
-                          ],
-                          "comment": "Колечко под залог"
-                      },
-                      {
-                          "name": "Договор№3 Брошка",
-                          "amount": "1.00",
-                          "price": "300.00",
-                          "moneyDirection": "fromClient",
-                          "taxRateIds": [
-                              6
-                          ],
-                          "comment": "Погашение залога за Брошку"
-                      },
-                      {
-                          "name": "Договор№4 Серёжка",
-                          "amount": "1.00",
-                          "price": "200.00",
-                          "moneyDirection": "fromClient",
-                          "taxRateIds": [
-                              6
-                          ],
-                          "comment": "Продажа залогового имущества Серёжка"
-                      }
-                  ],
-                  "payments": [
-                      {
-                          "paymentTypeId": "1",
-                          "sum": "-100.00",
-                          "provided": "-500.00",
-                          "remains": "-400.00",
-                          "sumWithoutRounding": "-100.01"
-                      },
-                      {
-                          "paymentTypeId": "2",
-                          "sum": "-100.00"
-                      },
-                      {
-                          "paymentTypeId": "3",
-                          "sum": "-200.00"
-                      }
-                  ],
-                "comment": "ПРРО Check-Online"
-              }
+                {
+                    "commandName": "pawn",
+                    "cashierId": "{{cashierId}}",
+                    "registrarId": "{{registrarId}}",
+                    "products": [
+                        {
+                            "name": "Договор№1 Цепочка",
+                            "amount": 1.00,
+                            "price": "500.05",
+                            "moneyDirection": "toClient",
+                            "taxRateIds": [
+                                6
+                            ],
+                            "comment": "Цепочка под залог"
+                        },
+                        {
+                            "name": "Договор№2 Колечко",
+                            "amount": 1.00,
+                            "price": 400,
+                            "moneyDirection": "toClient",
+                            "taxRateIds": [
+                                6
+                            ],
+                            "comment": "Колечко под залог"
+                        },
+                        {
+                            "name": "Договор№3 Брошка",
+                            "amount": 1.00,
+                            "price": 300,
+                            "moneyDirection": "fromClient",
+                            "taxRateIds": [
+                                6
+                            ],
+                            "comment": "Погашение залога за Брошку"
+                        },
+                        {
+                            "name": "Договор№4 Серёжка",
+                            "amount": 1.00,
+                            "price": 200.00,
+                            "moneyDirection": "fromClient",
+                            "taxRateIds": [
+                                6
+                            ],
+                            "comment": "Продажа залогового имущества Серёжка"
+                        }
+                    ],
+                    "payments": [
+                        {
+                            "paymentTypeId": "1",
+                            "sum": "-101.10",
+                            "provided": "-500.00",
+                            "remains": "-398.90",
+                            "sumWithoutRounding": "-100.05"
+                        },
+                        {
+                            "paymentTypeId": "2",
+                            "sum": -100.00
+                        },
+                        {
+                            "paymentTypeId": "3",
+                            "sum": -200.00
+                        }
+                    ],
+                    "comment": "ПРРО Check-Online"
+                }
       responses:
         200:
           description: OK
