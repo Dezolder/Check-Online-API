@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: Check-Online API. Goods Release.
   termsOfService: https://forms.gle/kPqAx6WYcaSYtZpN6
-  version: "4.10.217"
+  version: "4.10.222"
   contact:
     name: Check-Online
     email: info@check-online.com.ua
@@ -2277,6 +2277,10 @@ paths:
                           type: number
                           description: Соответствует полю id в таблице Налоговых Групп (см тэг Tax этого API), формируемой при начальной настройке пРРО.
                           example: 6
+                      discountSum:
+                          type: string
+                          description: Скидка применённая к Ломбардной позиции в чеке. Положительное значение озночает скидку, а отрицательное означает наценку.
+                          example: "10.00"
                       comment:
                         type: string
                         description: Комментарий применённый к Товару
@@ -2321,6 +2325,10 @@ paths:
                       - paymentTypeId
                       # - paymentTypeCode
                       # - paymentTypeName
+                discountSum:
+                    type: string
+                    description: Скидка применённая ко всей Ломбардной операции на весь чек. Положительное значение озночает скидку, а отрицательное означает наценку.
+                    example: "15.00"
                 comment:
                   type: string
                   description: Комментарий применённый ко всему Чеку
@@ -2334,23 +2342,24 @@ paths:
             example:
                 {
                     "commandName": "pawn",
-                    "cashierId": "{{cashierId}}",
-                    "registrarId": "{{registrarId}}",
+                    "cashierId": "83545ae583811d9f74aab0e9e38010eec2086ca96847ddc1750871425b75955f",
+                    "registrarId": "4000066888",
                     "products": [
                         {
                             "name": "Договор№1 Цепочка",
-                            "amount": "1.00",
+                            "amount": 1.00,
                             "price": "500.05",
                             "moneyDirection": "toClient",
                             "taxRateIds": [
                                 6
                             ],
-                            "comment": "Цепочка под залог"
+                            "comment": "Цепочка под залог",
+                            "discountSum": "10.00"
                         },
                         {
                             "name": "Договор№2 Колечко",
-                            "amount": "1.00",
-                            "price": "400.00",
+                            "amount": 1.00,
+                            "price": 400,
                             "moneyDirection": "toClient",
                             "taxRateIds": [
                                 6
@@ -2359,8 +2368,8 @@ paths:
                         },
                         {
                             "name": "Договор№3 Брошка",
-                            "amount": "1.00",
-                            "price": "300.00",
+                            "amount": 1.00,
+                            "price": 300,
                             "moneyDirection": "fromClient",
                             "taxRateIds": [
                                 6
@@ -2375,26 +2384,28 @@ paths:
                             "taxRateIds": [
                                 6
                             ],
-                            "comment": "Продажа залогового имущества Серёжка"
+                            "comment": "Продажа залогового имущества Серёжка co скидкой",
+                            "discountSum": "10.00"
                         }
                     ],
                     "payments": [
                         {
-                            "paymentTypeId": 1,
+                            "paymentTypeId": "1",
                             "sum": "-101.10",
                             "provided": "-500.00",
                             "remains": "-398.90",
                             "sumWithoutRounding": "-100.05"
                         },
                         {
-                            "paymentTypeId": 2,
-                            "sum": "-100.00"
+                            "paymentTypeId": "2",
+                            "sum": "-120.00"
                         },
                         {
-                            "paymentTypeId": 3,
-                            "sum": "-200.00"
+                            "paymentTypeId": "3",
+                            "sum": "-215.00"
                         }
                     ],
+                    "discountSum": "15.00",
                     "comment": "ПРРО Check-Online"
                 }
       responses:
@@ -2421,6 +2432,8 @@ paths:
                             price:
                               type: string
                             taxRateLetters:
+                              type: string
+                            discountSum:
                               type: string
                             comment:
                               type: string
@@ -2489,8 +2502,9 @@ paths:
                             {
                                 "name": "Договор№1 Цепочка",
                                 "amount": "1.00",
-                                "price": "500.01",
-                                "taxRateLetters": "Ж"
+                                "price": "500.05",
+                                "taxRateLetters": "Ж",
+                                "discountSum": "10.00"
                             },
                             {
                                 "name": "Договор№2 Колечко",
@@ -2508,7 +2522,8 @@ paths:
                                 "name": "Договор№4 Серёжка",
                                 "amount": "1.00",
                                 "price": "200.00",
-                                "taxRateLetters": "Ж"
+                                "taxRateLetters": "Ж",
+                                "discountSum": "10.00"
                             }
                         ],
                         "taxes": [
@@ -2521,24 +2536,23 @@ paths:
                                 "sum": "0.00"
                             }
                         ],
-                        "total": "-400.00",
+                        "total": "-436.10",
                         "companyName": "Тестовий платник 4",
                         "pointName": "Магазин Іван-Тест",
                         "pointAddress": "УКРАЇНА, СУМСЬКА ОБЛ., М. СУМИ, вул. Соборна 1",
                         "tin": "34554363",
                         "ipn": "123456789020",
-                        "cashierName": "Для РРО № 4000066879",
-                        "receiptNumber": "2932",
-                        "fiscalNumber": "16845168",
-                        "registrarId": 4000066879,
-                        "registrarLocalNumber": 24,
-                        "dateTime": "13:05:46 07.07.2021",
-                        "receiptLink": "https://cabinet.tax.gov.ua/cashregs/check?id=16845168&fn=4000066879&date=20210707",
+                        "cashierName": "Для РРО № 4000066888",
+                        "receiptNumber": "475",
+                        "fiscalNumber": "19614710",
+                        "registrarId": 4000066888,
+                        "registrarLocalNumber": 51,
+                        "dateTime": "14:57:19 22.07.2021",
+                        "receiptLink": "https://cabinet.tax.gov.ua/cashregs/check?id=19614710&fn=4000066888&date=20210722",
                         "offline": false,
-                        "shiftId": "947745"
+                        "shiftId": "1065456"
                     }
                 }
-
 
   /command/cashWithdrawal:
     post:
