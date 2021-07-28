@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: Check-Online API. Goods Release.
   termsOfService: https://forms.gle/kPqAx6WYcaSYtZpN6
-  version: "4.10.222"
+  version: "4.10.225"
   contact:
     name: Check-Online
     email: info@check-online.com.ua
@@ -1585,8 +1585,13 @@ paths:
                                   type: boolean
                                 turnover:
                                   type: string
+                                  description: Сумма до применения скидки.
+                                sourceSum:
+                                  type: string
+                                  description: База налогообложения.  
                                 sum:
                                   type: string
+                                  description: Сумма налога
                       totalsByReturn:
                         type: object
                         properties:
@@ -1622,8 +1627,13 @@ paths:
                                   type: boolean
                                 turnover:
                                   type: string
+                                  description: Сумма до применения скидки.
+                                sourceSum:
+                                  type: string
+                                  description: База налогообложения.  
                                 sum:
                                   type: string
+                                  description: Сумма налога
                       cashTotals:
                         type: object
                         properties:
@@ -1819,6 +1829,35 @@ paths:
                         },
                         "dateTime": "15:13:49 17.06.2021"
                     }
+                }
+
+  /command/sendLogs:
+    post:
+      tags:
+        - "Casher"
+      summary: Log.
+      description: Отправить Лог событий ПРРО в службу потдержки Check-Online.
+      responses:
+        200:
+          description: OK
+          content:
+            application/json;charset=utf-8:
+              schema:
+                properties:
+                    myArrayList:
+                        type: array
+                        items:
+                            type: string
+                            description: Лог событий ПРРО
+              example:
+                {
+                    "myArrayList": [
+                        "﻿15:19:03 28.07.2021: BundleHost::start() <enter>",
+                        "15:19:03 28.07.2021: properties = {AutoUpdateEnabledByDefault=true, WaitInternetConnectionForCheckUpdates=300}",
+                        "15:19:03 28.07.2021: mainBundleLocation = file:/C:/Program%20Files/CheckOnline/CheckOnline.jar",
+                        "15:19:03 28.07.2021: BundleHost::createFramework(config = {org.osgi.framework.bootdelegation=*, org.osgi.framework.storage=C:\\Program Files\\CheckOnline\\loader-cache}) <enter>",
+                        "15:19:03 28.07.2021: BundleHost::registerEventsListeners() <enter>"
+                    ]
                 }
 
   /command/sale:
