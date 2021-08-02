@@ -677,6 +677,91 @@ paths:
                   "errorCode": 7,
                 }
 
+  /command/getCashierInfoByKey2:
+    post:
+      tags:
+        - "Casher"
+      summary: Проверка открытого ключа по его закрытой части в формате BASE64.
+      description: По этой команде ПРРО вернёт значение открытой части цифровой подписи.
+      requestBody:
+        description: Файл ключа дожен быть зарегистрирован в личном кабинете ДФС для работы с ПРРО
+        required: true
+        content:
+          application/json;charset=utf-8:
+            schema:
+              type: object
+              properties:
+                commandName:
+                  type: string
+                  default: "getCashierInfoByKey2"
+                keyData:
+                  type: string
+                  description: Закрытый ключь в формате BASE64.
+                  example: MIIE4wIBAzCCBIAGCSqGSIb3DQEHAaCCBHEEggRtMIIEaTCCBGUGCSqGSIb3DQEHAaCCBFYEggRSMIIETjCCAfIGCyqGSIb3DQEMCgECoIIBrjCCAaowgbAGCSqGSIb3DQEFDTCBojBDBgkqhkiG9w0BBQwwNgQguKs8TPAr3jPkSFw7KI0g9hRhaefV+kewGgyTa7LbiUACAicQMA4GCiqGJAIBAQEBAQIFADBbBgsqhiQCAQEBAQEBAzBMBAgjwaT/+Y1iWgRAqdbrRfE8cIKAxJZ7Ix9erfZY66TANykdONlr8CXKThf46XINxhW0OiiXXwvB3qNkOLVk6iwXn9ASPm24+sV5BASB9C/SN4CnwnFm9oerBJqiJ7ksmqVSngnT5KDesqWjwO6/dhg6M24QrBiM0lLNXyDb9DpkVkY5HvP81voki1xYNpgQ4qk/7K4fLTPVv2hTPpnlZwzSSVZqlHbiZZOMU+nzWm11lEG8R1lzaKC5pU+wPY5BCHcUGXx5+1pS5JPWdYV5oU1Zeko+dmcCljwJTkp5QHUzeSZp0ODsqxvhHcXcAbHvIEomRJDDYRR9cwP7rBMTzSChAxmZodcoHbJaCmLziRvyv6IK8szRURMS4q6x58SAfJhJftpqfpU1Q3qiYbQ7zsonmrt5rpqxwLHrYdiQv9WbRZwxMTAvBgkqhkiG9w0BCRUxIgQgg1Ra5YOBHZ90qrDp44AQ7sIIbKloR93BdQhxQlt1lV8wggJUBgsqhkiG9w0BDAoBAqCCAhAwggIMMIGwBgkqhkiG9w0BBQ0wgaIwQwYJKoZIhvcNAQUMMDYEIIPTyIQWGHv+20SJ1RFS4pPma3F2zdnwry3tMZ4KN2qaAgInEDAOBgoqhiQCAQEBAQECBQAwWwYLKoYkAgEBAQEBAQMwTAQIxsD47sK/7OsEQKnW60XxPHCCgMSWeyMfXq32WOukwDcpHTjZa/Alyk4X+OlyDcYVtDool18Lwd6jZDi1ZOosF5/QEj5tuPrFeQQEggFVvLQFUaY1eHRpbWLXJJijQ07qrzYFILdDy9+5Cn0PIo3I7xq7X1mXKKUJCz3BI56tpavUFsC3QUCc8BLdaA3wzzH7DkUKdzogQMSPS1ZNkmj8rUFteFBmMD3xWiWMYk/jvvnEEGIoNMmleOuaPGEQyM8b9gjFOSP71ijwvaYabFC6/nsJ1hwQhg/il4sWw6R74mWJfcaKbXye9UhpEbMPnjCUbu4JrVEOIzy8Ku9dxO0p4E4oLbZ5pIiilWXZoNvwmClvHuNqacWb2JWyOfzWsKvbYFGwf9Szl7pNtaMGHntbxZe+IVEd5dpJWjmREmO6eox+Qx1EeqoltuZsoxFFVEhH85Mm3CcTgvsBQA8sGK3l0kQ1wIMT4LjU0bOlQRe/dPen8CtTd4YTHFZvEfjQcKcvhnzud9NtWiS2hhpTljqnqa4FpASMZjy+RittttC784NB614xMTAvBgkqhkiG9w0BCRUxIgQgH3yN+JCQFNxd4kPSdPYV6bZTbNYzuLkmiuBFct+wFMUwWjAyMA4GCiqGJAIBAQEBAgEFAAQgndvX89VXQzDEw38OfOqDbT3aEjvH+lujHUMCW9s1ljUEINSA8d41T4es/o/AlAez1SweeCzXSJXS4NjLvvJHX1UDAgInEA==
+                password:
+                  type: string
+                  format: password
+                  description: Пароль, который будет использоваться для подписи документов.
+              required:
+                - commandName
+                - keyData
+                - password
+            example:
+              {
+                "commandName": "getCashierInfoByKey2",
+                "keyData": "MIIE4wIBAzCCBIAGCSqGSIb3DQEHAaCCBHEEggRtMIIEaTCCBGUGCSqGSIb3DQEHAaCCBFYEggRSMIIETjCCAfIGCyqGSIb3DQEMCgECoIIBrjCCAaowgbAGCSqGSIb3DQEFDTCBojBDBgkqhkiG9w0BBQwwNgQguKs8TPAr3jPkSFw7KI0g9hRhaefV+kewGgyTa7LbiUACAicQMA4GCiqGJAIBAQEBAQIFADBbBgsqhiQCAQEBAQEBAzBMBAgjwaT/+Y1iWgRAqdbrRfE8cIKAxJZ7Ix9erfZY66TANykdONlr8CXKThf46XINxhW0OiiXXwvB3qNkOLVk6iwXn9ASPm24+sV5BASB9C/SN4CnwnFm9oerBJqiJ7ksmqVSngnT5KDesqWjwO6/dhg6M24QrBiM0lLNXyDb9DpkVkY5HvP81voki1xYNpgQ4qk/7K4fLTPVv2hTPpnlZwzSSVZqlHbiZZOMU+nzWm11lEG8R1lzaKC5pU+wPY5BCHcUGXx5+1pS5JPWdYV5oU1Zeko+dmcCljwJTkp5QHUzeSZp0ODsqxvhHcXcAbHvIEomRJDDYRR9cwP7rBMTzSChAxmZodcoHbJaCmLziRvyv6IK8szRURMS4q6x58SAfJhJftpqfpU1Q3qiYbQ7zsonmrt5rpqxwLHrYdiQv9WbRZwxMTAvBgkqhkiG9w0BCRUxIgQgg1Ra5YOBHZ90qrDp44AQ7sIIbKloR93BdQhxQlt1lV8wggJUBgsqhkiG9w0BDAoBAqCCAhAwggIMMIGwBgkqhkiG9w0BBQ0wgaIwQwYJKoZIhvcNAQUMMDYEIIPTyIQWGHv+20SJ1RFS4pPma3F2zdnwry3tMZ4KN2qaAgInEDAOBgoqhiQCAQEBAQECBQAwWwYLKoYkAgEBAQEBAQMwTAQIxsD47sK/7OsEQKnW60XxPHCCgMSWeyMfXq32WOukwDcpHTjZa/Alyk4X+OlyDcYVtDool18Lwd6jZDi1ZOosF5/QEj5tuPrFeQQEggFVvLQFUaY1eHRpbWLXJJijQ07qrzYFILdDy9+5Cn0PIo3I7xq7X1mXKKUJCz3BI56tpavUFsC3QUCc8BLdaA3wzzH7DkUKdzogQMSPS1ZNkmj8rUFteFBmMD3xWiWMYk/jvvnEEGIoNMmleOuaPGEQyM8b9gjFOSP71ijwvaYabFC6/nsJ1hwQhg/il4sWw6R74mWJfcaKbXye9UhpEbMPnjCUbu4JrVEOIzy8Ku9dxO0p4E4oLbZ5pIiilWXZoNvwmClvHuNqacWb2JWyOfzWsKvbYFGwf9Szl7pNtaMGHntbxZe+IVEd5dpJWjmREmO6eox+Qx1EeqoltuZsoxFFVEhH85Mm3CcTgvsBQA8sGK3l0kQ1wIMT4LjU0bOlQRe/dPen8CtTd4YTHFZvEfjQcKcvhnzud9NtWiS2hhpTljqnqa4FpASMZjy+RittttC784NB614xMTAvBgkqhkiG9w0BCRUxIgQgH3yN+JCQFNxd4kPSdPYV6bZTbNYzuLkmiuBFct+wFMUwWjAyMA4GCiqGJAIBAQEBAgEFAAQgndvX89VXQzDEw38OfOqDbT3aEjvH+lujHUMCW9s1ljUEINSA8d41T4es/o/AlAez1SweeCzXSJXS4NjLvvJHX1UDAgInEA==",
+                "password": "checkonline"
+              }
+      responses:
+        200:
+          description: OK
+          content:
+            application/json;charset=utf-8:
+              schema:
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      loggedIn:
+                        type: boolean
+                      id:
+                        type: string
+                        description:  Значение открытой части цифровой подписи.
+                      name:
+                        type: string
+                      expirationDate:
+                        type: string
+              example:
+                {
+                    "success": true,
+                    "data": {
+                        "loggedIn": true,
+                        "id": "83545ae583811d9f74aab0e9e38010eec2086ca96847ddc1750871425b75955f",
+                        "name": "Для РРО № 4000066888",
+                        "expirationDate": "10:22:32 25.01.2023"
+                    }
+                }
+        400:
+          description: Bad Request
+          content:
+            application/json;charset=utf-8:
+              schema:
+                properties:
+                  success:
+                    type: boolean
+                  errorMessage:
+                    type: string
+                  errorCode:
+                    type: number
+              example:
+                {
+                  "success": false,
+                  "errorMessage": "Несподівана помилка",
+                  "errorCode": 7,
+                }
+
   /command/openShift:
     post:
       tags:
