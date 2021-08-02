@@ -1960,34 +1960,34 @@ paths:
                     }
                 }
 
-  /command/sendLogs:
-    post:
-      tags:
-        - "Casher"
-      summary: Log.
-      description: Отправить Лог событий ПРРО в службу потдержки Check-Online.
-      responses:
-        200:
-          description: OK
-          content:
-            application/json;charset=utf-8:
-              schema:
-                properties:
-                    myArrayList:
-                        type: array
-                        items:
-                            type: string
-                            description: Лог событий ПРРО
-              example:
-                {
-                    "myArrayList": [
-                        "﻿15:19:03 28.07.2021: BundleHost::start() <enter>",
-                        "15:19:03 28.07.2021: properties = {AutoUpdateEnabledByDefault=true, WaitInternetConnectionForCheckUpdates=300}",
-                        "15:19:03 28.07.2021: mainBundleLocation = file:/C:/Program%20Files/CheckOnline/CheckOnline.jar",
-                        "15:19:03 28.07.2021: BundleHost::createFramework(config = {org.osgi.framework.bootdelegation=*, org.osgi.framework.storage=C:\\Program Files\\CheckOnline\\loader-cache}) <enter>",
-                        "15:19:03 28.07.2021: BundleHost::registerEventsListeners() <enter>"
-                    ]
-                }
+#   /command/sendLogs:
+#     post:
+#       tags:
+#         - "Casher"
+#       summary: Log.
+#       description: Отправить Лог событий ПРРО в службу потдержки Check-Online.
+#       responses:
+#         200:
+#           description: OK
+#           content:
+#             application/json;charset=utf-8:
+#               schema:
+#                 properties:
+#                     myArrayList:
+#                         type: array
+#                         items:
+#                             type: string
+#                             description: Лог событий ПРРО
+#               example:
+#                 {
+#                     "myArrayList": [
+#                         "﻿15:19:03 28.07.2021: BundleHost::start() <enter>",
+#                         "15:19:03 28.07.2021: properties = {AutoUpdateEnabledByDefault=true, WaitInternetConnectionForCheckUpdates=300}",
+#                         "15:19:03 28.07.2021: mainBundleLocation = file:/C:/Program%20Files/CheckOnline/CheckOnline.jar",
+#                         "15:19:03 28.07.2021: BundleHost::createFramework(config = {org.osgi.framework.bootdelegation=*, org.osgi.framework.storage=C:\\Program Files\\CheckOnline\\loader-cache}) <enter>",
+#                         "15:19:03 28.07.2021: BundleHost::registerEventsListeners() <enter>"
+#                     ]
+#                 }
 
   /command/sale:
     post:
