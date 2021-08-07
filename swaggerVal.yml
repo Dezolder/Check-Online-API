@@ -1,8 +1,8 @@
 openapi: 3.0.3
 info:
-  title: Check-Online API. Currency Release.
+  title: Check-Online API. Goods Release.
   termsOfService: https://forms.gle/kPqAx6WYcaSYtZpN6
-  version: "4.9.170"
+  version: "4.10.225"
   contact:
     name: Check-Online
     email: info@check-online.com.ua
@@ -11,25 +11,19 @@ info:
     <p>
     <button><a href="http://127.0.0.1:55551/">API Товары</a></button> <button><a href="http://127.0.0.1:55551/currency">API Валюта</a></button>
     <p>
-    API - между ПРРО и Кассовой Системой. Фискализация валютных операций.
+    API - между ПРРО и Кассовой Системой. Фискализация товаров и услуг.
     <p>
-    Реализованы Валютные операции: Покупка, Сторно покупки, Продажа, Сторно продажи, Аванс, Подкрепление, Инкассация, Онлайн, Оффлайн.
+    Реализованы операции: Продажа, Сторно, Возврат, Служебное внесение, Служебная выдача, Онлайн/Оффлайн, Выдача налички, Скидки/Наценки, Округление, Z-отчёт, Cуммирующий Z-отчёт, Ломбардные операции.
     <hr>
     Рекомендуемая последовательность команд для первичного теста ПРРО:
 
-      1.  <strong><samp>setClientId              </samp></strong>- <i>Установить номер лицензии на ПРРО </i>
-      2.  <strong><samp>loginCashier2            </samp></strong>- <i>Логин кассира в ПРРО</i>
-      3.  <strong><samp>openShift                </samp></strong>- <i>Открыть смену</i>
-      4.  <strong><samp>buyCurrency              </samp></strong>- <i>Покупка валюты</i>
-      5.  <strong><samp>stornoBuyCurrency        </samp></strong>- <i>Сторно Покупки валюты</i>
-      6.  <strong><samp>saleCurrency             </samp></strong>- <i>Продажа валюты</i>
-      7.  <strong><samp>stornoSaleCurrency       </samp></strong>- <i>Сторно продажи валюты</i>
-      8.  <strong><samp>inputCurrency            </samp></strong>- <i>Получение Ааванса</i>
-      9.  <strong><samp>additionalInputCurrency  </samp></strong>- <i>Получение Подкрепления</i>
-      10. <strong><samp>outputCurrency           </samp></strong>- <i>Инкассация</i>
-      11. <strong><samp>sendZReport              </samp></strong>- <i>Z-Отчёт</i>
-      12. <strong><samp>closeShift               </samp></strong>- <i>Закрыть смену</i>
-      13. <strong><samp>logoutCashier            </samp></strong>- <i>Логаут из ПРРО</i>
+      1.  <strong><samp>setClientId             </samp></strong>- <i>Установить номер лицензии на ПРРО </i>
+      2.  <strong><samp>loginCashier2           </samp></strong>- <i>Логин кассира в ПРРО</i>
+      3.  <strong><samp>openShift               </samp></strong>- <i>Открыть смену</i>
+      4.  <strong><samp>sale                    </samp></strong>- <i>Продажа</i>
+      5. <strong><samp>sendZReport              </samp></strong>- <i>Z-Отчёт</i>
+      6. <strong><samp>closeShift               </samp></strong>- <i>Закрыть смену</i>
+      7. <strong><samp>logoutCashier            </samp></strong>- <i>Логаут из ПРРО</i>
 
   license:
     name: closeLicense
@@ -45,8 +39,14 @@ tags:
     description: Кассиры и ПРРО
   - name: Shift
     description: Кассиры и служебные чеки
-  - name: Currency
-    description: Валютные операции
+  - name: Check
+    description: Кассовые операции с товаром
+  - name: Tax
+    description: Сокращённые кодировки налоговых групп
+  - name: PayForms
+    description: Сокращённые кодировки форм оплаты
+
+
 
 paths:
   /command/loginCashier:
@@ -94,7 +94,7 @@ paths:
                 "commandName": "loginCashier",
                 "keyPath": "Key-6.dat",
                 "password": "checkonline",
-                "cashierName": "Для РРО № 4000066889",
+                "cashierName": "Для РРО № 4000066888",
               }
       responses:
         200:
@@ -110,7 +110,7 @@ paths:
               example:
                 {
                   "success": true,
-                  "id": "57360e9ebab39243f28c1858043ec3fb7d60cd1d64d847f94c6c26db838eef23",
+                  "id": "83545ae583811d9f74aab0e9e38010eec2086ca96847ddc1750871425b75955f",
                 }
         400:
           description: NOK
@@ -136,7 +136,7 @@ paths:
         Важно: Ключь указанный в этом примере был специально создан для регистратора 4000066888 на тестовой площадке ДПС. Это позволяет быстро ознакомиться с API Check-Online. К тому же, отдельный ключь освобождает от неудобств, связаных с одновременным использованием одних и тех же ключей другими участниками тестовой площадки ДПС. 
         <p>
         В ответе этой команды будет показана открытая чать ключа:<br>
-        <strong><samp>57360e9ebab39243f28c1858043ec3fb7d60cd1d64d847f94c6c26db838eef23</strong></samp>
+        <strong><samp>83545ae583811d9f74aab0e9e38010eec2086ca96847ddc1750871425b75955f</strong></samp>
         <br>
         Рекомендуется его использовать по умолчанию в остальных командах данной документации.
       requestBody:
@@ -153,7 +153,7 @@ paths:
                 keyData:
                   type: string
                   description: Закрытый ключь в формате BASE64.
-                  example: MIIE4wIBAzCCBIAGCSqGSIb3DQEHAaCCBHEEggRtMIIEaTCCBGUGCSqGSIb3DQEHAaCCBFYEggRSMIIETjCCAfIGCyqGSIb3DQEMCgECoIIBrjCCAaowgbAGCSqGSIb3DQEFDTCBojBDBgkqhkiG9w0BBQwwNgQg8A+2Tgg78osx84pIy70g/VkYCiIBNrdxrbfyl3AgKRoCAicQMA4GCiqGJAIBAQEBAQIFADBbBgsqhiQCAQEBAQEBAzBMBAg/16bt+aDM3QRAqdbrRfE8cIKAxJZ7Ix9erfZY66TANykdONlr8CXKThf46XINxhW0OiiXXwvB3qNkOLVk6iwXn9ASPm24+sV5BASB9DLkQa5F/PVjNHMIaaVK2sOXt1ZQffDI2rZknkIK7H8BeT+CSHHcCTPOj+aeOETFafJ13lYYNkts2DuKA3exxiBmIjMzpJiS/FA+KZI5xRLToOtoIixPy2EeGcCnBpyfGXFnz2w86AFMND3Hw4G3GJwtGO9ixC3bHJZ7ZkLxyBBQSK5KFp8xixmwDqkJiJ+P/Gun51Oes3uuAdjcvv4RNdfDQ10SBUtXzLdxpyRiPjalsFZgS9BEb0GoEHr3h0aetreE2Z+4V588JI6s/4TiG39W9DOGLHEKsn7cMYf6fvq3jC3Pu3zPXF1lCasVylQGQB9k9iwxMTAvBgkqhkiG9w0BCRUxIgQgVzYOnrqzkkPyjBhYBD7D+31gzR1k2Ef5TGwm24OO7yMwggJUBgsqhkiG9w0BDAoBAqCCAhAwggIMMIGwBgkqhkiG9w0BBQ0wgaIwQwYJKoZIhvcNAQUMMDYEIOI1TN1ZfkS2FMr0Ro8Mj3RPR+ulZlrv5P+Zv+TauwG6AgInEDAOBgoqhiQCAQEBAQECBQAwWwYLKoYkAgEBAQEBAQMwTAQIf6YapKMYQIgEQKnW60XxPHCCgMSWeyMfXq32WOukwDcpHTjZa/Alyk4X+OlyDcYVtDool18Lwd6jZDi1ZOosF5/QEj5tuPrFeQQEggFVm1Qwa1kIzp5xiJRxDnQV+oUozXg8oI0RiCs8sIeCXR3hwcR8cE89C1XYFTDPlW12/EE8Cn4YSIUJLgksuqVofsewsIrSutU+csrcHuZAMKWV352Ep0pNEvIQ02GDaKWGH3FngXa+WzEpxliGAuuBoLQfxH95Mz6HjEETZfwFcj+WYKlbEL1J0qXxtyvuZBo0CI13aOSrar/SDYHz/y0iEXl6TiEgOJtsxHftJ3a97zTqDaEKSJxCMXmDv4Mi/mDjB2lasechy40sayfKdYlm/Mn+ULhuN6HMUQYNcPFcJxaj+FZAGc2WiECaT78SNRgS2baYnpQ1aKfBj5OyS9UxTVtET3cO5/Np4JBCq4CgFmSBHSyc/+TKKbRVQxTQiosS6H2+xG1JfsZFcmjmmUWFiegg/12+N7IEGBVYFQZtnoydZta1a30bHmSjcyJhS8tgP3Spx8ExMTAvBgkqhkiG9w0BCRUxIgQgoxAp9k0QtyBC8YG5Rg4Kv/qekuTJzWgA9YCdxsDujC0wWjAyMA4GCiqGJAIBAQEBAgEFAAQgiAD95/Su01pKRkITUFYWJVIAJwAZp9bMXsskcxgy6K4EIHk0BPRheW7WxE8dRwwTqrpltZ0dw/MLNTdS0IOPc2BVAgInEA==
+                  example: MIIE4wIBAzCCBIAGCSqGSIb3DQEHAaCCBHEEggRtMIIEaTCCBGUGCSqGSIb3DQEHAaCCBFYEggRSMIIETjCCAfIGCyqGSIb3DQEMCgECoIIBrjCCAaowgbAGCSqGSIb3DQEFDTCBojBDBgkqhkiG9w0BBQwwNgQguKs8TPAr3jPkSFw7KI0g9hRhaefV+kewGgyTa7LbiUACAicQMA4GCiqGJAIBAQEBAQIFADBbBgsqhiQCAQEBAQEBAzBMBAgjwaT/+Y1iWgRAqdbrRfE8cIKAxJZ7Ix9erfZY66TANykdONlr8CXKThf46XINxhW0OiiXXwvB3qNkOLVk6iwXn9ASPm24+sV5BASB9C/SN4CnwnFm9oerBJqiJ7ksmqVSngnT5KDesqWjwO6/dhg6M24QrBiM0lLNXyDb9DpkVkY5HvP81voki1xYNpgQ4qk/7K4fLTPVv2hTPpnlZwzSSVZqlHbiZZOMU+nzWm11lEG8R1lzaKC5pU+wPY5BCHcUGXx5+1pS5JPWdYV5oU1Zeko+dmcCljwJTkp5QHUzeSZp0ODsqxvhHcXcAbHvIEomRJDDYRR9cwP7rBMTzSChAxmZodcoHbJaCmLziRvyv6IK8szRURMS4q6x58SAfJhJftpqfpU1Q3qiYbQ7zsonmrt5rpqxwLHrYdiQv9WbRZwxMTAvBgkqhkiG9w0BCRUxIgQgg1Ra5YOBHZ90qrDp44AQ7sIIbKloR93BdQhxQlt1lV8wggJUBgsqhkiG9w0BDAoBAqCCAhAwggIMMIGwBgkqhkiG9w0BBQ0wgaIwQwYJKoZIhvcNAQUMMDYEIIPTyIQWGHv+20SJ1RFS4pPma3F2zdnwry3tMZ4KN2qaAgInEDAOBgoqhiQCAQEBAQECBQAwWwYLKoYkAgEBAQEBAQMwTAQIxsD47sK/7OsEQKnW60XxPHCCgMSWeyMfXq32WOukwDcpHTjZa/Alyk4X+OlyDcYVtDool18Lwd6jZDi1ZOosF5/QEj5tuPrFeQQEggFVvLQFUaY1eHRpbWLXJJijQ07qrzYFILdDy9+5Cn0PIo3I7xq7X1mXKKUJCz3BI56tpavUFsC3QUCc8BLdaA3wzzH7DkUKdzogQMSPS1ZNkmj8rUFteFBmMD3xWiWMYk/jvvnEEGIoNMmleOuaPGEQyM8b9gjFOSP71ijwvaYabFC6/nsJ1hwQhg/il4sWw6R74mWJfcaKbXye9UhpEbMPnjCUbu4JrVEOIzy8Ku9dxO0p4E4oLbZ5pIiilWXZoNvwmClvHuNqacWb2JWyOfzWsKvbYFGwf9Szl7pNtaMGHntbxZe+IVEd5dpJWjmREmO6eox+Qx1EeqoltuZsoxFFVEhH85Mm3CcTgvsBQA8sGK3l0kQ1wIMT4LjU0bOlQRe/dPen8CtTd4YTHFZvEfjQcKcvhnzud9NtWiS2hhpTljqnqa4FpASMZjy+RittttC784NB614xMTAvBgkqhkiG9w0BCRUxIgQgH3yN+JCQFNxd4kPSdPYV6bZTbNYzuLkmiuBFct+wFMUwWjAyMA4GCiqGJAIBAQEBAgEFAAQgndvX89VXQzDEw38OfOqDbT3aEjvH+lujHUMCW9s1ljUEINSA8d41T4es/o/AlAez1SweeCzXSJXS4NjLvvJHX1UDAgInEA==
                 password:
                   type: string
                   format: password
@@ -169,9 +169,9 @@ paths:
             example:
               {
                 "commandName": "loginCashier2",
-                "keyData": "MIIE4wIBAzCCBIAGCSqGSIb3DQEHAaCCBHEEggRtMIIEaTCCBGUGCSqGSIb3DQEHAaCCBFYEggRSMIIETjCCAfIGCyqGSIb3DQEMCgECoIIBrjCCAaowgbAGCSqGSIb3DQEFDTCBojBDBgkqhkiG9w0BBQwwNgQg8A+2Tgg78osx84pIy70g/VkYCiIBNrdxrbfyl3AgKRoCAicQMA4GCiqGJAIBAQEBAQIFADBbBgsqhiQCAQEBAQEBAzBMBAg/16bt+aDM3QRAqdbrRfE8cIKAxJZ7Ix9erfZY66TANykdONlr8CXKThf46XINxhW0OiiXXwvB3qNkOLVk6iwXn9ASPm24+sV5BASB9DLkQa5F/PVjNHMIaaVK2sOXt1ZQffDI2rZknkIK7H8BeT+CSHHcCTPOj+aeOETFafJ13lYYNkts2DuKA3exxiBmIjMzpJiS/FA+KZI5xRLToOtoIixPy2EeGcCnBpyfGXFnz2w86AFMND3Hw4G3GJwtGO9ixC3bHJZ7ZkLxyBBQSK5KFp8xixmwDqkJiJ+P/Gun51Oes3uuAdjcvv4RNdfDQ10SBUtXzLdxpyRiPjalsFZgS9BEb0GoEHr3h0aetreE2Z+4V588JI6s/4TiG39W9DOGLHEKsn7cMYf6fvq3jC3Pu3zPXF1lCasVylQGQB9k9iwxMTAvBgkqhkiG9w0BCRUxIgQgVzYOnrqzkkPyjBhYBD7D+31gzR1k2Ef5TGwm24OO7yMwggJUBgsqhkiG9w0BDAoBAqCCAhAwggIMMIGwBgkqhkiG9w0BBQ0wgaIwQwYJKoZIhvcNAQUMMDYEIOI1TN1ZfkS2FMr0Ro8Mj3RPR+ulZlrv5P+Zv+TauwG6AgInEDAOBgoqhiQCAQEBAQECBQAwWwYLKoYkAgEBAQEBAQMwTAQIf6YapKMYQIgEQKnW60XxPHCCgMSWeyMfXq32WOukwDcpHTjZa/Alyk4X+OlyDcYVtDool18Lwd6jZDi1ZOosF5/QEj5tuPrFeQQEggFVm1Qwa1kIzp5xiJRxDnQV+oUozXg8oI0RiCs8sIeCXR3hwcR8cE89C1XYFTDPlW12/EE8Cn4YSIUJLgksuqVofsewsIrSutU+csrcHuZAMKWV352Ep0pNEvIQ02GDaKWGH3FngXa+WzEpxliGAuuBoLQfxH95Mz6HjEETZfwFcj+WYKlbEL1J0qXxtyvuZBo0CI13aOSrar/SDYHz/y0iEXl6TiEgOJtsxHftJ3a97zTqDaEKSJxCMXmDv4Mi/mDjB2lasechy40sayfKdYlm/Mn+ULhuN6HMUQYNcPFcJxaj+FZAGc2WiECaT78SNRgS2baYnpQ1aKfBj5OyS9UxTVtET3cO5/Np4JBCq4CgFmSBHSyc/+TKKbRVQxTQiosS6H2+xG1JfsZFcmjmmUWFiegg/12+N7IEGBVYFQZtnoydZta1a30bHmSjcyJhS8tgP3Spx8ExMTAvBgkqhkiG9w0BCRUxIgQgoxAp9k0QtyBC8YG5Rg4Kv/qekuTJzWgA9YCdxsDujC0wWjAyMA4GCiqGJAIBAQEBAgEFAAQgiAD95/Su01pKRkITUFYWJVIAJwAZp9bMXsskcxgy6K4EIHk0BPRheW7WxE8dRwwTqrpltZ0dw/MLNTdS0IOPc2BVAgInEA==",
+                "keyData": "MIIE4wIBAzCCBIAGCSqGSIb3DQEHAaCCBHEEggRtMIIEaTCCBGUGCSqGSIb3DQEHAaCCBFYEggRSMIIETjCCAfIGCyqGSIb3DQEMCgECoIIBrjCCAaowgbAGCSqGSIb3DQEFDTCBojBDBgkqhkiG9w0BBQwwNgQguKs8TPAr3jPkSFw7KI0g9hRhaefV+kewGgyTa7LbiUACAicQMA4GCiqGJAIBAQEBAQIFADBbBgsqhiQCAQEBAQEBAzBMBAgjwaT/+Y1iWgRAqdbrRfE8cIKAxJZ7Ix9erfZY66TANykdONlr8CXKThf46XINxhW0OiiXXwvB3qNkOLVk6iwXn9ASPm24+sV5BASB9C/SN4CnwnFm9oerBJqiJ7ksmqVSngnT5KDesqWjwO6/dhg6M24QrBiM0lLNXyDb9DpkVkY5HvP81voki1xYNpgQ4qk/7K4fLTPVv2hTPpnlZwzSSVZqlHbiZZOMU+nzWm11lEG8R1lzaKC5pU+wPY5BCHcUGXx5+1pS5JPWdYV5oU1Zeko+dmcCljwJTkp5QHUzeSZp0ODsqxvhHcXcAbHvIEomRJDDYRR9cwP7rBMTzSChAxmZodcoHbJaCmLziRvyv6IK8szRURMS4q6x58SAfJhJftpqfpU1Q3qiYbQ7zsonmrt5rpqxwLHrYdiQv9WbRZwxMTAvBgkqhkiG9w0BCRUxIgQgg1Ra5YOBHZ90qrDp44AQ7sIIbKloR93BdQhxQlt1lV8wggJUBgsqhkiG9w0BDAoBAqCCAhAwggIMMIGwBgkqhkiG9w0BBQ0wgaIwQwYJKoZIhvcNAQUMMDYEIIPTyIQWGHv+20SJ1RFS4pPma3F2zdnwry3tMZ4KN2qaAgInEDAOBgoqhiQCAQEBAQECBQAwWwYLKoYkAgEBAQEBAQMwTAQIxsD47sK/7OsEQKnW60XxPHCCgMSWeyMfXq32WOukwDcpHTjZa/Alyk4X+OlyDcYVtDool18Lwd6jZDi1ZOosF5/QEj5tuPrFeQQEggFVvLQFUaY1eHRpbWLXJJijQ07qrzYFILdDy9+5Cn0PIo3I7xq7X1mXKKUJCz3BI56tpavUFsC3QUCc8BLdaA3wzzH7DkUKdzogQMSPS1ZNkmj8rUFteFBmMD3xWiWMYk/jvvnEEGIoNMmleOuaPGEQyM8b9gjFOSP71ijwvaYabFC6/nsJ1hwQhg/il4sWw6R74mWJfcaKbXye9UhpEbMPnjCUbu4JrVEOIzy8Ku9dxO0p4E4oLbZ5pIiilWXZoNvwmClvHuNqacWb2JWyOfzWsKvbYFGwf9Szl7pNtaMGHntbxZe+IVEd5dpJWjmREmO6eox+Qx1EeqoltuZsoxFFVEhH85Mm3CcTgvsBQA8sGK3l0kQ1wIMT4LjU0bOlQRe/dPen8CtTd4YTHFZvEfjQcKcvhnzud9NtWiS2hhpTljqnqa4FpASMZjy+RittttC784NB614xMTAvBgkqhkiG9w0BCRUxIgQgH3yN+JCQFNxd4kPSdPYV6bZTbNYzuLkmiuBFct+wFMUwWjAyMA4GCiqGJAIBAQEBAgEFAAQgndvX89VXQzDEw38OfOqDbT3aEjvH+lujHUMCW9s1ljUEINSA8d41T4es/o/AlAez1SweeCzXSJXS4NjLvvJHX1UDAgInEA==",
                 "password": "checkonline",
-                "cashierName": "Для РРО № 4000066889",
+                "cashierName": "Для РРО № 4000066888",
               }
       responses:
         200:
@@ -187,7 +187,7 @@ paths:
               example:
                 {
                   "success": true,
-                  "id": "57360e9ebab39243f28c1858043ec3fb7d60cd1d64d847f94c6c26db838eef23",
+                  "id": "83545ae583811d9f74aab0e9e38010eec2086ca96847ddc1750871425b75955f",
                 }
 
   /command/logoutCashier:
@@ -215,7 +215,7 @@ paths:
             example:
               {
                 "commandName": "logoutCashier",
-                "cashierId": "57360e9ebab39243f28c1858043ec3fb7d60cd1d64d847f94c6c26db838eef23",
+                "cashierId": "83545ae583811d9f74aab0e9e38010eec2086ca96847ddc1750871425b75955f",
               }
       responses:
         200:
@@ -231,7 +231,7 @@ paths:
               example:
                 {
                   "success": true,
-                  "id": "57360e9ebab39243f28c1858043ec3fb7d60cd1d64d847f94c6c26db838eef23",
+                  "id": "83545ae583811d9f74aab0e9e38010eec2086ca96847ddc1750871425b75955f",
                 }
         400:
           description: NOK
@@ -243,56 +243,55 @@ paths:
                     type: boolean
               example: { "success": false }
 
-  /command/getCashiers:
-    post:
-      tags:
-        - "Casher"
-      summary: Получить список залогиненых в ПРРО пользователей
-      description: ПРРО хранит информацию о залогиненых пользователях. Этот список доступен по этой команде.
-      requestBody:
-        description: Команда без дополнительных параметров
-        required: true
-        content:
-          application/json;charset=utf-8:
-            schema:
-              type: object
-              properties:
-                commandName:
-                  type: string
-                  default: "getCashiers"
-              required:
-                - commandName
-            example: { "commandName": "getCashiers" }
-      responses:
-        200:
-          description: OK
-          content:
-            application/json;charset=utf-8:
-              schema:
-                properties:
-                  success:
-                    type: boolean
-                  id:
-                    type: string
-                  expirationDate:
-                    type: string
-                    format: timeDate
-                    example: "00:00:00 21.11.2021"
-              example:
-                {
-                  "success": true,
-                  "id": "57360e9ebab39243f28c1858043ec3fb7d60cd1d64d847f94c6c26db838eef23",
-                  "expirationDate": "00:00:00 21.11.2021",
-                }
-        400:
-          description: NOK
-          content:
-            application/json;charset=utf-8:
-              schema:
-                properties:
-                  success:
-                    type: boolean
-              example: { "success": false }
+#   /command/getCashiers:
+#     post:
+#       tags:
+#         - "Casher"
+#       summary: Получить список залогиненых в ПРРО пользователей
+#       description: ПРРО хранит информацию о залогиненых пользователях. Этот список доступен по этой команде.
+#       requestBody:
+#         description: Команда без дополнительных параметров
+#         required: true
+#         content:
+#           application/json;charset=utf-8:
+#             schema:
+#               properties:
+#                 commandName:
+#                   type: string
+#                   default: "getCashiers"
+#               required:
+#                 - commandName
+#             example: { "commandName": "getCashiers" }
+#       responses:
+#         200:
+#           description: OK
+#           content:
+#             application/json;charset=utf-8:
+#               schema:
+#                 properties:
+#                   success:
+#                     type: boolean
+#                   id:
+#                     type: string
+#                   expirationDate:
+#                     type: string
+#                     format: timeDate
+#                     example: "00:00:00 21.11.2021"
+#               example:
+#                 {
+#                   "success": true,
+#                   "id": "83545ae583811d9f74aab0e9e38010eec2086ca96847ddc1750871425b75955f",
+#                   "expirationDate": "00:00:00 21.11.2021",
+#                 }
+#         400:
+#           description: NOK
+#           content:
+#             application/json;charset=utf-8:
+#               schema:
+#                 properties:
+#                   success:
+#                     type: boolean
+#               example: { "success": false }
 
   /command/setClientId:
     post:
@@ -305,7 +304,6 @@ paths:
         content:
           application/json;charset=utf-8:
             schema:
-              type: object
               properties:
                 commandName:
                   type: string
@@ -358,7 +356,6 @@ paths:
         content:
           application/json;charset=utf-8:
             schema:
-              type: object
               properties:
                 commandName:
                   type: string
@@ -390,7 +387,6 @@ paths:
         content:
           application/json;charset=utf-8:
             schema:
-              type: object
               properties:
                 commandName:
                   type: string
@@ -407,7 +403,7 @@ paths:
             example:
               {
                 "commandName": "getRegistrars",
-                "cashierId": "57360e9ebab39243f28c1858043ec3fb7d60cd1d64d847f94c6c26db838eef23",
+                "cashierId": "83545ae583811d9f74aab0e9e38010eec2086ca96847ddc1750871425b75955f",
                 "requestState": false,
               }
       responses:
@@ -486,7 +482,6 @@ paths:
         content:
           application/json;charset=utf-8:
             schema:
-              type: object
               properties:
                 commandName:
                   type: string
@@ -502,8 +497,8 @@ paths:
             example:
               {
                 "commandName": "getRegistrarInfo",
-                "cashierId": "57360e9ebab39243f28c1858043ec3fb7d60cd1d64d847f94c6c26db838eef23",
-                "registrarId": "4000066889",
+                "cashierId": "83545ae583811d9f74aab0e9e38010eec2086ca96847ddc1750871425b75955f",
+                "registrarId": "4000066888",
               }
       responses:
         200:
@@ -553,9 +548,9 @@ paths:
                       "offlineSupported": true,
                       "offlineSessionStarted": true,
                       "offlineSessionEndTime": "08:58:17 24.12.2020",
-                      "openedByCashierWithName": "Для РРО № 4000066889",
-                      "openedByCashierWithKeyId": "57360e9ebab39243f28c1858043ec3fb7d60cd1d64d847f94c6c26db838eef23",
-                      "id": 4000066889,
+                      "openedByCashierWithName": "Для РРО № 4000066888",
+                      "openedByCashierWithKeyId": "83545ae583811d9f74aab0e9e38010eec2086ca96847ddc1750871425b75955f",
+                      "id": 4000066888,
                       "name": "CheckOnline",
                     },
                 }
@@ -658,9 +653,94 @@ paths:
                     "success": true,
                     "data": {
                         "loggedIn": true,
-                        "id": "57360e9ebab39243f28c1858043ec3fb7d60cd1d64d847f94c6c26db838eef23",
-                        "name": "Для РРО № 4000066889",
-                        "expirationDate": "14:16:50 25.01.2023"
+                        "id": "83545ae583811d9f74aab0e9e38010eec2086ca96847ddc1750871425b75955f",
+                        "name": "Для РРО № 4000066888",
+                        "expirationDate": "10:22:32 25.01.2023"
+                    }
+                }
+        400:
+          description: Bad Request
+          content:
+            application/json;charset=utf-8:
+              schema:
+                properties:
+                  success:
+                    type: boolean
+                  errorMessage:
+                    type: string
+                  errorCode:
+                    type: number
+              example:
+                {
+                  "success": false,
+                  "errorMessage": "Несподівана помилка",
+                  "errorCode": 7,
+                }
+
+  /command/getCashierInfoByKey2:
+    post:
+      tags:
+        - "Casher"
+      summary: Проверка открытого ключа по его закрытой части в формате BASE64.
+      description: По этой команде ПРРО вернёт значение открытой части цифровой подписи.
+      requestBody:
+        description: Файл ключа дожен быть зарегистрирован в личном кабинете ДФС для работы с ПРРО
+        required: true
+        content:
+          application/json;charset=utf-8:
+            schema:
+              type: object
+              properties:
+                commandName:
+                  type: string
+                  default: "getCashierInfoByKey2"
+                keyData:
+                  type: string
+                  description: Закрытый ключь в формате BASE64.
+                  example: MIIE4wIBAzCCBIAGCSqGSIb3DQEHAaCCBHEEggRtMIIEaTCCBGUGCSqGSIb3DQEHAaCCBFYEggRSMIIETjCCAfIGCyqGSIb3DQEMCgECoIIBrjCCAaowgbAGCSqGSIb3DQEFDTCBojBDBgkqhkiG9w0BBQwwNgQguKs8TPAr3jPkSFw7KI0g9hRhaefV+kewGgyTa7LbiUACAicQMA4GCiqGJAIBAQEBAQIFADBbBgsqhiQCAQEBAQEBAzBMBAgjwaT/+Y1iWgRAqdbrRfE8cIKAxJZ7Ix9erfZY66TANykdONlr8CXKThf46XINxhW0OiiXXwvB3qNkOLVk6iwXn9ASPm24+sV5BASB9C/SN4CnwnFm9oerBJqiJ7ksmqVSngnT5KDesqWjwO6/dhg6M24QrBiM0lLNXyDb9DpkVkY5HvP81voki1xYNpgQ4qk/7K4fLTPVv2hTPpnlZwzSSVZqlHbiZZOMU+nzWm11lEG8R1lzaKC5pU+wPY5BCHcUGXx5+1pS5JPWdYV5oU1Zeko+dmcCljwJTkp5QHUzeSZp0ODsqxvhHcXcAbHvIEomRJDDYRR9cwP7rBMTzSChAxmZodcoHbJaCmLziRvyv6IK8szRURMS4q6x58SAfJhJftpqfpU1Q3qiYbQ7zsonmrt5rpqxwLHrYdiQv9WbRZwxMTAvBgkqhkiG9w0BCRUxIgQgg1Ra5YOBHZ90qrDp44AQ7sIIbKloR93BdQhxQlt1lV8wggJUBgsqhkiG9w0BDAoBAqCCAhAwggIMMIGwBgkqhkiG9w0BBQ0wgaIwQwYJKoZIhvcNAQUMMDYEIIPTyIQWGHv+20SJ1RFS4pPma3F2zdnwry3tMZ4KN2qaAgInEDAOBgoqhiQCAQEBAQECBQAwWwYLKoYkAgEBAQEBAQMwTAQIxsD47sK/7OsEQKnW60XxPHCCgMSWeyMfXq32WOukwDcpHTjZa/Alyk4X+OlyDcYVtDool18Lwd6jZDi1ZOosF5/QEj5tuPrFeQQEggFVvLQFUaY1eHRpbWLXJJijQ07qrzYFILdDy9+5Cn0PIo3I7xq7X1mXKKUJCz3BI56tpavUFsC3QUCc8BLdaA3wzzH7DkUKdzogQMSPS1ZNkmj8rUFteFBmMD3xWiWMYk/jvvnEEGIoNMmleOuaPGEQyM8b9gjFOSP71ijwvaYabFC6/nsJ1hwQhg/il4sWw6R74mWJfcaKbXye9UhpEbMPnjCUbu4JrVEOIzy8Ku9dxO0p4E4oLbZ5pIiilWXZoNvwmClvHuNqacWb2JWyOfzWsKvbYFGwf9Szl7pNtaMGHntbxZe+IVEd5dpJWjmREmO6eox+Qx1EeqoltuZsoxFFVEhH85Mm3CcTgvsBQA8sGK3l0kQ1wIMT4LjU0bOlQRe/dPen8CtTd4YTHFZvEfjQcKcvhnzud9NtWiS2hhpTljqnqa4FpASMZjy+RittttC784NB614xMTAvBgkqhkiG9w0BCRUxIgQgH3yN+JCQFNxd4kPSdPYV6bZTbNYzuLkmiuBFct+wFMUwWjAyMA4GCiqGJAIBAQEBAgEFAAQgndvX89VXQzDEw38OfOqDbT3aEjvH+lujHUMCW9s1ljUEINSA8d41T4es/o/AlAez1SweeCzXSJXS4NjLvvJHX1UDAgInEA==
+                password:
+                  type: string
+                  format: password
+                  description: Пароль, который будет использоваться для подписи документов.
+              required:
+                - commandName
+                - keyData
+                - password
+            example:
+              {
+                "commandName": "getCashierInfoByKey2",
+                "keyData": "MIIE4wIBAzCCBIAGCSqGSIb3DQEHAaCCBHEEggRtMIIEaTCCBGUGCSqGSIb3DQEHAaCCBFYEggRSMIIETjCCAfIGCyqGSIb3DQEMCgECoIIBrjCCAaowgbAGCSqGSIb3DQEFDTCBojBDBgkqhkiG9w0BBQwwNgQguKs8TPAr3jPkSFw7KI0g9hRhaefV+kewGgyTa7LbiUACAicQMA4GCiqGJAIBAQEBAQIFADBbBgsqhiQCAQEBAQEBAzBMBAgjwaT/+Y1iWgRAqdbrRfE8cIKAxJZ7Ix9erfZY66TANykdONlr8CXKThf46XINxhW0OiiXXwvB3qNkOLVk6iwXn9ASPm24+sV5BASB9C/SN4CnwnFm9oerBJqiJ7ksmqVSngnT5KDesqWjwO6/dhg6M24QrBiM0lLNXyDb9DpkVkY5HvP81voki1xYNpgQ4qk/7K4fLTPVv2hTPpnlZwzSSVZqlHbiZZOMU+nzWm11lEG8R1lzaKC5pU+wPY5BCHcUGXx5+1pS5JPWdYV5oU1Zeko+dmcCljwJTkp5QHUzeSZp0ODsqxvhHcXcAbHvIEomRJDDYRR9cwP7rBMTzSChAxmZodcoHbJaCmLziRvyv6IK8szRURMS4q6x58SAfJhJftpqfpU1Q3qiYbQ7zsonmrt5rpqxwLHrYdiQv9WbRZwxMTAvBgkqhkiG9w0BCRUxIgQgg1Ra5YOBHZ90qrDp44AQ7sIIbKloR93BdQhxQlt1lV8wggJUBgsqhkiG9w0BDAoBAqCCAhAwggIMMIGwBgkqhkiG9w0BBQ0wgaIwQwYJKoZIhvcNAQUMMDYEIIPTyIQWGHv+20SJ1RFS4pPma3F2zdnwry3tMZ4KN2qaAgInEDAOBgoqhiQCAQEBAQECBQAwWwYLKoYkAgEBAQEBAQMwTAQIxsD47sK/7OsEQKnW60XxPHCCgMSWeyMfXq32WOukwDcpHTjZa/Alyk4X+OlyDcYVtDool18Lwd6jZDi1ZOosF5/QEj5tuPrFeQQEggFVvLQFUaY1eHRpbWLXJJijQ07qrzYFILdDy9+5Cn0PIo3I7xq7X1mXKKUJCz3BI56tpavUFsC3QUCc8BLdaA3wzzH7DkUKdzogQMSPS1ZNkmj8rUFteFBmMD3xWiWMYk/jvvnEEGIoNMmleOuaPGEQyM8b9gjFOSP71ijwvaYabFC6/nsJ1hwQhg/il4sWw6R74mWJfcaKbXye9UhpEbMPnjCUbu4JrVEOIzy8Ku9dxO0p4E4oLbZ5pIiilWXZoNvwmClvHuNqacWb2JWyOfzWsKvbYFGwf9Szl7pNtaMGHntbxZe+IVEd5dpJWjmREmO6eox+Qx1EeqoltuZsoxFFVEhH85Mm3CcTgvsBQA8sGK3l0kQ1wIMT4LjU0bOlQRe/dPen8CtTd4YTHFZvEfjQcKcvhnzud9NtWiS2hhpTljqnqa4FpASMZjy+RittttC784NB614xMTAvBgkqhkiG9w0BCRUxIgQgH3yN+JCQFNxd4kPSdPYV6bZTbNYzuLkmiuBFct+wFMUwWjAyMA4GCiqGJAIBAQEBAgEFAAQgndvX89VXQzDEw38OfOqDbT3aEjvH+lujHUMCW9s1ljUEINSA8d41T4es/o/AlAez1SweeCzXSJXS4NjLvvJHX1UDAgInEA==",
+                "password": "checkonline"
+              }
+      responses:
+        200:
+          description: OK
+          content:
+            application/json;charset=utf-8:
+              schema:
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      loggedIn:
+                        type: boolean
+                      id:
+                        type: string
+                        description:  Значение открытой части цифровой подписи.
+                      name:
+                        type: string
+                      expirationDate:
+                        type: string
+              example:
+                {
+                    "success": true,
+                    "data": {
+                        "loggedIn": true,
+                        "id": "83545ae583811d9f74aab0e9e38010eec2086ca96847ddc1750871425b75955f",
+                        "name": "Для РРО № 4000066888",
+                        "expirationDate": "10:22:32 25.01.2023"
                     }
                 }
         400:
@@ -693,7 +773,6 @@ paths:
         content:
           application/json;charset=utf-8:
             schema:
-              type: object
               properties:
                 commandName:
                   type: string
@@ -709,8 +788,8 @@ paths:
             example:
               {
                 "commandName": "openShift",
-                "cashierId": "57360e9ebab39243f28c1858043ec3fb7d60cd1d64d847f94c6c26db838eef23",
-                "registrarId": "4000066889",
+                "cashierId": "83545ae583811d9f74aab0e9e38010eec2086ca96847ddc1750871425b75955f",
+                "registrarId": "4000066888",
               }
       responses:
         200:
@@ -724,7 +803,7 @@ paths:
                   id:
                     type: string
                     description: Id смены
-              example: { "success": true, "id": "142733" }
+              example: { "success": true, "id": "142866" }
         400:
           description: Bad Request
           content:
@@ -773,8 +852,8 @@ paths:
             example:
               {
                 "commandName": "closeShift",
-                "cashierId": "57360e9ebab39243f28c1858043ec3fb7d60cd1d64d847f94c6c26db838eef23",
-                "registrarId": "4000066889",
+                "cashierId": "83545ae583811d9f74aab0e9e38010eec2086ca96847ddc1750871425b75955f",
+                "registrarId": "4000066888",
               }
       responses:
         200:
@@ -818,8 +897,8 @@ paths:
             example:
               {
                 "commandName": "beginOfflineSession",
-                "cashierId": "57360e9ebab39243f28c1858043ec3fb7d60cd1d64d847f94c6c26db838eef23",
-                "registrarId": "4000066889",
+                "cashierId": "83545ae583811d9f74aab0e9e38010eec2086ca96847ddc1750871425b75955f",
+                "registrarId": "4000066888",
               }
       responses:
         200:
@@ -859,8 +938,8 @@ paths:
             example:
               {
                 "commandName": "finishOfflineSession",
-                "cashierId": "57360e9ebab39243f28c1858043ec3fb7d60cd1d64d847f94c6c26db838eef23",
-                "registrarId": "4000066889",
+                "cashierId": "83545ae583811d9f74aab0e9e38010eec2086ca96847ddc1750871425b75955f",
+                "registrarId": "4000066888",
               }
       responses:
         200:
@@ -903,8 +982,8 @@ paths:
             example:
               {
                 "commandName": "sendZReport",
-                "cashierId": "57360e9ebab39243f28c1858043ec3fb7d60cd1d64d847f94c6c26db838eef23",
-                "registrarId": "4000066889",
+                "cashierId": "83545ae583811d9f74aab0e9e38010eec2086ca96847ddc1750871425b75955f",
+                "registrarId": "4000066888",
               }
       responses:
         200:
@@ -918,8 +997,30 @@ paths:
                   data:
                     type: object
                     properties:
+                      receiptNumber:
+                        type: string
+                        description: Локальный номер документа.
+                      fiscalNumber:
+                        type: string
+                        description: Фискальный номер документа.
+                      receiptLink:
+                        type: string
+                        description: Гиперссылка на документ на портале ДПС.
+                      offline:
+                          type: boolean
+                          description: Признак источника данных. False - с сайта ДПС. True - локальные.
                       shiftId:
                         type: string
+                      pointName:
+                        type: string
+                      pointAddress:
+                        type: string
+                      tin:
+                        type: string
+                      ipn:
+                        type: string
+                      cashierName:
+                        type: string  
                       serviceInputTotal:
                         type: string
                       serviceOutputTotal:
@@ -929,170 +1030,239 @@ paths:
                         properties:
                           ordersCount:
                             type: number
-                      Currency:
-                        type: array
-                        items:
-                          type: object
-                          properties:
-                            totalinadvance:
-                              type: number
-                              description: Отримано авансів національною валютою (15.2 цифри)
-                            totalinattach:
-                              type: number
-                              description: Отримано підкріплень національною валютою (15.2 цифри)
-                            totalsurrcollection:
-                              type: number
-                              description: Здано по інкасації національною валютою (15.2 цифри)
-                            commission:
-                              type: number
-                              description: Отримано комісії за операціями конвертації (15.2 цифри)
-                            calcdocscnt:
-                              type: number
-                              description: Кількість розрахункових документів за зміну (числовий)
-                            acceptedn:
-                              type: number
-                              description: Прийнято національної валюти для переказу (15.2 цифри)
-                            issuedn:
-                              type: number
-                              description: Видано національної валюти при виплаті переказу (15.2 цифри)
-                            commissionn:
-                              type: number
-                              description: Отримано комісії в національній валюті при здійсненні переказів (15.2 цифри)
-                            transferscnt:
-                              type: number
-                              description: Кількість операцій (документів) переказів або виплат переказів (числовий)
-                            details:
-                              type: array
-                              items:
-                                type: object
-                                properties:
-                                  valnum:
-                                    type: number
-                                    description: Порядковий номер валюти (числовий)
-                                  valcd:
-                                    type: number
-                                    description: Код валюти (числовий)
-                                  valsymcd:
-                                    type: string
-                                    description: Символьний код валюти (64 символів)
-                                  valnm:
-                                    type: string
-                                    description: Найменування іноземної валюти (текст)
-                                  coursebuy:
-                                    type: string
-                                    description: Курс купівлі (ХХХХ.ХХХХХХХХ) на момент закриття зміни або курс операцій у випадку зміни курсу (64 символи)
-                                  coursesell:
-                                    type: string
-                                    description: Курс продажу (ХХХХ.ХХХХХХХХ) на момент закриття зміни або курс операцій у випадку зміни курсу (64 символи)
-                                  coursereg:
-                                    type: string
-                                    description: Курс регулятора (ХХХХ.ХХХХХХХХ) (64 символи)
-                                  buyvali:
-                                    type: number
-                                    description: Загальна сума придбаної іноземної валюти (15.2 цифри)
-                                  sellvali:
-                                    type: number
-                                    description: Загальна сума проданої іноземної валюти (15.2 цифри)
-                                  buyvaln:
-                                    type: number
-                                    description: Загальна сума придбаної національної валюти (15.2 цифри)
-                                  sellvaln:
-                                    type: number
-                                    description: Загальна сума проданої національної валюти (15.2 цифри)
-                                  storbuyvali:
-                                    type: number
-                                    description: Загальна сума поверненої клієнтами іноземної валюти за операціями «сторно» (15.2 цифри)
-                                  storsellvali:
-                                    type: number
-                                    description: Загальна сума виданої клієнтам іноземної валюти за операціями «сторно» (15.2 цифри)
-                                  storbuyvaln:
-                                    type: number
-                                    description: Загальна сума поверненої клієнтами національної валюти за операціями «сторно» (15.2 цифри)
-                                  storsellvaln:
-                                    type: number
-                                    description: Загальна сума виданої клієнтам національної валюти за операціями «сторно» (15.2 цифри)
-                                  cinvali:
-                                    type: number
-                                    description: Загальна сума прийнятої іноземної валюти за операціями конвертації (15.2 цифри)
-                                  coutvali:
-                                    type: number
-                                    description: Загальна сума виданої іноземної валюти за операціями конвертації (15.2 цифри)
-                                  unusvali:
-                                    type: number
-                                    description: Загальна сума виданої іноземної валюти за операціями обміну невикористаної національної валюти (15.2 цифри)
-                                  unusvaln:
-                                    type: number
-                                    description: Загальна сума прийнятої від клієнтів національної валюти за «операціями обміну невикористаної національної валюти» (15.2 цифри)
-                                  commission:
-                                    type: number
-                                    description: Загальна сума комісії за операціями конвертації (15.2 цифри)
-                                  inadvance:
-                                    type: number
-                                    description: Отримано авансів (15.2 цифри)
-                                  inattach:
-                                    type: number
-                                    description: Отримано підкріплень (15.2 цифри)
-                                  surrcollection:
-                                    type: number
-                                    description: Здано по інкасації (15.2 цифри)
-                                  storunusvali:
-                                    type: number
-                                    description: Повернуто клієнтами валюти по сторно обміну невикористаної національної валюти (15.2 цифри)
-                                  storunusvaln:
-                                    type: number
-                                    description: Видано клієнтам національної валюти за сторно обміну невикористаної національної валюти (15.2 цифри)
-                                  storcinvali:
-                                    type: number
-                                    description: Видано іноземної валюти по сторно конвертації (15.2 цифри)
-                                  storcoutvali:
-                                    type: number
-                                    description: Повернуто іноземної валюти по сторно конвертації (15.2 цифри)
-                                  storcommission:
-                                    type: number
-                                    description: Повернуто суму комісії зі сторно конвертації (15.2 цифри)
-                                  valcrcd:
-                                    type: string
-                                    description: Крос-курс, код валюти (64 символи)
-                                  crosssymcd:
-                                    type: string
-                                    description: Крос-курс, символьний код валюти (64 символи)
-                                  crosscourse:
-                                    type: string
-                                    description: Крос-курс (ХХХХ.ХХХХХХХХ) (64 символи)
+                          totalSum:
+                            type: string
+                            description: Сумма товарных операций реализации за смену.
+                          totalPawnSumIssued:
+                            type: string
+                            description: Сумма ломбардных операций с выдачей денег (moneyDirection = toClient) за смену.
+                          totalPawnSumReceived:
+                            type: string
+                            description: Сумма ломбардных операций с получением денег (moneyDirection = fromClient) за смену.
+                          totalDiscountSum:
+                            type: string
+                            description: Сумма скидок в документах по реализации товаров
+                          totalsByPaymentType:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                code:
+                                  type: string
+                                name:
+                                  type: string
+                                totalSum:
+                                  type: string
+                          totalsByTaxRate:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                type:
+                                  type: number
+                                letter:
+                                  type: string
+                                name:
+                                  type: string
+                                percent:
+                                  type: string
+                                sign:
+                                  type: boolean
+                                turnover:
+                                  type: string
+                                  description: Сумма до применения скидки.
+                                sourceSum:
+                                  type: string
+                                  description: База налогообложения.  
+                                sum:
+                                  type: string
+                                  description: Сумма налога
+                      totalsByReturn:
+                        type: object
+                        properties:
+                          ordersCount:
+                            type: number
+                          totalSum:
+                            type: string
+                            description: Сумма товарных операций возвратов за смену.
+                          totalPawnSumIssued:
+                            type: string
+                            description: Сумма ломбардных операций возврата с выдачей денег (moneyDirection = toClient) за смену. Внимание, Функция не реализована на уровне ДПС!
+                          totalPawnSumReceived:
+                            type: string
+                            description: Сумма ломбардных операций  возврата с получением денег (moneyDirection = fromClient) за смену. Внимание, Функция не реализована на уровне ДПС!
+                          totalDiscountSum:
+                            type: string
+                            description: Сумма скидок в документах по возрату товаров
+                          totalsByPaymentType:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                code:
+                                  type: string
+                                name:
+                                  type: string
+                                totalSum:
+                                  type: string
+                          totalsByTaxRate:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                type:
+                                  type: number
+                                letter:
+                                  type: string
+                                name:
+                                  type: string
+                                percent:
+                                  type: string
+                                sign:
+                                  type: boolean
+                                turnover:
+                                  type: string
+                                  description: Сумма до применения скидки.
+                                sourceSum:
+                                  type: string
+                                  description: База налогообложения.  
+                                sum:
+                                  type: string
+                                  description: Сумма налога
+                      cashTotals:
+                        type: object
+                        properties:
+                          ordersCount:
+                            type: number
+                            description: Колличество операций с наличными.
+                          totalSum:
+                            type: string
+                            description: Сумма по операциям с наличными.
+                          totalCommissionSum:
+                            type: string
+                            description: Сумма Комиссии в документах по выдаче налички
+                      dateTime:
+                          type: string
+                          description: Дата формирования запроса документа.
 
               example:
                 {
-                  "success": true,
-                  "data":
-                    {
-                      "receiptNumber": "8",
-                      "fiscalNumber": "2185445",
-                      "receiptLink": "https://cabinet.tax.gov.ua/cashregs/check?id=2185445&fn=4000066889&date=20210130",
-                      "pointName": "Магазин Іван-Тест",
-                      "pointAddress": "УКРАЇНА, СУМСЬКА ОБЛ., М. СУМИ, вул. Соборна 1",
-                      "tin": "34554363",
-                      "ipn": "123456789020",
-                      "cashierName": "Для РРО № 4000066889",
-                      "shiftId": "142733",
-                      "serviceInputTotal": "0.00",
-                      "serviceOutputTotal": "0.00",
-                      "totalsBySale":
-                        {
-                          "ordersCount": 0,
-                          "totalSum": "0.00",
-                          "totalsByPaymentType": [],
-                          "totalsByTaxRate": [],
+                    "success": true,
+                    "data": {
+                        "receiptNumber": "468",
+                        "fiscalNumber": "19158024",
+                        "receiptLink": "https://cabinet.tax.gov.ua/cashregs/check?id=19158024&fn=4000066888&date=20210720",
+                        "offline": false,
+                        "shiftId": "1046180",
+                        "pointName": "Магазин Іван-Тест",
+                        "pointAddress": "УКРАЇНА, СУМСЬКА ОБЛ., М. СУМИ, вул. Соборна 1",
+                        "tin": "34554363",
+                        "ipn": "123456789020",
+                        "cashierName": "Для РРО № 4000066888",
+                        "serviceInputTotal": "0.00",
+                        "serviceOutputTotal": "0.00",
+                        "totalsBySale": {
+                            "ordersCount": 2,
+                            "totalSum": "6183.33",
+                            "totalPawnSumIssued": "900.05",
+                            "totalPawnSumReceived": "500.00",
+                            "totalDiscountSum": "25.00",
+                            "totalsByPaymentType": [
+                                {
+                                    "code": "0",
+                                    "name": "Готівка",
+                                    "totalSum": "5983.30"
+                                },
+                                {
+                                    "code": "1",
+                                    "name": "Банківська картка",
+                                    "totalSum": "300.02"
+                                },
+                                {
+                                    "code": "2",
+                                    "name": "Попередня оплата",
+                                    "totalSum": "-99.99"
+                                }
+                            ],
+                            "totalsByTaxRate": [
+                                {
+                                    "type": 0,
+                                    "letter": "A",
+                                    "name": "ПДВ",
+                                    "percent": "20.00",
+                                    "sign": false,
+                                    "turnover": "575.05",
+                                    "sourceSum": "538.39",
+                                    "sum": "89.73"
+                                },
+                                {
+                                    "type": 0,
+                                    "letter": "Б",
+                                    "name": "ПДВ",
+                                    "percent": "7.00",
+                                    "sign": false,
+                                    "turnover": "3405.00",
+                                    "sourceSum": "3405.00",
+                                    "sum": "222.76"
+                                },
+                                {
+                                    "type": 0,
+                                    "letter": "В",
+                                    "name": "ПДВ",
+                                    "percent": "0.00",
+                                    "sign": false,
+                                    "turnover": "111.80",
+                                    "sourceSum": "111.80",
+                                    "sum": "0.00"
+                                },
+                                {
+                                    "type": 0,
+                                    "letter": "Д",
+                                    "name": "ПДВ",
+                                    "percent": "0.00",
+                                    "sign": false,
+                                    "turnover": "2517.60",
+                                    "sourceSum": "2517.60",
+                                    "sum": "0.00"
+                                },
+                                {
+                                    "type": 0,
+                                    "letter": "Ж",
+                                    "name": "ПДВ",
+                                    "percent": "0.00",
+                                    "sign": false,
+                                    "turnover": "1400.05",
+                                    "sourceSum": "1400.05",
+                                    "sum": "0.00"
+                                },
+                                {
+                                    "type": 1,
+                                    "letter": "М",
+                                    "name": "Акциз",
+                                    "percent": "5.00",
+                                    "sign": false,
+                                    "turnover": "259.90",
+                                    "sourceSum": "244.90",
+                                    "sum": "11.66"
+                                }
+                            ]
                         },
-                      "totalsByReturn":
-                        {
-                          "ordersCount": 0,
-                          "totalSum": "0.00",
-                          "totalsByPaymentType": [],
-                          "totalsByTaxRate": [],
+                        "totalsByReturn": {
+                            "ordersCount": 0,
+                            "totalSum": "0.00",
+                            "totalPawnSumIssued": "0.00",
+                            "totalPawnSumReceived": "0.00",
+                            "totalDiscountSum": "0.00",
+                            "totalsByPaymentType": [],
+                            "totalsByTaxRate": []
                         },
-                      "dateTime": "17:00:09 30.01.2021",
-                      "offline": false,
-                    },
+                        "cashTotals": {
+                            "ordersCount": 0,
+                            "totalSum": "0.00",
+                            "totalCommissionSum": "0.00"
+                        },
+                        "dateTime": "12:18:13 20.07.2021"
+                    }
                 }
 
   /command/getXReport:
@@ -1122,8 +1292,8 @@ paths:
             example:
               {
                 "commandName": "getXReport",
-                "cashierId": "57360e9ebab39243f28c1858043ec3fb7d60cd1d64d847f94c6c26db838eef23",
-                "registrarId": "4000066889",
+                "cashierId": "83545ae583811d9f74aab0e9e38010eec2086ca96847ddc1750871425b75955f",
+                "registrarId": "4000066888",
               }
       responses:
         200:
@@ -1137,8 +1307,330 @@ paths:
                   data:
                     type: object
                     properties:
+                      pointName:
+                        type: string
+                      pointAddress:
+                        type: string
+                      tin:
+                        type: string
+                      ipn:
+                        type: string
+                      cashierName:
+                        type: string  
                       shiftId:
                         type: string
+                      serviceInputTotal:
+                        type: string
+                      serviceOutputTotal:
+                        type: string
+                      totalsBySale:
+                        type: object
+                        properties:
+                          ordersCount:
+                            type: number
+                          totalSum:
+                            type: string
+                            description: Сумма товарных операций реализации за смену.
+                          totalPawnSumIssued:
+                            type: string
+                            description: Сумма ломбардных операций с выдачей денег (moneyDirection = toClient) за смену.
+                          totalPawnSumReceived:
+                            type: string
+                            description: Сумма ломбардных операций с получением денег (moneyDirection = fromClient) за смену.
+                          totalDiscountSum:
+                            type: string
+                            description: Сумма скидок в документах по реализации товаров
+                          totalsByPaymentType:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                code:
+                                  type: string
+                                name:
+                                  type: string
+                                totalSum:
+                                  type: string
+                          totalsByTaxRate:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                type:
+                                  type: number
+                                letter:
+                                  type: string
+                                name:
+                                  type: string
+                                percent:
+                                  type: string
+                                sign:
+                                  type: boolean
+                                turnover:
+                                  type: string
+                                  description: Сумма до применения скидки.
+                                sourceSum:
+                                  type: string
+                                  description: База налогообложения.  
+                                sum:
+                                  type: string
+                      totalsByReturn:
+                        type: object
+                        properties:
+                          ordersCount:
+                            type: number
+                          totalSum:
+                            type: string
+                            description: Сумма товарных операций возвратов за смену.
+                          totalPawnSumIssued:
+                            type: string
+                            description: Сумма ломбардных операций возврата с выдачей денег (moneyDirection = toClient) за смену. Внимание, Функция не реализована на уровне ДПС!
+                          totalPawnSumReceived:
+                            type: string
+                            description: Сумма ломбардных операций  возврата с получением денег (moneyDirection = fromClient) за смену. Внимание, Функция не реализована на уровне ДПС!
+                          totalDiscountSum:
+                            type: string
+                            description: Сумма скидок в документах по возрату товаров
+                          totalsByPaymentType:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                code:
+                                  type: string
+                                name:
+                                  type: string
+                                totalSum:
+                                  type: string
+                                  description: Сумма налога
+                          totalsByTaxRate:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                type:
+                                  type: number
+                                letter:
+                                  type: string
+                                name:
+                                  type: string
+                                percent:
+                                  type: string
+                                sign:
+                                  type: boolean
+                                turnover:
+                                  type: string
+                                  description: Сумма до применения скидки.
+                                sourceSum:
+                                  type: string
+                                  description: База налогообложения.  
+                                sum:
+                                  type: string
+                                  description: Сумма налога
+                      cashTotals:
+                        type: object
+                        properties:
+                          ordersCount:
+                            type: number
+                          totalSum:
+                            type: string
+                          totalCommissionSum:
+                            type: string
+                            description: Сумма Комиссии в документах по выдаче налички
+                      dateTime:
+                          type: string
+                          description: Дата формирования запроса документа.
+              example:
+                {
+                    "success": true,
+                    "data": {
+                        "shiftId": "1019732",
+                        "pointName": "Магазин Іван-Тест",
+                        "pointAddress": "УКРАЇНА, СУМСЬКА ОБЛ., М. СУМИ, вул. Соборна 1",
+                        "tin": "34554363",
+                        "ipn": "123456789020",
+                        "cashierName": "Для РРО № 4000066888",
+                        "serviceInputTotal": "0.00",
+                        "serviceOutputTotal": "0.00",
+                        "totalsBySale": {
+                            "ordersCount": 2,
+                            "totalSum": "6183.33",
+                            "totalPawnSumIssued": "900.05",
+                            "totalPawnSumReceived": "500.00",
+                            "totalDiscountSum": "25.00",
+                            "totalsByPaymentType": [
+                                {
+                                    "code": "0",
+                                    "name": "Готівка",
+                                    "totalSum": "5983.30"
+                                },
+                                {
+                                    "code": "1",
+                                    "name": "Банківська картка",
+                                    "totalSum": "300.02"
+                                },
+                                {
+                                    "code": "2",
+                                    "name": "Попередня оплата",
+                                    "totalSum": "-99.99"
+                                }
+                            ],
+                            "totalsByTaxRate": [
+                                {
+                                    "type": 0,
+                                    "letter": "A",
+                                    "name": "ПДВ",
+                                    "percent": "20.00",
+                                    "sign": false,
+                                    "turnover": "575.05",
+                                    "sourceSum": "538.39",
+                                    "sum": "89.73"
+                                },
+                                {
+                                    "type": 0,
+                                    "letter": "Б",
+                                    "name": "ПДВ",
+                                    "percent": "7.00",
+                                    "sign": false,
+                                    "turnover": "3405.00",
+                                    "sourceSum": "3405.00",
+                                    "sum": "222.76"
+                                },
+                                {
+                                    "type": 0,
+                                    "letter": "В",
+                                    "name": "ПДВ",
+                                    "percent": "0.00",
+                                    "sign": false,
+                                    "turnover": "111.80",
+                                    "sourceSum": "111.80",
+                                    "sum": "0.00"
+                                },
+                                {
+                                    "type": 0,
+                                    "letter": "Д",
+                                    "name": "ПДВ",
+                                    "percent": "0.00",
+                                    "sign": false,
+                                    "turnover": "2517.60",
+                                    "sourceSum": "2517.60",
+                                    "sum": "0.00"
+                                },
+                                {
+                                    "type": 0,
+                                    "letter": "Ж",
+                                    "name": "ПДВ",
+                                    "percent": "0.00",
+                                    "sign": false,
+                                    "turnover": "1400.05",
+                                    "sourceSum": "1400.05",
+                                    "sum": "0.00"
+                                },
+                                {
+                                    "type": 1,
+                                    "letter": "М",
+                                    "name": "Акциз",
+                                    "percent": "5.00",
+                                    "sign": false,
+                                    "turnover": "259.90",
+                                    "sourceSum": "244.90",
+                                    "sum": "11.66"
+                                }
+                            ]
+                        },
+                        "totalsByReturn": {
+                            "ordersCount": 0,
+                            "totalSum": "0.00",
+                            "totalPawnSumIssued": "0.00",
+                            "totalPawnSumReceived": "0.00",
+                            "totalDiscountSum": "0.00",
+                            "totalsByPaymentType": [],
+                            "totalsByTaxRate": []
+                        },
+                        "cashTotals": {
+                            "ordersCount": 0,
+                            "totalSum": "0.00",
+                            "totalCommissionSum": "0.00"
+                        },
+                        "dateTime": "12:14:22 20.07.2021"
+                    }
+                }
+
+  /command/getReportForPeriod:
+    post:
+      tags:
+        - "Casher"
+      summary: Получить суммирующий Z-Отчёт за перод.
+      description: По фискальному номеру пРРО и датам, собраются все зарегистрированные Z-Отчёты за указанный период, и представляются в виде "Суммируещего Z-отчёта".
+      requestBody:
+        required: true
+        content:
+          application/json;charset=utf-8:
+            schema:
+              type: object
+              properties:
+                commandName:
+                  type: string
+                  default: "getReportForPeriod"
+                cashierId:
+                  type: string
+                registrarId:
+                  type: string
+                from:
+                  type: string
+                  format: hh:mm:ss dd.mm.yyyy
+                  description: Начало интересующего периода
+                to:
+                  type: string  
+                  format: hh:mm:ss dd.mm.yyyy
+                  description: Завершение интересующего периода
+              required:
+                - commandName
+                - cashierId
+                - registrarId
+                - from
+                - to
+            example:
+              {
+                "commandName": "getReportForPeriod",
+                "cashierId": "57360e9ebab39243f28c1858043ec3fb7d60cd1d64d847f94c6c26db838eef23",
+                "registrarId": "4000066889",
+                "from": "01:00:00 01.06.2021",
+                "to": "01:00:00 10.06.2021"
+              }
+      responses:
+        200:
+          description: OK
+          content:
+            application/json;charset=utf-8:
+              schema:
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      startOfPeriod:
+                        type: string
+                        format: hh:mm:ss dd.mm.yyyy
+                        description: Начало интересующего периода.
+                      endOfPeriod:
+                        type: string
+                        format: hh:mm:ss dd.mm.yyyy
+                        description: Завершение интересующего периода.
+                      shiftsCount:
+                        type: number
+                        description: Количество смен в периоде.     
+                      pointName:
+                        type: string
+                      pointAddress:
+                        type: string
+                      tin:
+                        type: string
+                      ipn:
+                        type: string
+                      cashierName:
+                        type: string  
                       serviceInputTotal:
                         type: string
                       serviceOutputTotal:
@@ -1178,12 +1670,15 @@ paths:
                                   type: boolean
                                 turnover:
                                   type: string
+                                  description: Сумма до применения скидки.
+                                sourceSum:
+                                  type: string
+                                  description: База налогообложения.  
                                 sum:
                                   type: string
+                                  description: Сумма налога
                       totalsByReturn:
-                        type: array
-                        items:
-                          type: object
+                        type: object
                         properties:
                           ordersCount:
                             type: number
@@ -1217,175 +1712,289 @@ paths:
                                   type: boolean
                                 turnover:
                                   type: string
+                                  description: Сумма до применения скидки.
+                                sourceSum:
+                                  type: string
+                                  description: База налогообложения.  
                                 sum:
                                   type: string
+                                  description: Сумма налога
+                      cashTotals:
+                        type: object
+                        properties:
+                          ordersCount:
+                            type: number
+                            description: Колличество операций с наличными.
+                          totalSum:
+                            type: string
+                            description: Сумма по операциям с наличными.
+                          totalCommissionSum:
+                            type: string
+                            description: Сумма Комиссии в документах по выдаче налички.
+                      dateTime:
+                          type: string
+                          description: Дата формирования запроса на получение Суммируещего Z-отчёта.
+                          format: hh:mm:ss dd.mm.yyyy
               example:
                 {
-                  "success": true,
-                  "data":
-                    {
-                      "pointName": "Тестовий платник 4",
-                      "pointAddress": "УКРАЇНА, АР КРИММ. СІМФЕРОПОЛЬ СЕЛИЩЕ БІТУМНЕ, АВТОНОМНА РЕСПУБЛІКА КРИМ/М.СІМФЕРОПОЛЬ СІМФЕРОПОЛЬ ГРЕСІВСЬКИЙ БІТУМНЕ Улица 1, 3",
-                      "tin": "34554363",
-                      "ipn": "123456789020",
-                      "cashierName": "Для РРО № 4000066889",
-                      "shiftId": "65464",
-                      "serviceInputTotal": "8.00",
-                      "serviceOutputTotal": "2200005.00",
-                      "totalsBySale":
-                        {
-                          "ordersCount": 2,
-                          "totalSum": "13168.86",
-                          "totalsByPaymentType":
-                            [
-                              {
-                                "code": "0",
-                                "name": "Готівка",
-                                "totalSum": "12168.80",
-                              },
-                              {
-                                "code": "1",
-                                "name": "Банківська картка",
-                                "totalSum": "800.04",
-                              },
-                              {
-                                "code": "2",
-                                "name": "Попередня оплата",
-                                "totalSum": "200.02",
-                              },
+                    "success": true,
+                    "data": {
+                        "startOfPeriod": "01:00:00 01.07.2021",
+                        "endOfPeriod": "01:00:00 27.07.2021",
+                        "shiftsCount": 7,
+                        "pointName": "Магазин Іван-Тест",
+                        "pointAddress": "УКРАЇНА, СУМСЬКА ОБЛ., М. СУМИ, вул. Соборна 1",
+                        "tin": "34554363",
+                        "ipn": "123456789020",
+                        "cashierName": "Для РРО № 4000066879",
+                        "serviceInputTotal": "1074.00",
+                        "serviceOutputTotal": "494.00",
+                        "totalsBySale": {
+                            "ordersCount": 961,
+                            "totalSum": "310037544.52",
+                            "totalPawnSumIssued": "101902.14",
+                            "totalPawnSumReceived": "143901.54",
+                            "totalDiscountSum": "0.00",
+                            "totalsByPaymentType": [
+                                {
+                                    "code": "0",
+                                    "name": "ГОТІВКА",
+                                    "totalSum": "100.00"
+                                },
+                                {
+                                    "code": "1",
+                                    "name": "Банківська картка",
+                                    "totalSum": "14710.10"
+                                },
+                                {
+                                    "code": "1",
+                                    "name": "ГРОШI",
+                                    "totalSum": "309472112.76"
+                                },
+                                {
+                                    "code": "3",
+                                    "name": "КРЕДИТ",
+                                    "totalSum": "147725.16"
+                                },
+                                {
+                                    "code": "2",
+                                    "name": "Банковские карты",
+                                    "totalSum": "6319.20"
+                                },
+                                {
+                                    "code": "0",
+                                    "name": "Готівка",
+                                    "totalSum": "383631.97"
+                                },
+                                {
+                                    "code": "2",
+                                    "name": "Попередня оплата",
+                                    "totalSum": "-4019.45"
+                                },
+                                {
+                                    "code": "2",
+                                    "name": "КАРТКА",
+                                    "totalSum": "8564.68"
+                                },
+                                {
+                                    "code": "0",
+                                    "name": "ГРОШI",
+                                    "totalSum": "8400.10"
+                                }
                             ],
-                          "totalsByTaxRate":
-                            [
-                              {
-                                "type": 0,
-                                "letter": "A",
-                                "name": "ПДВ",
-                                "percent": "20.00",
-                                "sign": false,
-                                "turnover": "1150.10",
-                                "sum": "179.46",
-                              },
-                              {
-                                "type": 0,
-                                "letter": "Б",
-                                "name": "ПДВ",
-                                "percent": "7.00",
-                                "sign": false,
-                                "turnover": "6810.00",
-                                "sum": "445.52",
-                              },
-                              {
-                                "type": 0,
-                                "letter": "В",
-                                "name": "ПДВ",
-                                "percent": "0.00",
-                                "sign": false,
-                                "turnover": "223.60",
-                                "sum": "0.00",
-                              },
-                              {
-                                "type": 0,
-                                "letter": "Д",
-                                "name": "ПДВ",
-                                "percent": "0.00",
-                                "sign": false,
-                                "turnover": "5035.20",
-                                "sum": "0.00",
-                              },
-                              {
-                                "type": 1,
-                                "letter": "М",
-                                "name": "Акциз",
-                                "percent": "5.00",
-                                "sign": false,
-                                "turnover": "519.80",
-                                "sum": "23.32",
-                              },
-                            ],
+                            "totalsByTaxRate": [
+                                {
+                                    "type": 0,
+                                    "letter": "А",
+                                    "name": "ПДВ",
+                                    "percent": "20.00",
+                                    "sign": false,
+                                    "turnover": "599.94",
+                                    "sourceSum": "0.00",
+                                    "sum": "128.56"
+                                },
+                                {
+                                    "type": 1,
+                                    "letter": "М",
+                                    "name": "Акциз",
+                                    "percent": "5.00",
+                                    "sign": false,
+                                    "turnover": "17235.33",
+                                    "sourceSum": "16357.26",
+                                    "sum": "778.68"
+                                },
+                                {
+                                    "type": 0,
+                                    "letter": "A",
+                                    "name": "ПДВ",
+                                    "percent": "20.00",
+                                    "sign": false,
+                                    "turnover": "309718730.05",
+                                    "sourceSum": "309689270.62",
+                                    "sum": "51614877.72"
+                                },
+                                {
+                                    "type": 0,
+                                    "letter": "Д",
+                                    "name": "ПДВ",
+                                    "percent": "0.00",
+                                    "sign": false,
+                                    "turnover": "154857.60",
+                                    "sourceSum": "154857.60",
+                                    "sum": "0.00"
+                                },
+                                {
+                                    "type": 0,
+                                    "letter": "Б",
+                                    "name": "ПДВ",
+                                    "percent": "7.00",
+                                    "sign": false,
+                                    "turnover": "200895.00",
+                                    "sourceSum": "200895.00",
+                                    "sum": "13142.84"
+                                },
+                                {
+                                    "type": 0,
+                                    "letter": "В",
+                                    "name": "ПДВ",
+                                    "percent": "0.00",
+                                    "sign": false,
+                                    "turnover": "8596.20",
+                                    "sourceSum": "8596.20",
+                                    "sum": "0.00"
+                                },
+                                {
+                                    "type": 0,
+                                    "letter": "Ж",
+                                    "name": "ПДВ",
+                                    "percent": "0.00",
+                                    "sign": false,
+                                    "turnover": "185903.75",
+                                    "sourceSum": "184223.75",
+                                    "sum": "0.00"
+                                }
+                            ]
                         },
-                      "totalsByReturn":
-                        {
-                          "ordersCount": 3,
-                          "totalSum": "6586.43",
-                          "totalsByPaymentType":
-                            [
-                              {
-                                "code": "0",
-                                "name": "Готівка",
-                                "totalSum": "6086.40",
-                              },
-                              {
-                                "code": "1",
-                                "name": "Банківська картка",
-                                "totalSum": "400.02",
-                              },
-                              {
-                                "code": "2",
-                                "name": "Попередня оплата",
-                                "totalSum": "100.01",
-                              },
+                        "totalsByReturn": {
+                            "ordersCount": 48,
+                            "totalSum": "316052.64",
+                            "totalPawnSumIssued": "0.00",
+                            "totalPawnSumReceived": "0.00",
+                            "totalDiscountSum": "0.00",
+                            "totalsByPaymentType": [
+                                {
+                                    "code": "0",
+                                    "name": "Готівка",
+                                    "totalSum": "292051.20"
+                                },
+                                {
+                                    "code": "1",
+                                    "name": "Банківська картка",
+                                    "totalSum": "19200.96"
+                                },
+                                {
+                                    "code": "2",
+                                    "name": "Попередня оплата",
+                                    "totalSum": "4800.48"
+                                }
                             ],
-                          "totalsByTaxRate":
-                            [
-                              {
-                                "type": 0,
-                                "letter": "A",
-                                "name": "ПДВ",
-                                "percent": "20.00",
-                                "sign": false,
-                                "turnover": "577.05",
-                                "sum": "90.07",
-                              },
-                              {
-                                "type": 0,
-                                "letter": "Б",
-                                "name": "ПДВ",
-                                "percent": "7.00",
-                                "sign": false,
-                                "turnover": "3405.00",
-                                "sum": "222.76",
-                              },
-                              {
-                                "type": 0,
-                                "letter": "В",
-                                "name": "ПДВ",
-                                "percent": "0.00",
-                                "sign": false,
-                                "turnover": "111.80",
-                                "sum": "0.00",
-                              },
-                              {
-                                "type": 0,
-                                "letter": "Д",
-                                "name": "ПДВ",
-                                "percent": "0.00",
-                                "sign": false,
-                                "turnover": "2517.60",
-                                "sum": "0.00",
-                              },
-                              {
-                                "type": 1,
-                                "letter": "М",
-                                "name": "Акциз",
-                                "percent": "5.00",
-                                "sign": false,
-                                "turnover": "259.90",
-                                "sum": "11.66",
-                              },
-                            ],
+                            "totalsByTaxRate": [
+                                {
+                                    "type": 1,
+                                    "letter": "М",
+                                    "name": "Акциз",
+                                    "percent": "5.00",
+                                    "sign": false,
+                                    "turnover": "12475.20",
+                                    "sourceSum": "11755.20",
+                                    "sum": "559.68"
+                                },
+                                {
+                                    "type": 0,
+                                    "letter": "A",
+                                    "name": "ПДВ",
+                                    "percent": "20.00",
+                                    "sign": false,
+                                    "turnover": "27602.40",
+                                    "sourceSum": "25842.72",
+                                    "sum": "4307.04"
+                                },
+                                {
+                                    "type": 0,
+                                    "letter": "Б",
+                                    "name": "ПДВ",
+                                    "percent": "7.00",
+                                    "sign": false,
+                                    "turnover": "163440.00",
+                                    "sourceSum": "163440.00",
+                                    "sum": "10692.48"
+                                },
+                                {
+                                    "type": 0,
+                                    "letter": "В",
+                                    "name": "ПДВ",
+                                    "percent": "0.00",
+                                    "sign": false,
+                                    "turnover": "5366.40",
+                                    "sourceSum": "5366.40",
+                                    "sum": "0.00"
+                                },
+                                {
+                                    "type": 0,
+                                    "letter": "Д",
+                                    "name": "ПДВ",
+                                    "percent": "0.00",
+                                    "sign": false,
+                                    "turnover": "120844.80",
+                                    "sourceSum": "120844.80",
+                                    "sum": "0.00"
+                                }
+                            ]
                         },
-                      "dateTime": "22:17:23 22.12.2020",
-                      "offline": false,
-                    },
+                        "cashTotals": {
+                            "ordersCount": 88,
+                            "totalSum": "87475.62",
+                            "totalCommissionSum": "510.00"
+                        },
+                        "dateTime": "16:26:27 28.07.2021"
+                    }
                 }
 
-  /command/buyCurrency:
+#   /command/sendLogs:
+#     post:
+#       tags:
+#         - "Casher"
+#       summary: Log.
+#       description: Отправить Лог событий ПРРО в службу потдержки Check-Online.
+#       responses:
+#         200:
+#           description: OK
+#           content:
+#             application/json;charset=utf-8:
+#               schema:
+#                 properties:
+#                     myArrayList:
+#                         type: array
+#                         items:
+#                             type: string
+#                             description: Лог событий ПРРО
+#               example:
+#                 {
+#                     "myArrayList": [
+#                         "﻿15:19:03 28.07.2021: BundleHost::start() <enter>",
+#                         "15:19:03 28.07.2021: properties = {AutoUpdateEnabledByDefault=true, WaitInternetConnectionForCheckUpdates=300}",
+#                         "15:19:03 28.07.2021: mainBundleLocation = file:/C:/Program%20Files/CheckOnline/CheckOnline.jar",
+#                         "15:19:03 28.07.2021: BundleHost::createFramework(config = {org.osgi.framework.bootdelegation=*, org.osgi.framework.storage=C:\\Program Files\\CheckOnline\\loader-cache}) <enter>",
+#                         "15:19:03 28.07.2021: BundleHost::registerEventsListeners() <enter>"
+#                     ]
+#                 }
+
+  /command/sale:
     post:
       tags:
-        - "Currency"
-      summary: Покупка валюты
-      description: >-
-        Покупка валюты - это покупка иностранной валюты. Берем у клиента доллары выдаем гривну.
+        - "Check"
+      summary: Продажа
+      description: Продажа товаров или услуг подлежащие фискализации
       requestBody:
         required: true
         content:
@@ -1395,55 +2004,102 @@ paths:
               properties:
                 commandName:
                   type: string
-                  default: "buyCurrency"
+                  default: "sale"
                 cashierId:
                   type: string
                 registrarId:
-                  type: number
-                data:
-                  type: object
-                  required:
-                    - inCode
-                    - inSymbolCode
-                    - outCode
-                    - outSymbolCode
-                    - course
-                    - foreignSum
-                    - nationalSum
-                  properties:
-                    inCode:
-                      type: number
-                      description: Код валюты (числовой)
-                    inSymbolCode:
-                      type: string
-                      description: Символьный код валюты (64 символа)
-                    inName:
-                      type: string
-                      description: Наименование валюты (текст)
-                    outCode:
-                      type: number
-                      description: Код валюты выданной (числовой)
-                    outSymbolCode:
-                      type: string
-                      description: Символьный код валюты выданной (64 символов)
-                    outName:
-                      type: string
-                      description: Наименование валюты выданной (текст)
-                    course:
-                      type: number
-                      description: Курс операции (ХХХХ.ХХХХХХХХ)
-                    foreignSum:
-                      type: number
-                      description: Сумма в иностранной валюте (15.2 цифры)
-                    nationalSum:
-                      type: number
-                      description: Сумма в национальной валюте (15.2 цифры)
-                    comment:
-                      type: string
-                      description: Комментарий к валютной операции (текст)
+                  type: string
+                products:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        description: Внутренний код товара
+                      barCode:
+                        type: string
+                        description: Штрихкод товара
+                      uktzed:
+                        type: string
+                        description: Код товара согласно УКТЗЕД
+                      name:
+                        type: string
+                        description: Наименование товара, услуги или операции
+                      description:
+                        type: string
+                        description: Описание товара/услуги
+                      unitCode:
+                        type: string
+                        description: Код единици измерения согласно классификатору
+                      unitName:
+                        type: string
+                        description: Наименование единиц измерения товара
+                      amount:
+                        type: string
+                        description: Количество/Объём товара
+                      price:
+                        type: string
+                        description: Цена за единицу товара
+                      taxRateIds:
+                        type: array
+                        description: Налоговые ставки применённые к товару.
+                        items:
+                          type: number
+                          description: Соответствует полю id в таблице Налоговых Групп (см тэг Tax этого API), формируемой при начальной настройке пРРО.
+                      discountSum:
+                        type: string
+                        description: Скидка применённая к Товару
+                        example: "5.00"
+                      comment:
+                        type: string
+                        description: Комментарий применённый к Товару
+                        example: "Комментарий к Товару"
+                    required:
+                      - price
+                      - taxRateIds
+                payments:
+                  type: array
+                  description: Формы оплаты применённые к товару
+                  items:
+                    type: object
+                    properties:
+                      paymentTypeId:
+                        type: number
+                        description: Поле paymentTypeId соответствует полю id в таблице Формы оплаты (см тэг PayForm этого API), формируемой при начальной настройке пРРО.
+                      # paymentTypeCode: Устарело. Заменено на paymentTypeId
+                      #   type: number
+                      # paymentTypeName: Устарело. Заменено на paymentTypeId
+                      #   type: string
+                      sum:
+                        type: string
+                        description: Общая сумма. Если задано sumWithoutRounding, то sum округлено до десятых по правилам округления (4сотых и менее - в меньшую, 5сотых и более - в большую)
+                        example: "90.00"
+                      provided:
+                        type: string
+                        description: Сумма внесённых денег. Применяется только к наличным способам оплаты.
+                        example: "100.00"
+                      remains:
+                        type: string
+                        description: Сдача. Применяется только к наличным способам оплаты.
+                        example: "10.00"
+                      sumWithoutRounding:
+                        type: string
+                        description: Общая сумма без округления. Применяется только к наличным способам оплаты.
+                        example: "89.99"
+                    required:
+                      - sum
+                      - paymentTypeId
+                      # - paymentTypeCode
+                      # - paymentTypeName
+                discountSum:
+                  type: string
+                  description: Скидка применённая на весь Чек. Значение поля может быть произвольным, если discountSum отсутствует в объекте products. Не применяется, если в объекте products есть Акцизные товары.
+                  example: "50.00"
+
                 comment:
                   type: string
-                  description: Комментарий применённый ко всему Чеку (текст)
+                  description: Комментарий применённый ко всему Чеку
                   example: "Спасибо за покупку!"
               required:
                 - commandName
@@ -1451,24 +2107,81 @@ paths:
                 - registrarId
             example:
               {
-                "commandName": "buyCurrency",
-                "cashierId": "57360e9ebab39243f28c1858043ec3fb7d60cd1d64d847f94c6c26db838eef23",
-                "registrarId": 4000066889,
-                "data":
-                  {
-                    "inCode": 36,
-                    "inSymbolCode": "AUD",
-                    "inName": "Австралийский доллар",
-                    "outCode": 980,
-                    "outSymbolCode": "UAH",
-                    "outName": "Українська гривня",
-                    "course": 21.6473,
-                    "valcoursedate": "16012021223100",
-                    "foreignSum": 100.00,
-                    "nationalSum": 2164.73,
-                    "comment": "Currency Exchange",
-                  },
-                "comment": "Спасибо, что воспользовались нашим сервисом.",
+                "commandName": "sale",
+                "cashierId": "83545ae583811d9f74aab0e9e38010eec2086ca96847ddc1750871425b75955f",
+                "registrarId": "4000066888",
+                "products":
+                  [
+                    {
+                      "code": "42342",
+                      "name": "Коньки",
+                      "description": "Элит",
+                      "unitCode": "2009",
+                      "unitName": "шт",
+                      "amount": "1",
+                      "price": "315.15",
+                      "taxRateIds": [1],
+                      "discountSum": "10.00",
+                      "comment": "Этот товар выбирают 98% наших покупателей!",
+                    },
+                    {
+                      "code": "12332",
+                      "name": "Шлем",
+                      "description": "Стандарт",
+                      "unitCode": "2009",
+                      "unitName": "шт",
+                      "amount": "10",
+                      "price": "340.50",
+                      "taxRateIds": [2],
+                      "comment": "На складе осталось 5шт этого товара!",
+                    },
+                    {
+                      "code": "42342",
+                      "name": "Шайба",
+                      "description": "Канада",
+                      "unitCode": "2009",
+                      "unitName": "шт",
+                      "amount": "2",
+                      "price": "55.90",
+                      "taxRateIds": [3],
+                      "comment": "Вам начислен Бонус за покупку этого товара 20!",
+                    },
+                    {
+                      "code": "8765",
+                      "name": "Спирт",
+                      "description": "Экстра",
+                      "unitCode": "2009",
+                      "unitName": "л",
+                      "amount": "1",
+                      "price": "259.90",
+                      "taxRateIds": [1, 4],
+                      "discountSum": "15.00",
+                      "comment": "Этот товар Вам достался со скидкой 15.00!",
+                    },
+                    {
+                      "code": "987",
+                      "name": "Лёд",
+                      "description": "ХимПром",
+                      "unitCode": "2009",
+                      "unitName": "кг",
+                      "amount": "8",
+                      "price": "314.70",
+                      "taxRateIds": [5],
+                    },
+                  ],
+                "payments":
+                  [
+                    {
+                      "paymentTypeId": 1,
+                      "sum": "6084.40",
+                      "provided": "6100.00",
+                      "remains": "15.60",
+                      "sumWithoutRounding": "6084.42",
+                    },
+                    { "paymentTypeId": 2, "sum": "400.02" },
+                    { "paymentTypeId": 3, "sum": "100.01" },
+                  ],
+                "comment": "ПРРО Check-Online",
               }
       responses:
         200:
@@ -1482,6 +2195,55 @@ paths:
                   data:
                     type: object
                     properties:
+                      products:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            code:
+                              type: string
+                            barCode:
+                              type: string
+                            uktzed:
+                              type: string
+                            name:
+                              type: string
+                            description:
+                              type: string
+                            unitCode:
+                              type: string
+                            unitName:
+                              type: string
+                            amount:
+                              type: string
+                            price:
+                              type: string
+                            taxRateLetters:
+                              type: string
+                            discountSum:
+                              type: string
+                            comment:
+                              type: string
+                      taxes:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            type:
+                              type: number
+                            letter:
+                              type: string
+                            name:
+                              type: string
+                            percent:
+                              type: string
+                            sign:
+                              type: boolean
+                            sum:
+                              type: string
+                      total:
+                        type: string
+                        description: Общая сумма по чеку (15.2 цифры)
                       companyName:
                         type: string
                         description: Наименование продавца (256 символов)
@@ -1524,28 +2286,125 @@ paths:
                   "success": true,
                   "data":
                     {
+                      "products":
+                        [
+                          {
+                            "code": "42342",
+                            "name": "Коньки",
+                            "description": "Элит",
+                            "amount": "1.00",
+                            "price": "315.15",
+                            "unitCode": "2009",
+                            "unitName": "шт",
+                            "taxRateLetters": "A",
+                          },
+                          {
+                            "code": "12332",
+                            "name": "Шлем",
+                            "description": "Стандарт",
+                            "amount": "10.00",
+                            "price": "340.50",
+                            "unitCode": "2009",
+                            "unitName": "шт",
+                            "taxRateLetters": "Б",
+                          },
+                          {
+                            "code": "42342",
+                            "name": "Шайба",
+                            "description": "Канада",
+                            "amount": "2.00",
+                            "price": "55.90",
+                            "unitCode": "2009",
+                            "unitName": "шт",
+                            "taxRateLetters": "В",
+                          },
+                          {
+                            "code": "8765",
+                            "name": "Спирт",
+                            "description": "Экстра",
+                            "amount": "1.00",
+                            "price": "259.90",
+                            "unitCode": "2009",
+                            "unitName": "л",
+                            "taxRateLetters": "AМ",
+                          },
+                          {
+                            "code": "987",
+                            "name": "Лёд",
+                            "description": "ХимПром",
+                            "amount": "8.00",
+                            "price": "314.70",
+                            "unitCode": "2009",
+                            "unitName": "кг",
+                            "taxRateLetters": "Д",
+                          },
+                        ],
+                      "taxes":
+                        [
+                          {
+                            "type": 1,
+                            "name": "Акциз",
+                            "letter": "М",
+                            "percent": "5.00",
+                            "sign": false,
+                            "sum": "11.66",
+                          },
+                          {
+                            "type": 0,
+                            "name": "ПДВ",
+                            "letter": "A",
+                            "percent": "20.00",
+                            "sign": false,
+                            "sum": "89.73",
+                          },
+                          {
+                            "type": 0,
+                            "name": "ПДВ",
+                            "letter": "Б",
+                            "percent": "7.00",
+                            "sign": false,
+                            "sum": "222.76",
+                          },
+                          {
+                            "type": 0,
+                            "name": "ПДВ",
+                            "letter": "В",
+                            "percent": "0.00",
+                            "sign": false,
+                            "sum": "0.00",
+                          },
+                          {
+                            "type": 0,
+                            "name": "ПДВ",
+                            "letter": "Д",
+                            "percent": "0.00",
+                            "sign": false,
+                            "sum": "0.00",
+                          },
+                        ],
+                      "total": "6584.43",
                       "companyName": "Тестовий платник 4",
                       "pointName": "Магазин Іван-Тест",
                       "pointAddress": "УКРАЇНА, СУМСЬКА ОБЛ., М. СУМИ, вул. Соборна 1",
                       "tin": "34554363",
                       "ipn": "123456789020",
-                      "cashierName": "Для РРО № 4000066889",
-                      "receiptNumber": "2",
-                      "fiscalNumber": "2172065",
-                      "dateTime": "14:52:43 30.01.2021",
-                      "receiptLink": "https://cabinet.tax.gov.ua/cashregs/check?id=2172065&fn=4000066889&date=20210130",
+                      "cashierName": "Для РРО № 4000066888",
+                      "receiptNumber": "13",
+                      "fiscalNumber": "2186577",
+                      "dateTime": "17:26:16 30.01.2021",
+                      "receiptLink": "https://cabinet.tax.gov.ua/cashregs/check?id=2186577&fn=4000066888&date=20210130",
                       "offline": false,
-                      "shiftId": "142733",
+                      "shiftId": "142866",
                     },
                 }
 
-  /command/stornoBuyCurrency:
+
+  /command/pawn:
     post:
       tags:
-        - "Currency"
-      summary: Сторно Покупки валюты
-      description: >-
-        Сторно - это правао клиентов сделать Отмену (то есть это может быть не последний чек) в течении 15 минут после продажи или покупки по тому же курсу.
+        - "Check"
+      summary: Ломбард
+      description: Ломбардные операции подлежащие фискализации
       requestBody:
         required: true
         content:
@@ -1555,80 +2414,168 @@ paths:
               properties:
                 commandName:
                   type: string
-                  default: "stornoBuyCurrency"
+                  default: "pawn"
                 cashierId:
                   type: string
                 registrarId:
-                  type: number
-                data:
-                  type: object
-                  required:
-                    - inCode
-                    - inSymbolCode
-                    - outCode
-                    - outSymbolCode
-                    - course
-                    - foreignSum
-                    - nationalSum
-                  properties:
-                    inCode:
-                      type: number
-                      description: Код валюты (числовой)
-                    inSymbolCode:
-                      type: string
-                      description: Символьный код валюты (64 символа)
-                    inName:
-                      type: string
-                      description: Наименование валюты (текст)
-                    outCode:
-                      type: number
-                      description: Код валюты выданной (числовой)
-                    outSymbolCode:
-                      type: string
-                      description: Символьный код валюты выданной (64 символов)
-                    outName:
-                      type: string
-                      description: Наименование валюты выданной (текст)
-                    course:
-                      type: number
-                      description: Курс операции (ХХХХ.ХХХХХХХХ)
-                    foreignSum:
-                      type: number
-                      description: Сумма в иностранной валюте (15.2 цифры)
-                    nationalSum:
-                      type: number
-                      description: Сумма в национальной валюте (15.2 цифры)
-                    comment:
-                      type: string
-                      description: Комментарий к валютной операции (текст)
+                  type: string
+                products:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        description: Наименование товара, услуги или операции. Для ломбардных операций рекомендуется указывать Номер Договора.
+                      amount:
+                        type: string
+                        description: Количество/Объём товара. Для ломбардных операций рекомендуется указывать "1"
+                        example: "1"
+                      price:
+                        type: string
+                        description: Цена за единицу товара/услуги
+                      moneyDirection:
+                        type: string
+                        description: Направление движения денег. "toClient" - от Кассира к Клиентую. "fromClient" - от Клиента к Кассиру.
+                        example: "toClient"
+                      taxRateIds:
+                        type: array
+                        description: Ломбардные операции не являются обектом налогообложения. То есть, в конфигурации ПРРО "Check-Online" следует выбирать соответствующую налоговую ставку "Ж" taxRateIds = 6!
+                        items:
+                          type: number
+                          description: Соответствует полю id в таблице Налоговых Групп (см тэг Tax этого API), формируемой при начальной настройке пРРО.
+                          example: 6
+                      discountSum:
+                          type: string
+                          description: Скидка применённая к Ломбардной позиции в чеке. Положительное значение озночает скидку, а отрицательное означает наценку.
+                          example: "10.00"
+                      comment:
+                        type: string
+                        description: Комментарий применённый к Товару
+                        example: "Комментарий к Товару"
+                    required:
+                      - name
+                      - amount
+                      - price
+                      - moneyDirection
+                      - taxRateIds
+                payments:
+                  type: array
+                  description: Формы оплаты применённые к товару
+                  items:
+                    type: object
+                    properties:
+                      paymentTypeId:
+                        type: number
+                        description: Поле paymentTypeId соответствует полю id в таблице Формы оплаты (см тэг PayForm этого API), формируемой при начальной настройке пРРО.
+                      # paymentTypeCode: Устарело. Заменено на paymentTypeId
+                      #   type: number
+                      # paymentTypeName: Устарело. Заменено на paymentTypeId
+                      #   type: string
+                      sum:
+                        type: string
+                        description: Общая сумма. Если задано sumWithoutRounding, то sum округлено до десятых по правилам округления (4сотых и менее - в меньшую, 5сотых и более - в большую). Для Ломбардных операций, вычисляется как разница между Полученым и Выданными деньгами, поэтому sum может быть отрецательной!
+                        example: "-90.00"
+                      provided:
+                        type: string
+                        description: Сумма внесённых денег. Применяется только к наличным способам оплаты. Для Ломбардных операций, знак плюс или минус определён знаком в поле sum. Например, если sum со знаком минус, то provided тоже должно быть со знаком минус. Если sum со знаком плюс, то provided тоже должно быть со знаком плюс!
+                        example: "-100.00"
+                      remains:
+                        type: string
+                        description: Сдача. Применяется только к наличным способам оплаты. Для Ломбардных операций, знак плюс или минус определён знаком в поле sum. Например, если sum со знаком минус, то remains тоже должно быть со знаком минус. Если sum со знаком плюс, то remains тоже должно быть со знаком плюс!
+                        example: "-10.00"
+                      sumWithoutRounding:
+                        type: string
+                        description: Общая сумма без округления. Применяется только к наличным способам оплаты. Для Ломбардных операций, знак плюс или минус определён знаком в поле sum. Например, если sum со знаком минус, то sumWithoutRounding тоже должно быть со знаком минус. Если sum со знаком плюс, то sumWithoutRounding тоже должно быть со знаком плюс!
+                        example: "-89.99"
+                    required:
+                      - sum
+                      - paymentTypeId
+                      # - paymentTypeCode
+                      # - paymentTypeName
+                discountSum:
+                    type: string
+                    description: Скидка применённая ко всей Ломбардной операции на весь чек. Положительное значение озночает скидку, а отрицательное означает наценку.
+                    example: "15.00"
                 comment:
                   type: string
-                  description: Комментарий к чеку (текст)
+                  description: Комментарий применённый ко всему Чеку
+                  example: "Спасибо за покупку!"
               required:
                 - commandName
                 - cashierId
                 - registrarId
+                - products
+                - payments
             example:
-              {
-                "commandName": "stornoBuyCurrency",
-                "cashierId": "57360e9ebab39243f28c1858043ec3fb7d60cd1d64d847f94c6c26db838eef23",
-                "registrarId": 4000066889,
-                "data":
-                  {
-                    "inCode": 36,
-                    "inSymbolCode": "AUD",
-                    "inName": "Австралийский доллар",
-                    "outCode": 980,
-                    "outSymbolCode": "UAH",
-                    "outName": "Українська гривня",
-                    "course": 21.6473,
-                    "valcoursedate": "16012021223100",
-                    "foreignSum": 10.00,
-                    "nationalSum": 216.47,
-                    "comment": "Currency Exchange",
-                  },
-                "comment": "Спасибо, что воспользовались нашим сервисом.",
-              }
+                {
+                    "commandName": "pawn",
+                    "cashierId": "83545ae583811d9f74aab0e9e38010eec2086ca96847ddc1750871425b75955f",
+                    "registrarId": "4000066888",
+                    "products": [
+                        {
+                            "name": "Договор№1 Цепочка",
+                            "amount": 1.00,
+                            "price": "500.05",
+                            "moneyDirection": "toClient",
+                            "taxRateIds": [
+                                6
+                            ],
+                            "comment": "Цепочка под залог",
+                            "discountSum": "10.00"
+                        },
+                        {
+                            "name": "Договор№2 Колечко",
+                            "amount": 1.00,
+                            "price": 400,
+                            "moneyDirection": "toClient",
+                            "taxRateIds": [
+                                6
+                            ],
+                            "comment": "Колечко под залог"
+                        },
+                        {
+                            "name": "Договор№3 Брошка",
+                            "amount": 1.00,
+                            "price": 300,
+                            "moneyDirection": "fromClient",
+                            "taxRateIds": [
+                                6
+                            ],
+                            "comment": "Погашение залога за Брошку"
+                        },
+                        {
+                            "name": "Договор№4 Серёжка",
+                            "amount": "1.00",
+                            "price": "200.00",
+                            "moneyDirection": "fromClient",
+                            "taxRateIds": [
+                                6
+                            ],
+                            "comment": "Продажа залогового имущества Серёжка co скидкой",
+                            "discountSum": "10.00"
+                        }
+                    ],
+                    "payments": [
+                        {
+                            "paymentTypeId": "1",
+                            "sum": "-101.10",
+                            "provided": "-500.00",
+                            "remains": "-398.90",
+                            "sumWithoutRounding": "-100.05"
+                        },
+                        {
+                            "paymentTypeId": "2",
+                            "sum": "-120.00"
+                        },
+                        {
+                            "paymentTypeId": "3",
+                            "sum": "-215.00"
+                        }
+                    ],
+                    "discountSum": "15.00",
+                    "comment": "ПРРО Check-Online"
+                }
       responses:
         200:
           description: OK
@@ -1641,6 +2588,43 @@ paths:
                   data:
                     type: object
                     properties:
+                      products:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                            amount:
+                              type: string
+                            price:
+                              type: string
+                            taxRateLetters:
+                              type: string
+                            discountSum:
+                              type: string
+                            comment:
+                              type: string
+                      taxes:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            type:
+                              type: number
+                            letter:
+                              type: string
+                            name:
+                              type: string
+                            percent:
+                              type: string
+                            sign:
+                              type: boolean
+                            sum:
+                              type: string
+                      total:
+                        type: string
+                        description: Общая сумма по чеку (15.2 цифры)
                       companyName:
                         type: string
                         description: Наименование продавца (256 символов)
@@ -1680,31 +2664,70 @@ paths:
                         description: Номер смены (текст)
               example:
                 {
-                  "success": true,
-                  "data":
-                    {
-                      "companyName": "Тестовий платник 4",
-                      "pointName": "Магазин Іван-Тест",
-                      "pointAddress": "УКРАЇНА, СУМСЬКА ОБЛ., М. СУМИ, вул. Соборна 1",
-                      "tin": "34554363",
-                      "ipn": "123456789020",
-                      "cashierName": "Для РРО № 4000066889",
-                      "receiptNumber": "70",
-                      "fiscalNumber": "1989215",
-                      "dateTime": "16:58:54 28.01.2021",
-                      "receiptLink": "https://cabinet.tax.gov.ua/cashregs/check?id=1989215&fn=4000066889&date=20210128",
-                      "offline": false,
-                      "shiftId": "134807",
-                    },
+                    "success": true,
+                    "data": {
+                        "products": [
+                            {
+                                "name": "Договор№1 Цепочка",
+                                "amount": "1.00",
+                                "price": "500.05",
+                                "taxRateLetters": "Ж",
+                                "discountSum": "10.00"
+                            },
+                            {
+                                "name": "Договор№2 Колечко",
+                                "amount": "1.00",
+                                "price": "400.00",
+                                "taxRateLetters": "Ж"
+                            },
+                            {
+                                "name": "Договор№3 Брошка",
+                                "amount": "1.00",
+                                "price": "300.00",
+                                "taxRateLetters": "Ж"
+                            },
+                            {
+                                "name": "Договор№4 Серёжка",
+                                "amount": "1.00",
+                                "price": "200.00",
+                                "taxRateLetters": "Ж",
+                                "discountSum": "10.00"
+                            }
+                        ],
+                        "taxes": [
+                            {
+                                "type": 0,
+                                "name": "ПДВ",
+                                "letter": "Ж",
+                                "percent": "0.00",
+                                "sign": false,
+                                "sum": "0.00"
+                            }
+                        ],
+                        "total": "-436.10",
+                        "companyName": "Тестовий платник 4",
+                        "pointName": "Магазин Іван-Тест",
+                        "pointAddress": "УКРАЇНА, СУМСЬКА ОБЛ., М. СУМИ, вул. Соборна 1",
+                        "tin": "34554363",
+                        "ipn": "123456789020",
+                        "cashierName": "Для РРО № 4000066888",
+                        "receiptNumber": "475",
+                        "fiscalNumber": "19614710",
+                        "registrarId": 4000066888,
+                        "registrarLocalNumber": 51,
+                        "dateTime": "14:57:19 22.07.2021",
+                        "receiptLink": "https://cabinet.tax.gov.ua/cashregs/check?id=19614710&fn=4000066888&date=20210722",
+                        "offline": false,
+                        "shiftId": "1065456"
+                    }
                 }
 
-  /command/saleCurrency:
+  /command/cashWithdrawal:
     post:
       tags:
-        - "Currency"
-      summary: Продажа валюты
-      description: >-
-        Продажа - это продажа иностранной валюты. Берем у клиента гривны выдаем доллары.
+        - "Check"
+      summary: Выдача налички
+      description: Выдача наличных средств подлежащих фискализации
       requestBody:
         required: true
         content:
@@ -1714,390 +2737,103 @@ paths:
               properties:
                 commandName:
                   type: string
-                  default: "saleCurrency"
+                  default: "cashWithdrawal"
                 cashierId:
                   type: string
                 registrarId:
-                  type: number
-                data:
-                  type: object
-                  required:
-                    - inCode
-                    - inSymbolCode
-                    - outCode
-                    - outSymbolCode
-                    - course
-                    - foreignSum
-                    - nationalSum
-                  properties:
-                    inCode:
-                      type: number
-                      description: Код валюты (числовой)
-                    inSymbolCode:
-                      type: string
-                      description: Символьный код валюты (64 символа)
-                    inName:
-                      type: string
-                      description: Наименование валюты (текст)
-                    outCode:
-                      type: number
-                      description: Код валюты выданной (числовой)
-                    outSymbolCode:
-                      type: string
-                      description: Символьный код валюты выданной (64 символов)
-                    outName:
-                      type: string
-                      description: Наименование валюты выданной (текст)
-                    course:
-                      type: number
-                      description: Курс операции (ХХХХ.ХХХХХХХХ)
-                    foreignSum:
-                      type: number
-                      description: Сумма в иностранной валюте (15.2 цифры)
-                    nationalSum:
-                      type: number
-                      description: Сумма в национальной валюте (15.2 цифры)
-                    comment:
-                      type: string
-                      description: Комментарий к валютной операции (текст)
-                comment:
                   type: string
-                  description: Комментарий к чеку (текст)
-              required:
-                - commandName
-                - cashierId
-                - registrarId
-            example:
-              {
-                "commandName": "saleCurrency",
-                "cashierId": "57360e9ebab39243f28c1858043ec3fb7d60cd1d64d847f94c6c26db838eef23",
-                "registrarId": 4000066889,
-                "data":
-                  {
-                    "inCode": 980,
-                    "inSymbolCode": "UAH",
-                    "inName": "Українська гривня",
-                    "outCode": 36,
-                    "outSymbolCode": "AUD",
-                    "outName": "Австралийский доллар",
-                    "course": 21.6473,
-                    "valcoursedate": "16012021223100",
-                    "foreignSum": 10000.00,
-                    "nationalSum": 216473.00,
-                    "comment": "Currency Exchange",
-                  },
-                "comment": "Спасибо, что воспользовались нашим сервисом.",
-              }
-      responses:
-        200:
-          description: OK
-          content:
-            application/json;charset=utf-8:
-              schema:
-                properties:
-                  success:
-                    type: boolean
-                  data:
-                    type: object
-                    properties:
-                      companyName:
-                        type: string
-                        description: Наименование продавца (256 символов)
-                      pointName:
-                        type: string
-                        description: Наименование точки продажи (256 символов)
-                      pointAddress:
-                        type: string
-                        description: Адрес точки продаж (256 символов)
-                      tin:
-                        type: string
-                        description: ЄДРПОУ/ДРФО/№ паспорта продавца (10 символів)
-                      ipn:
-                        type: string
-                        description: Налоговый номер или Индивидуальный номер плательщика НДС (12 символов)
-                      cashierName:
-                        type: string
-                        description: ФИО кассира (128 символов)
-                      receiptNumber:
-                        type: string
-                        description: Локальный номер документа (текст)
-                      fiscalNumber:
-                        type: string
-                        description: Фискальный номер документа (128 символов)
-                      dateTime:
-                        type: string
-                        description: Время операции (ггххсс)
-                      receiptLink:
-                        type: string
-                        format: url
-                        description: URL фискального чека на портале ДПС
-                      offline:
-                        type: boolean
-                        description: Отметка Оффлайн режима
-                      shiftId:
-                        type: string
-                        description: Номер смены (текст)
-              example:
-                {
-                  "success": true,
-                  "data":
-                    {
-                      "companyName": "Тестовий платник 4",
-                      "pointName": "Магазин Іван-Тест",
-                      "pointAddress": "УКРАЇНА, СУМСЬКА ОБЛ., М. СУМИ, вул. Соборна 1",
-                      "tin": "34554363",
-                      "ipn": "123456789020",
-                      "cashierName": "Для РРО № 4000066889",
-                      "receiptNumber": "3",
-                      "fiscalNumber": "2172414",
-                      "dateTime": "14:55:06 30.01.2021",
-                      "receiptLink": "https://cabinet.tax.gov.ua/cashregs/check?id=2172414&fn=4000066889&date=20210130",
-                      "offline": false,
-                      "shiftId": "142733",
-                    },
-                }
-
-  /command/stornoSaleCurrency:
-    post:
-      tags:
-        - "Currency"
-      summary: Сторно продажи валюты
-      description: >-
-        Сторно - это правао клиентов сделать Отмену (то есть это может быть не последний чек) в течении 15 минут после продажи или покупки по тому же курсу.
-      requestBody:
-        required: true
-        content:
-          application/json;charset=utf-8:
-            schema:
-              type: object
-              properties:
-                commandName:
-                  type: string
-                  default: "stornoSaleCurrency"
-                cashierId:
-                  type: string
-                registrarId:
-                  type: number
-                data:
-                  type: object
-                  required:
-                    - inCode
-                    - inSymbolCode
-                    - outCode
-                    - outSymbolCode
-                    - course
-                    - foreignSum
-                    - nationalSum
-                  properties:
-                    inCode:
-                      type: number
-                      description: Код валюты (числовой)
-                    inSymbolCode:
-                      type: string
-                      description: Символьный код валюты (64 символа)
-                    inName:
-                      type: string
-                      description: Наименование валюты (текст)
-                    outCode:
-                      type: number
-                      description: Код валюты выданной (числовой)
-                    outSymbolCode:
-                      type: string
-                      description: Символьный код валюты выданной (64 символов)
-                    outName:
-                      type: string
-                      description: Наименование валюты выданной (текст)
-                    course:
-                      type: number
-                      description: Курс операции (ХХХХ.ХХХХХХХХ)
-                    foreignSum:
-                      type: number
-                      description: Сумма в иностранной валюте (15.2 цифры)
-                    nationalSum:
-                      type: number
-                      description: Сумма в национальной валюте (15.2 цифры)
-                    comment:
-                      type: string
-                      description: Комментарий к валютной операции (текст)
-                comment:
-                  type: string
-                  description: Комментарий к чеку (текст)
-              required:
-                - commandName
-                - cashierId
-                - registrarId
-            example:
-              {
-                "commandName": "stornoSaleCurrency",
-                "cashierId": "57360e9ebab39243f28c1858043ec3fb7d60cd1d64d847f94c6c26db838eef23",
-                "registrarId": 4000066889,
-                "data":
-                  {
-                    "inCode": 980,
-                    "inSymbolCode": "UAH",
-                    "inName": "Українська гривня",
-                    "outCode": 36,
-                    "outSymbolCode": "AUD",
-                    "outName": "Австралийский доллар",
-                    "course": 21.6473,
-                    "valcoursedate": "16012021223100",
-                    "foreignSum": 1000.00,
-                    "nationalSum": 21647.30,
-                    "comment": "Currency Exchange",
-                  },
-                "comment": "Спасибо, что воспользовались нашим сервисом.",
-              }
-      responses:
-        200:
-          description: OK
-          content:
-            application/json;charset=utf-8:
-              schema:
-                properties:
-                  success:
-                    type: boolean
-                  data:
-                    type: object
-                    properties:
-                      companyName:
-                        type: string
-                        description: Наименование продавца (256 символов)
-                      pointName:
-                        type: string
-                        description: Наименование точки продажи (256 символов)
-                      pointAddress:
-                        type: string
-                        description: Адрес точки продаж (256 символов)
-                      tin:
-                        type: string
-                        description: ЄДРПОУ/ДРФО/№ паспорта продавца (10 символів)
-                      ipn:
-                        type: string
-                        description: Налоговый номер или Индивидуальный номер плательщика НДС (12 символов)
-                      cashierName:
-                        type: string
-                        description: ФИО кассира (128 символов)
-                      receiptNumber:
-                        type: string
-                        description: Локальный номер документа (текст)
-                      fiscalNumber:
-                        type: string
-                        description: Фискальный номер документа (128 символов)
-                      dateTime:
-                        type: string
-                        description: Время операции (ггххсс)
-                      receiptLink:
-                        type: string
-                        format: url
-                        description: URL фискального чека на портале ДПС
-                      offline:
-                        type: boolean
-                        description: Отметка Оффлайн режима
-                      shiftId:
-                        type: string
-                        description: Номер смены (текст)
-              example:
-                {
-                  "success": true,
-                  "data":
-                    {
-                      "companyName": "Тестовий платник 4",
-                      "pointName": "Магазин Іван-Тест",
-                      "pointAddress": "УКРАЇНА, СУМСЬКА ОБЛ., М. СУМИ, вул. Соборна 1",
-                      "tin": "34554363",
-                      "ipn": "123456789020",
-                      "cashierName": "Для РРО № 4000066889",
-                      "receiptNumber": "4",
-                      "fiscalNumber": "2172584",
-                      "dateTime": "14:56:21 30.01.2021",
-                      "receiptLink": "https://cabinet.tax.gov.ua/cashregs/check?id=2172584&fn=4000066889&date=20210130",
-                      "offline": false,
-                      "shiftId": "142733",
-                    },
-                }
-
-  /command/inputCurrency:
-    post:
-      tags:
-        - "Currency"
-      summary: Получение Ааванса
-      description: >-
-        "Аванс"- получение кассиром ценностей от уполномоченного лица в начале смены.
-        <p>
-        "Аванс" производится при отркытии смены, в отличие от операции "Подкрепление", которое делается в течение смены.
-      requestBody:
-        required: true
-        content:
-          application/json;charset=utf-8:
-            schema:
-              type: object
-              properties:
-                commandName:
-                  type: string
-                  default: "inputCurrency"
-                cashierId:
-                  type: string
-                registrarId:
-                  type: number
-                сurrencies:
+                products:
                   type: array
                   items:
                     type: object
                     properties:
                       code:
-                        type: number
-                        description: Код валюты (числовой)
-                      symbolCode:
                         type: string
-                        description: Символьный код валюты (64 символа)
+                        description: Внутренний код.
                       name:
                         type: string
-                        description: Наименование валюты выданной (текст)
-                      sum:
-                        type: number
-                        description: Сумма аванса (15.2 цифры)
+                        description: Наименование операции
+                      amount:
+                        type: string
+                        description: Количество. Для операции Выдача Налички равно единице.
+                      price:
+                        type: string
+                        description: Сумма выданой налички.
+                      taxRateIds:
+                        type: array
+                        description: Налоговые ставки применённые к Выдаче Налички. Для операции Выдача Налички должна быть применена ставка 0 процентов.
+                        items:
+                          type: number
+                          description: Соответствует полю id в таблице Налоговых Групп (см тэг Tax этого API), формируемой при начальной настройке пРРО.
                       comment:
                         type: string
-                        description: Комментарий к валютной операции (текст)
+                        description: Комментарий применённый к Выдаче Налички.
+                        example: "Комментарий"
                     required:
                       - code
-                      - symbolCode
                       - name
+                      - amount
+                      - price
+                      - taxRateIds
+                payments:
+                  type: array
+                  description: Формы оплаты для операции "Выдача Готивки" - только наличные. Для оплаты карточкой воспользуйтесть операцией "Переказ коштів".
+                  items:
+                    type: object
+                    properties:
+                      paymentTypeId:
+                        type: number
+                        description: Поле paymentTypeId соответствует полю id в таблице Формы оплаты (см тэг PayForm этого API), формируемой при начальной настройке пРРО.
+                      # paymentTypeCode: Устарело. Заменено на paymentTypeId
+                      #   type: number
+                      # paymentTypeName: Устарело. Заменено на paymentTypeId
+                      #   type: string
+                      sum:
+                        type: string
+                        description: Общая сумма наличными.
+                        example: "315.15"
+                      sumWithoutRounding:
+                        type: string
+                        description: Общая сумма без округления.
+                        example: "315.16"
+                    required:
                       - sum
+                      - paymentTypeId
+                      # - paymentTypeCode
+                      # - paymentTypeName
+                commissionSum:
+                    type: string
+                    description: Комиссия за выдачу налички
+                    example: "10.00"
                 comment:
                   type: string
-                  description: Комментарий к чеку (текст)
+                  description: Комментарий применённый ко всему Чеку
+                  example: "ПРРО Check-Online"
               required:
                 - commandName
                 - cashierId
                 - registrarId
+                - products
+                - payments
             example:
               {
-                "commandName": "inputCurrency",
-                "cashierId": "57360e9ebab39243f28c1858043ec3fb7d60cd1d64d847f94c6c26db838eef23",
-                "registrarId": 4000066889,
-                "сurrencies":
+                "commandName": "cashWithdrawal",
+                "cashierId": "83545ae583811d9f74aab0e9e38010eec2086ca96847ddc1750871425b75955f",
+                "registrarId": "4000066888",
+                "products":
                   [
                     {
-                      "code": 36,
-                      "symbolCode": "AUD",
-                      "name": "Австралийский доллар",
-                      "sum": 200.73,
-                    },
-                    {
-                      "code": 840,
-                      "symbolCode": "USD",
-                      "name": "Долар США",
-                      "sum": 200.51,
-                    },
-                    {
-                      "code": 980,
-                      "symbolCode": "UAH",
-                      "name": "Українська гривня",
-                      "sum": 300.73,
+                      "code": "42342",
+                      "name": "Готивка",
+                      "amount": "1",
+                      "price": "315.15",
+                      "taxRateIds": [5],
+                      "comment": "Готивка на касси",
                     },
                   ],
-                "comment": "Спасибо, что воспользовались нашим сервисом.",
+                "payments": [{ "paymentTypeId": 1, "sum": "315.16", "sumWithoutRounding": "315.16" }],
+                "commissionSum": "10.00",
+                "comment": "ПРРО Check-Online",
               }
       responses:
         200:
@@ -2111,6 +2847,46 @@ paths:
                   data:
                     type: object
                     properties:
+                      commissionSum:
+                        type: string
+                        description: "Сумма комиссии (15.2 цифры)"
+                      products:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            code:
+                              type: string
+                            name:
+                              type: string
+                            amount:
+                              type: string
+                            price:
+                              type: string
+                            taxRateLetters:
+                              type: string
+                            comment:
+                              type: string
+                      taxes:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            type:
+                              type: number
+                            letter:
+                              type: string
+                            name:
+                              type: string
+                            percent:
+                              type: string
+                            sign:
+                              type: boolean
+                            sum:
+                              type: string
+                      total:
+                        type: string
+                        description: Общая сумма по чеку (15.2 цифры)
                       companyName:
                         type: string
                         description: Наименование продавца (256 символов)
@@ -2153,104 +2929,79 @@ paths:
                   "success": true,
                   "data":
                     {
+                      "commissionSum": "10.00",
+                      "products":
+                        [
+                          {
+                            "code": "42342",
+                            "name": "Готивка",
+                            "amount": "1.00",
+                            "price": "315.16",
+                            "taxRateLetters": "Д",
+                          },
+                        ],
+                      "taxes":
+                        [
+                          {
+                            "type": 0,
+                            "name": "ПДВ",
+                            "letter": "Д",
+                            "percent": "0.00",
+                            "sign": false,
+                            "sum": "0.00",
+                          },
+                        ],
+                      "total": "315.16",
                       "companyName": "Тестовий платник 4",
                       "pointName": "Магазин Іван-Тест",
                       "pointAddress": "УКРАЇНА, СУМСЬКА ОБЛ., М. СУМИ, вул. Соборна 1",
                       "tin": "34554363",
                       "ipn": "123456789020",
-                      "cashierName": "Для РРО № 4000066889",
-                      "receiptNumber": "5",
-                      "fiscalNumber": "2172781",
-                      "dateTime": "14:58:05 30.01.2021",
-                      "receiptLink": "https://cabinet.tax.gov.ua/cashregs/check?id=2172781&fn=4000066889&date=20210130",
+                      "cashierName": "Для РРО № 4000066879",
+                      "receiptNumber": "976",
+                      "fiscalNumber": "7456284",
+                      "registrarId": 4000066879,
+                      "registrarLocalNumber": 24,
+                      "dateTime": "22:53:18 20.04.2021",
+                      "receiptLink": "https://cabinet.tax.gov.ua/cashregs/check?id=7456284&fn=4000066879&date=20210420",
                       "offline": false,
-                      "shiftId": "142733",
+                      "shiftId": "496526",
                     },
                 }
 
-  /command/additionalInputCurrency:
+  /command/serviceInput:
     post:
       tags:
-        - "Currency"
-      summary: Получение Подкрепления
-      description: >-
-        "Подкрепление" - получение кассиром ценностей от уполномоченного лица в течение смены
-        <p>
-        "Подкрепление"   производится в течение смены, в отличие от операции "Аванс", которое делается при отркытии смены.
+        - "Shift"
+      summary: Служебный взнос
+      description: Служебный взнос выполняется на указанную сумму
       requestBody:
         required: true
         content:
           application/json;charset=utf-8:
             schema:
-              type: object
               properties:
                 commandName:
                   type: string
-                  default: "additionalInputCurrency"
+                  default: "serviceInput"
                 cashierId:
                   type: string
                 registrarId:
-                  type: number
-                сurrencies:
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      code:
-                        type: number
-                        description: Код валюты (числовой)
-                      symbolCode:
-                        type: string
-                        description: Символьный код валюты (64 символа)
-                      name:
-                        type: string
-                        description: Наименование валюты выданной (текст)
-                      sum:
-                        type: number
-                        description: Сумма подкрепления (15.2 цифры)
-                      comment:
-                        type: string
-                        description: Комментарий к валютной операции (текст)
-                    required:
-                      - code
-                      - symbolCode
-                      - name
-                      - sum
-                comment:
                   type: string
-                  description: Комментарий к чеку (текст)
+                sum:
+                  type: number
+                  description: Сумма на которую делается служебный внос денег.
               required:
                 - commandName
                 - cashierId
                 - registrarId
+                - sum
             example:
               {
-                "commandName": "additionalInputCurrency",
-                "cashierId": "57360e9ebab39243f28c1858043ec3fb7d60cd1d64d847f94c6c26db838eef23",
-                "registrarId": 4000066889,
-                "сurrencies":
-                  [
-                    {
-                      "code": 36,
-                      "symbolCode": "AUD",
-                      "name": "Австралийский доллар",
-                      "sum": 400.73,
-                    },
-                    {
-                      "code": 840,
-                      "symbolCode": "USD",
-                      "name": "Долар США",
-                      "sum": 200.52,
-                    },
-                    {
-                      "code": 980,
-                      "symbolCode": "UAH",
-                      "name": "Українська гривня",
-                      "sum": 500.73,
-                      "comment": "гривня",
-                    },
-                  ],
-                "comment": "Спасибо, что воспользовались нашим сервисом.",
+                "commandName": "serviceInput",
+                "cashierId": "83545ae583811d9f74aab0e9e38010eec2086ca96847ddc1750871425b75955f",
+                "registrarId": "4000066888",
+                "sum": 8,
               }
       responses:
         200:
@@ -2264,6 +3015,8 @@ paths:
                   data:
                     type: object
                     properties:
+                      sum:
+                        type: string
                       companyName:
                         type: string
                         description: Наименование продавца (256 символов)
@@ -2303,106 +3056,57 @@ paths:
                         description: Номер смены (текст)
               example:
                 {
-                  "success": true,
-                  "data":
-                    {
-                      "companyName": "Тестовий платник 4",
-                      "pointName": "Магазин Іван-Тест",
-                      "pointAddress": "УКРАЇНА, СУМСЬКА ОБЛ., М. СУМИ, вул. Соборна 1",
-                      "tin": "34554363",
-                      "ipn": "123456789020",
-                      "cashierName": "Для РРО № 4000066889",
-                      "receiptNumber": "6",
-                      "fiscalNumber": "2172902",
-                      "dateTime": "14:59:16 30.01.2021",
-                      "receiptLink": "https://cabinet.tax.gov.ua/cashregs/check?id=2172902&fn=4000066889&date=20210130",
-                      "offline": false,
-                      "shiftId": "142733",
-                    },
+                    "success": true,
+                    "data": {
+                        "sum": "8.00",
+                        "companyName": "Тестовий платник 4",
+                        "pointName": "Магазин Іван-Тест",
+                        "pointAddress": "УКРАЇНА, СУМСЬКА ОБЛ., М. СУМИ, вул. Соборна 1",
+                        "tin": "34554363",
+                        "ipn": "123456789020",
+                        "cashierName": "Для РРО № 4000066879",
+                        "receiptNumber": "574",
+                        "fiscalNumber": "3449934",
+                        "dateTime": "12:47:58 20.02.2021",
+                        "receiptLink": "https://cabinet.tax.gov.ua/cashregs/check?id=3449934&fn=4000066879&date=20210220",
+                        "offline": false,
+                        "shiftId": "224929"
+                    }
                 }
 
-  /command/outputCurrency:
+  /command/serviceOutput:
     post:
       tags:
-        - "Currency"
-      summary: Инкассация
-      description: >-
-        Инкассация - передача кассиром ценностей уполномоченному лицу.
-        <p>
-        "Инкассация" производится при закрытии смены.
+        - "Shift"
+      summary: Служебная выдача
+      description: Служебная выдача выполняется на указанную сумму
       requestBody:
         required: true
         content:
           application/json;charset=utf-8:
             schema:
-              type: object
               properties:
                 commandName:
                   type: string
-                  default: "outputCurrency"
+                  default: "serviceOutput"
                 cashierId:
                   type: string
                 registrarId:
-                  type: number
-                сurrencies:
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      code:
-                        type: number
-                        description: Код валюты (числовой)
-                      symbolCode:
-                        type: string
-                        description: Символьный код валюты (64 символа)
-                      name:
-                        type: string
-                        description: Наименование валюты выданной (текст)
-                      sum:
-                        type: number
-                        description: Сумма Инкассации (15.2 цифры)
-                      comment:
-                        type: string
-                        description: Комментарий к валютной операции (текст)
-                    required:
-                      - code
-                      - symbolCode
-                      - name
-                      - sum
-                comment:
                   type: string
-                  description: Комментарий к чеку (текст)
+                sum:
+                  type: number
+                  description: Сумма на которую делается служебная выдача.
               required:
                 - commandName
                 - cashierId
                 - registrarId
+                - sum
             example:
               {
-                "commandName": "outputCurrency",
-                "cashierId": "57360e9ebab39243f28c1858043ec3fb7d60cd1d64d847f94c6c26db838eef23",
-                "registrarId": 4000066889,
-                "сurrencies":
-                  [
-                    {
-                      "code": 36,
-                      "symbolCode": "AUD",
-                      "name": "Австралийский доллар",
-                      "sum": 600.73,
-                    },
-                    {
-                      "code": 840,
-                      "symbolCode": "USD",
-                      "name": "Долар США",
-                      "sum": 200.53,
-                    },
-                    {
-                      "code": 980,
-                      "symbolCode": "UAH",
-                      "name": "Українська гривня",
-                      "sum": 700.73,
-                    },
-                  ],
-                "comment": "Спасибо, что воспользовались нашим сервисом.",
+                "commandName": "serviceOutput",
+                "cashierId": "83545ae583811d9f74aab0e9e38010eec2086ca96847ddc1750871425b75955f",
+                "registrarId": "4000066888",
+                "sum": 4,
               }
       responses:
         200:
@@ -2416,6 +3120,304 @@ paths:
                   data:
                     type: object
                     properties:
+                      sum:
+                        type: string
+                      pointName:
+                        type: string
+                      pointAddress:
+                        type: string
+                      tin:
+                        type: string
+                      ipn:
+                        type: string
+                      cashierName:
+                        type: string
+                      receiptNumber:
+                        type: string
+                      fiscalNumber:
+                        type: string
+                      dateTime:
+                        type: string
+                      receiptLink:
+                        type: string
+                        format: url
+                      offline:
+                        type: boolean
+                      shiftId:
+                        type: string
+              example:
+                {
+                  "success": true,
+                  "data":
+                    {
+                      "sum": "4.00",
+                      "pointName": "Тестовий платник 4",
+                      "pointAddress": "УКРАЇНА, АР КРИММ. СІМФЕРОПОЛЬ СЕЛИЩЕ БІТУМНЕ, АВТОНОМНА РЕСПУБЛІКА КРИМ/М.СІМФЕРОПОЛЬ СІМФЕРОПОЛЬ ГРЕСІВСЬКИЙ БІТУМНЕ Улица 1, 3",
+                      "tin": "34554363",
+                      "ipn": "123456789020",
+                      "cashierName": "Тестовий платник 4 (Тест)",
+                      "receiptNumber": "176",
+                      "fiscalNumber": "1011555",
+                      "dateTime": "18:39:42 22.12.2020",
+                      "receiptLink": "https://cabinet.tax.gov.ua/cashregs/check?id=1011555&fn=4000066888&date=20201222",
+                      "offline": false,
+                      "shiftId": "65464",
+                    },
+                }
+
+  /command/return:
+    post:
+      tags:
+        - "Check"
+      summary: Возврат товара
+      description: При возврате товара указывается Фискальный Номер чека по которому делается возврат товаров. Запрещено выполнять процедуру в режиме Оффлайн.
+      requestBody:
+        required: true
+        content:
+          application/json;charset=utf-8:
+            schema:
+              properties:
+                commandName:
+                  type: string
+                  default: "return"
+                cashierId:
+                  type: string
+                registrarId:
+                  type: string
+                fiscalNumber:
+                  type: string
+                  description: Фискальный номер Чека, к которому проводиться процедура возврата.
+                products:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        description: Внутренний код товара
+                      barCode:
+                        type: string
+                        description: Штрихкод товара
+                      uktzed:
+                        type: string
+                        description: Код товара согласно УКТЗЕД
+                      name:
+                        type: string
+                        description: Наименование товара, услуги или операции
+                      description:
+                        type: string
+                        description: Описание товара/услуги
+                      unitCode:
+                        type: string
+                        description: Код единицы измерения согласно классификатору
+                      unitName:
+                        type: string
+                        description: Наименование единиц измерения товара
+                      amount:
+                        type: string
+                        description: Количество/Объём товара
+                      price:
+                        type: string
+                        description: Цена за единицу товара
+                      taxRateIds:
+                        type: array
+                        description: Налоговые ставки применённые к товару.
+                        items:
+                          type: number
+                          description: Соответствует полю id в таблице Налоговых Групп (см тэг Tax этого API), формируемой при начальной настройке пРРО.
+                      discountSum:
+                        type: string
+                        description: Скидка применённая к Товару
+                        example: "5.00"
+                      comment:
+                        type: string
+                        description: Комментарий применённый к Товару
+                        example: "Комментарий к Товару"
+                    required:
+                      - price
+                      - taxRateIds
+                payments:
+                  type: array
+                  description: Формы оплаты применённые к товару
+                  items:
+                    type: object
+                    properties:
+                      paymentTypeId:
+                        type: number
+                        description: Поле paymentTypeId соответствует полю id в таблице Формы оплаты (см тэг PayForm этого API), формируемой при начальной настройке пРРО.
+                      sum:
+                        type: number
+                        description: Общая сумма. Если задано sumWithoutRounding, то sum округлено до десятых по правилам округления (4сотых и менее - в меньшую, 5сотых и более - в большую)
+                        example: 90.00
+                      provided:
+                        type: number
+                        description: Сумма внесённых денег. Применяется только к наличным способам оплаты.
+                        example: 100.00
+                      remains:
+                        type: number
+                        description: Сдача. Применяется только к наличным способам оплаты.
+                        example: 10.00
+                      sumWithoutRounding:
+                        type: number
+                        description: Общая сумма без округления. Применяется только к наличным способам оплаты.
+                        example: 89.99
+                    required:
+                      - sum
+                      - paymentTypeId
+                discountSum:
+                  type: string
+                  description: Скидка применённая на весь Чек. Значение поля может быть произвольным, если discountSum отсутствует в объекте products. Не применяется, если в объекте products есть Акцизные товары.
+                  example: "50.00"
+                comment:
+                  type: string
+                  description: Комментарий применённый ко всему Чеку
+                  example: "ПРРО Check-Online"
+              required:
+                - commandName
+                - cashierId
+                - registrarId
+            example:
+              {
+                "commandName": "return",
+                "cashierId": "83545ae583811d9f74aab0e9e38010eec2086ca96847ddc1750871425b75955f",
+                "registrarId": "4000066888",
+                "fiscalNumber": "2186792",
+                "products":
+                  [
+                    {
+                      "code": "42342",
+                      "name": "Коньки",
+                      "description": "Элит",
+                      "unitCode": "2009",
+                      "unitName": "шт",
+                      "amount": "1",
+                      "price": "315.15",
+                      "taxRateIds": [1],
+                      "discountSum": "10.00",
+                      "comment": "Этот товар выбирают 98% наших покупателей!",
+                    },
+                    {
+                      "code": "12332",
+                      "name": "Шлем",
+                      "description": "Стандарт",
+                      "unitCode": "2009",
+                      "unitName": "шт",
+                      "amount": "10",
+                      "price": "340.50",
+                      "taxRateIds": [2],
+                      "comment": "На складе осталось 5шт этого товара!",
+                    },
+                    {
+                      "code": "42342",
+                      "name": "Шайба",
+                      "description": "Канада",
+                      "unitCode": "2009",
+                      "unitName": "шт",
+                      "amount": "2",
+                      "price": "55.90",
+                      "taxRateIds": [3],
+                      "comment": "Вам начислен Бонус за покупку этого товара 20!",
+                    },
+                    {
+                      "code": "8765",
+                      "name": "Спирт",
+                      "description": "Экстра",
+                      "unitCode": "2009",
+                      "unitName": "л",
+                      "amount": "1",
+                      "price": "259.90",
+                      "taxRateIds": [1, 4],
+                      "discountSum": "15.00",
+                      "comment": "Этот товар Вам достался со скидкой 15.00!",
+                    },
+                    {
+                      "code": "987",
+                      "name": "Лёд",
+                      "description": "ХимПром",
+                      "unitCode": "2009",
+                      "unitName": "кг",
+                      "amount": "8",
+                      "price": "314.70",
+                      "taxRateIds": [5],
+                    },
+                  ],
+                "payments":
+                  [
+                    {
+                      "paymentTypeId": 1,
+                      "sum": 6084.40,
+                      "provided": 6100.00,
+                      "remains": 15.60,
+                      "sumWithoutRounding": 6084.42,
+                    },
+                    { "paymentTypeId": 2, "sum": 400.02 },
+                    { "paymentTypeId": 3, "sum": 100.01 },
+                  ],
+                "comment": "ПРРО Check-Online",
+              }
+      responses:
+        200:
+          description: OK
+          content:
+            application/json;charset=utf-8:
+              schema:
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      returnDocumentNumber:
+                        type: string
+                      products:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            code:
+                              type: string
+                            barCode:
+                              type: string
+                            uktzed:
+                              type: string
+                            name:
+                              type: string
+                            description:
+                              type: string
+                            unitCode:
+                              type: string
+                            unitName:
+                              type: string
+                            amount:
+                              type: string
+                            price:
+                              type: string
+                            taxRateLetters:
+                              type: string
+                            discountSum:
+                              type: string
+                            comment:
+                              type: string
+                      taxes:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            type:
+                              type: number
+                            letter:
+                              type: string
+                            name:
+                              type: string
+                            percent:
+                              type: string
+                            sign:
+                              type: boolean
+                            sum:
+                              type: string
+                      total:
+                        type: string
+                        description: Общая сумма по чеку (15.2 цифры)
                       companyName:
                         type: string
                         description: Наименование продавца (256 символов)
@@ -2458,17 +3460,755 @@ paths:
                   "success": true,
                   "data":
                     {
+                      "returnDocumentNumber": "2186792",
+                      "products":
+                        [
+                          {
+                            "code": "42342",
+                            "name": "Коньки",
+                            "description": "Элит",
+                            "amount": "1.00",
+                            "price": "315.15",
+                            "unitCode": "2009",
+                            "unitName": "шт",
+                            "taxRateLetters": "A",
+                          },
+                          {
+                            "code": "12332",
+                            "name": "Шлем",
+                            "description": "Стандарт",
+                            "amount": "10.00",
+                            "price": "340.50",
+                            "unitCode": "2009",
+                            "unitName": "шт",
+                            "taxRateLetters": "Б",
+                          },
+                          {
+                            "code": "42342",
+                            "name": "Шайба",
+                            "description": "Канада",
+                            "amount": "2.00",
+                            "price": "55.90",
+                            "unitCode": "2009",
+                            "unitName": "шт",
+                            "taxRateLetters": "В",
+                          },
+                          {
+                            "code": "8765",
+                            "name": "Спирт",
+                            "description": "Экстра",
+                            "amount": "1.00",
+                            "price": "259.90",
+                            "unitCode": "2009",
+                            "unitName": "л",
+                            "taxRateLetters": "AМ",
+                          },
+                          {
+                            "code": "987",
+                            "name": "Лёд",
+                            "description": "ХимПром",
+                            "amount": "8.00",
+                            "price": "314.70",
+                            "unitCode": "2009",
+                            "unitName": "кг",
+                            "taxRateLetters": "Д",
+                          },
+                        ],
+                      "taxes":
+                        [
+                          {
+                            "type": 1,
+                            "name": "Акциз",
+                            "letter": "М",
+                            "percent": "5.00",
+                            "sign": false,
+                            "sum": "11.66",
+                          },
+                          {
+                            "type": 0,
+                            "name": "ПДВ",
+                            "letter": "A",
+                            "percent": "20.00",
+                            "sign": false,
+                            "sum": "89.73",
+                          },
+                          {
+                            "type": 0,
+                            "name": "ПДВ",
+                            "letter": "Б",
+                            "percent": "7.00",
+                            "sign": false,
+                            "sum": "222.76",
+                          },
+                          {
+                            "type": 0,
+                            "name": "ПДВ",
+                            "letter": "В",
+                            "percent": "0.00",
+                            "sign": false,
+                            "sum": "0.00",
+                          },
+                          {
+                            "type": 0,
+                            "name": "ПДВ",
+                            "letter": "Д",
+                            "percent": "0.00",
+                            "sign": false,
+                            "sum": "0.00",
+                          },
+                        ],
+                      "total": "6584.43",
                       "companyName": "Тестовий платник 4",
                       "pointName": "Магазин Іван-Тест",
                       "pointAddress": "УКРАЇНА, СУМСЬКА ОБЛ., М. СУМИ, вул. Соборна 1",
                       "tin": "34554363",
                       "ipn": "123456789020",
-                      "cashierName": "Для РРО № 4000066889",
-                      "receiptNumber": "7",
-                      "fiscalNumber": "2173043",
-                      "dateTime": "15:00:27 30.01.2021",
-                      "receiptLink": "https://cabinet.tax.gov.ua/cashregs/check?id=2173043&fn=4000066889&date=20210130",
+                      "cashierName": "Для РРО № 4000066888",
+                      "receiptNumber": "17",
+                      "fiscalNumber": "2186869",
+                      "dateTime": "17:34:06 30.01.2021",
+                      "receiptLink": "https://cabinet.tax.gov.ua/cashregs/check?id=2186869&fn=4000066888&date=20210130",
                       "offline": false,
-                      "shiftId": "142733",
+                      "shiftId": "142866",
                     },
+                }
+
+  /command/storno:
+    post:
+      tags:
+        - "Check"
+      summary: Сторно
+      description: при сторнировании указывается фискальный номер предыдущего товарного чека
+      requestBody:
+        required: true
+        content:
+          application/json;charset=utf-8:
+            schema:
+              properties:
+                commandName:
+                  type: string
+                  default: "storno"
+                cashierId:
+                  type: string
+                registrarId:
+                  type: string
+                fiscalNumber:
+                  type: string
+                  description: Фискальный номер документа, по которому делается операция Сторнирование. Сторнирование применяют для отмены последнего документа продажи.
+              required:
+                - commandName
+                - cashierId
+                - registrarId
+                - fiscalNumber
+            example:
+              {
+                "commandName": "storno",
+                "cashierId": "83545ae583811d9f74aab0e9e38010eec2086ca96847ddc1750871425b75955f",
+                "registrarId": "4000066888",
+                "fiscalNumber": "2186577",
+              }
+      responses:
+        200:
+          description: OK
+          content:
+            application/json;charset=utf-8:
+              schema:
+                properties:
+                  success:
+                    type: boolean
+              example: { "success": true }
+
+  /data/paymentForm:
+    get:
+      operationId: PayFormsToShow
+      summary: Получить все известные формы оплат.
+      description: >-
+        Каждая сформированная форма оплаты определяется по её id.
+        Неизменяемая конфигурация по умолчанию: 0–Готівка, 1–Банківська картка, 2-Попередня оплата, 3-Кредит.
+        Пользователь может настраивать дополнительные Формы Оплат.
+
+             _______________________________________________
+            |         Название               |  id  | Code |
+            |________________________________|______|______|
+            | Готівка                        |   1  |   0  |
+            |________________________________|______|______|
+            | Банківська картка              |   2  |   1  |
+            |________________________________|______|______|
+            | Попередня оплата               |   3  |   2  |
+            |________________________________|______|______|
+            | Кредит                         |   4  |   3  |
+            |________________________________|______|______|
+      tags:
+        - "PayForms"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json;charset=utf-8:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          description: Код Формы Оплаты используемый ДПС
+                        name:
+                          type: string
+                          description: Название формы Оплаты
+                          example: Готівка
+                        id:
+                          type: number
+                          description: Идентификатор Формы Оплаты используемый ПРРО
+              example:
+                {
+                  "success": true,
+                  "items":
+                    [
+                      { "code": "0", "name": "Готівка", "id": 1 },
+                      { "code": "1", "name": "Банківська картка", "id": 2 },
+                      { "code": "2", "name": "Попередня оплата", "id": 3 },
+                      { "code": "3", "name": "Кредит", "id": 4 },
+                    ],
+                }
+
+    post:
+      tags:
+        - "PayForms"
+      description: Укажите код и название новой формы оплаты
+      summary: Добавить одну новую форму оплаты.
+      requestBody:
+        description: добавляемый объект
+        required: true
+        content:
+          application/json;charset=utf-8:
+            schema:
+              properties:
+                code:
+                  type: string
+                name:
+                  type: string
+                id:
+                  type: number
+              required:
+                - code
+                - name
+            example: { "code": "4", "name": "Подарочная карта", "id": 5 }
+      responses:
+        200:
+          description: OK
+          content:
+            application/json;charset=utf-8:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  id:
+                    type: string
+              example: { "success": true, "id": "5" }
+
+  /data/paymentForm/{id}:
+    get:
+      description: Получить все значения одной формы оплаты по её id.
+      summary: Получить одну форму оплаты по её id.
+      tags:
+        - "PayForms"
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: id записи в таблице
+          example: 1
+          schema:
+            type: number
+      responses:
+        200:
+          description: OK
+          content:
+            application/json;charset=utf-8:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      name:
+                        type: string
+                      id:
+                        type: number
+                    required:
+                      - code
+                      - name
+                example: { "code": "3", "name": "Подарочная карта", "id": 3 }
+        404:
+          description: Resource Not Found
+          content:
+            application/json;charset=utf-8:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  errorMessage:
+                    type: string
+              example:
+                {
+                  "success": false,
+                  "errorMessage": "Record with such id not found",
+                }
+    put:
+      tags:
+        - "PayForms"
+      summary: Обновить одну существующую форму оплаты.
+      description: Обновление одной формы оплаты по заданному id
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: id записи в таблице
+          example: 1
+          schema:
+            type: number
+      requestBody:
+        content:
+          application/json;charset=utf-8:
+            schema:
+              type: object
+              properties:
+                code:
+                  type: string
+                name:
+                  type: string
+                id:
+                  type: number
+              required:
+                - code
+                - name
+              example: { "code": "1", "name": "Наличные", "id": 1 }
+
+      responses:
+        200:
+          description: OK
+          content:
+            application/json;charset=utf-8:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+              example: { "success": true }
+        404:
+          description: Resource Not Found
+          content:
+            application/json;charset=utf-8:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  errorMessage:
+                    type: string
+              example:
+                {
+                  "success": false,
+                  "errorMessage": "Record with such id not found",
+                }
+    delete:
+      tags:
+        - "PayForms"
+      description: Удалить форму оплаты по указанному id
+      summary: Удалить одну форму оплаты.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: id записи в таблице
+          example: 1
+          schema:
+            type: number
+      responses:
+        200:
+          description: OK
+          content:
+            application/json;charset=utf-8:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+              example: { "success": true }
+        404:
+          description: Resource for deletion Not Found
+          content:
+            application/json;charset=utf-8:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  errorMessage:
+                    type: string
+              example:
+                {
+                  "success": false,
+                  "errorMessage": "Record with such id not found",
+                }
+
+  /data/taxRate:
+    get:
+      operationId: TaxToShow
+      summary: Получить все известные Налоговые группы.
+      description: >-
+        Каждая сформированная налоговая группа определяется по её <code>id</code>
+
+             _____________________________________________________________
+            | Название    |  id  | letter | type | percent | name | sign |
+            |_____________|______|________|______|_________|______|______|
+            |  ПДВ 20%    |   1  |    А   |  0   |    20   |  ПДВ | false|
+            |_____________|______|________|______|_________|______|______|
+            |  ПДВ 7%     |   2  |    Б   |  0   |    7    |  ПДВ | false|
+            |_____________|______|________|______|_________|______|______|
+            |   ПДВ 0%    |   3  |    В   |  0   |    0    |  ПДВ | false|
+            |_____________|______|________|______|_________|______|______|
+            |  Акциз 5%   |   4  |    М   |  1   |    5    | Акциз| false|
+            |_____________|______|________|______|_________|______|______|
+            |  Без ПДВ    |   5  |    Д   |  0   |    0    |  ПДВ | false|
+            |_____________|______|________|______|_________|______|______|
+            |Не объект ПДВ|   6  |    Ж   |  0   |    0    |  ПДВ | false|
+            |_____________|______|________|______|_________|______|______|
+
+      tags:
+        - "Tax"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json;charset=utf-8:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        letter:
+                          type: string
+                          description: Буквенное обозначение вида и ставки налога/сбора (А,Б,В,Г,...)
+                        type:
+                          type: number
+                          description: Код вида налога/сбора. 0-ПДВ,1-Акциз,2-ПФ...
+                        percent:
+                          type: string
+                          description: Процент налога/сбора
+                        name:
+                          type: string
+                          description: Название вида налога/сбора
+                        sign:
+                          type: boolean
+                          description: Знак налога/сбора, не включённого в цену
+                        id:
+                          type: number
+                          description: Идентификатор вида налога/сбора
+              example:
+                {
+                  "success": true,
+                  "items":
+                    [
+                      {
+                        "letter": "A",
+                        "type": 0,
+                        "percent": "20.00",
+                        "name": "ПДВ",
+                        "sign": false,
+                        "id": 1,
+                      },
+                      {
+                        "letter": "Б",
+                        "type": 0,
+                        "percent": "7.00",
+                        "name": "ПДВ",
+                        "sign": false,
+                        "id": 2,
+                      },
+                      {
+                        "letter": "В",
+                        "type": 0,
+                        "percent": "0.00",
+                        "name": "ПДВ",
+                        "sign": false,
+                        "id": 3,
+                      },
+                      {
+                        "letter": "М",
+                        "type": 1,
+                        "percent": "5.00",
+                        "name": "Акциз",
+                        "sign": false,
+                        "id": 4,
+                      },
+                      {
+                        "letter": "Д",
+                        "type": 0,
+                        "percent": "0.00",
+                        "name": "ПДВ",
+                        "sign": false,
+                        "id": 5,
+                      },
+                      {
+                        "letter": "Ж",
+                        "type": 0,
+                        "percent": "0.00",
+                        "name": "ПДВ",
+                        "sign": false,
+                        "id": 6,
+                      },
+                    ],
+                }
+
+    post:
+      tags:
+        - "Tax"
+      description: Укажите код и название новой налоговой ставки
+      summary: Добавить одну новую Налоговою ставку.
+      requestBody:
+        description: добавляемый объект
+        required: true
+        content:
+          application/json;charset=utf-8:
+            schema:
+              properties:
+                letter:
+                  type: string
+                type:
+                  type: number
+                percent:
+                  type: number
+                name:
+                  type: string
+                sign:
+                  type: boolean
+                id:
+                  type: number
+              required:
+                - letter
+                - type
+                - percent
+                - name
+                - sign
+            example:
+              {
+                "letter": "А",
+                "type": 0,
+                "percent": 20.0,
+                "name": "ПДВ",
+                "sign": false,
+                "id": 1,
+              }
+      responses:
+        200:
+          description: OK
+          content:
+            application/json;charset=utf-8:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  id:
+                    type: string
+              example: { "success": true, "id": "5" }
+
+  /data/taxRate/{id}:
+    get:
+      description: Получить все значения налоговой ставки по её id.
+      summary: Получить значения одной налоговой ставку по её id.
+      tags:
+        - "Tax"
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: id записи в таблице
+          example: 1
+          schema:
+            type: number
+      responses:
+        200:
+          description: OK
+          content:
+            application/json;charset=utf-8:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      letter:
+                        type: string
+                      type:
+                        type: number
+                      percent:
+                        type: number
+                      name:
+                        type: string
+                      sign:
+                        type: boolean
+                      id:
+                        type: number
+              example:
+                {
+                  "success": true,
+                  "data":
+                    {
+                      "letter": "В",
+                      "type": 0,
+                      "percent": 0.0,
+                      "name": "ПДВ",
+                      "sign": false,
+                      "id": 3,
+                    },
+                }
+        404:
+          description: Resource Not Found
+          content:
+            application/json;charset=utf-8:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  errorMessage:
+                    type: string
+              example:
+                {
+                  "success": false,
+                  "errorMessage": "Record with such id not found",
+                }
+    put:
+      tags:
+        - "Tax"
+      summary: Обновить одну существующую налоговую ставку.
+      description: Обновление налоговой ставки по заданному id
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: id записи в таблице
+          example: 1
+          schema:
+            type: number
+      requestBody:
+        content:
+          application/json;charset=utf-8:
+            schema:
+              type: object
+              properties:
+                letter:
+                  type: string
+                type:
+                  type: number
+                percent:
+                  type: number
+                name:
+                  type: string
+                sign:
+                  type: boolean
+                id:
+                  type: number
+              required:
+                - letter
+                - type
+                - percent
+                - name
+                - sign
+            example:
+              {
+                "letter": "A",
+                "type": 0,
+                "percent": 20.0,
+                "name": "ПДВ",
+                "sign": false,
+                "id": 1,
+              }
+      responses:
+        200:
+          description: OK
+          content:
+            application/json;charset=utf-8:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+              example: { "success": true }
+        404:
+          description: Resource for deletion Not Found
+          content:
+            application/json;charset=utf-8:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  errorMessage:
+                    type: string
+              example:
+                {
+                  "success": false,
+                  "errorMessage": "Record with such id not found",
+                }
+    delete:
+      tags:
+        - "Tax"
+      description: Удалить товарную налоговую ставку по указанному id
+      summary: Удалить одну существующую налоговую ставку.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: id записи в таблице
+          example: 1
+          schema:
+            type: number
+      responses:
+        200:
+          description: OK
+          content:
+            application/json;charset=utf-8:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+              example: { "success": true }
+        404:
+          description: Resource for deletion Not Found
+          content:
+            application/json;charset=utf-8:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  errorMessage:
+                    type: string
+              example:
+                {
+                  "success": false,
+                  "errorMessage": "Record with such id not found",
                 }
