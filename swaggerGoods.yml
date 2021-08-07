@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: Check-Online API. Goods Release.
   termsOfService: https://forms.gle/kPqAx6WYcaSYtZpN6
-  version: "4.10.225"
+  version: "4.10.226"
   contact:
     name: Check-Online
     email: info@check-online.com.ua
@@ -292,6 +292,59 @@ paths:
 #                   success:
 #                     type: boolean
 #               example: { "success": false }
+
+  /command/cashierLoggedIn:
+    post:
+      tags:
+        - "Casher"
+      summary: Получить статус входа кассира в ПРРО.
+      description: Получить статус входа кассира в ПРРО по открытой части ключа кассира.
+      requestBody:
+        required: true
+        content:
+          application/json;charset=utf-8:
+            schema:
+              properties:
+                commandName:
+                  type: string
+                  default: "cashierLoggedIn"
+                cashierId:
+                    type: string
+                    description: Открытая часть ключа кассира.
+              required:
+                - commandName
+                - cashierId
+            example: 
+                {
+                    "commandName": "cashierLoggedIn",
+                    "cashierId": "83545ae583811d9f74aab0e9e38010eec2086ca96847ddc1750871425b75955f"
+                }
+      responses:
+        200:
+          description: OK
+          content:
+            application/json;charset=utf-8:
+              schema:
+                properties:
+                  success:
+                    type: boolean
+                  loggedIn:
+                    type: boolean
+                    description: Статус входа кассира в ПРРО. true - Кассир залогирован в ПРРО. false - Кассир не залогирован в ПРРО. 
+              example:
+                {
+                    "success": true,
+                    "loggedIn": false
+                }
+        400:
+          description: NOK
+          content:
+            application/json;charset=utf-8:
+              schema:
+                properties:
+                  success:
+                    type: boolean
+              example: { "success": false }
 
   /command/setClientId:
     post:
