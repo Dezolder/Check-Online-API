@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: Check-Online API. Goods Release.
   termsOfService: https://forms.gle/kPqAx6WYcaSYtZpN6
-  version: "4.10.226"
+  version: "4.10.228"
   contact:
     name: Check-Online
     email: info@check-online.com.ua
