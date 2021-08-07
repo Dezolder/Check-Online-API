@@ -243,55 +243,55 @@ paths:
                     type: boolean
               example: { "success": false }
 
-  /command/getCashiers:
-    post:
-      tags:
-        - "Casher"
-      summary: Получить список залогиненых в ПРРО пользователей
-      description: ПРРО хранит информацию о залогиненых пользователях. Этот список доступен по этой команде.
-      requestBody:
-        description: Команда без дополнительных параметров
-        required: true
-        content:
-          application/json;charset=utf-8:
-            schema:
-              properties:
-                commandName:
-                  type: string
-                  default: "getCashiers"
-              required:
-                - commandName
-            example: { "commandName": "getCashiers" }
-      responses:
-        200:
-          description: OK
-          content:
-            application/json;charset=utf-8:
-              schema:
-                properties:
-                  success:
-                    type: boolean
-                  id:
-                    type: string
-                  expirationDate:
-                    type: string
-                    format: timeDate
-                    example: "00:00:00 21.11.2021"
-              example:
-                {
-                  "success": true,
-                  "id": "83545ae583811d9f74aab0e9e38010eec2086ca96847ddc1750871425b75955f",
-                  "expirationDate": "00:00:00 21.11.2021",
-                }
-        400:
-          description: NOK
-          content:
-            application/json;charset=utf-8:
-              schema:
-                properties:
-                  success:
-                    type: boolean
-              example: { "success": false }
+#   /command/getCashiers:
+#     post:
+#       tags:
+#         - "Casher"
+#       summary: Получить список залогиненых в ПРРО пользователей
+#       description: ПРРО хранит информацию о залогиненых пользователях. Этот список доступен по этой команде.
+#       requestBody:
+#         description: Команда без дополнительных параметров
+#         required: true
+#         content:
+#           application/json;charset=utf-8:
+#             schema:
+#               properties:
+#                 commandName:
+#                   type: string
+#                   default: "getCashiers"
+#               required:
+#                 - commandName
+#             example: { "commandName": "getCashiers" }
+#       responses:
+#         200:
+#           description: OK
+#           content:
+#             application/json;charset=utf-8:
+#               schema:
+#                 properties:
+#                   success:
+#                     type: boolean
+#                   id:
+#                     type: string
+#                   expirationDate:
+#                     type: string
+#                     format: timeDate
+#                     example: "00:00:00 21.11.2021"
+#               example:
+#                 {
+#                   "success": true,
+#                   "id": "83545ae583811d9f74aab0e9e38010eec2086ca96847ddc1750871425b75955f",
+#                   "expirationDate": "00:00:00 21.11.2021",
+#                 }
+#         400:
+#           description: NOK
+#           content:
+#             application/json;charset=utf-8:
+#               schema:
+#                 properties:
+#                   success:
+#                     type: boolean
+#               example: { "success": false }
 
   /command/setClientId:
     post:
