@@ -2813,21 +2813,28 @@ paths:
                 "commandName": "cashWithdrawal",
                 "cashierId": "83545ae583811d9f74aab0e9e38010eec2086ca96847ddc1750871425b75955f",
                 "registrarId": "4000066888",
-                "products":
-                  [
+                "products": [
                     {
-                      "code": "42342",
-                      "name": "Готивка",
-                      "amount": "1",
-                      "price": "315.15",
-                      "taxRateIds": [5],
-                      "comment": "Готивка на касси",
-                    },
-                  ],
-                "payments": [{ "paymentTypeId": 1, "sum": "315.16", "sumWithoutRounding": "315.16" }],
+                        "code": "42342",
+                        "name": "Готивка",
+                        "amount": "1",
+                        "price": "315.16",
+                        "taxRateIds": [
+                            5
+                        ],
+                        "comment": "Готивка на касси"
+                    }
+                ],
+                "payments": [
+                    {
+                        "paymentTypeId": 1,
+                        "sum": "315.15",
+                        "sumWithoutRounding": "315.16"
+                    }
+                ],
                 "commissionSum": "10.00",
-                "comment": "ПРРО Check-Online",
-              }
+                "comment": "ПРРО Check-Online"
+            }
       responses:
         200:
           description: OK
