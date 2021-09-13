@@ -871,50 +871,50 @@ paths:
                     type: boolean
               example: { "success": true }
 
-  /command/beginOfflineSession:
-    post:
-      tags:
-        - "Shift"
-      summary: Начать офлайн режим
-      description: Переход в офлайн режим, с обработкой возможных критических событий, связанных с внезапным обрывом связи с фискальным сервером, при котором ПРРО не получает фискальный номер документа от Сервера ДПС.
-      requestBody:
-        required: true
-        content:
-          application/json;charset=utf-8:
-            schema:
-              type: object
-              properties:
-                commandName:
-                  type: string
-                  default: "beginOfflineSession"
-                cashierId:
-                  type: string
-                registrarId:
-                  type: string
-                revokeLastOnlineDoc:
-                  type: boolean
-                  default: false
-                  description: Значение true, если наступило критическое событие при котором локальному номеру документа не выдан онлайн фискальный номер. Этим полем управляет ПРРО, а не Кассовая система.
-              required:
-                - commandName
-                - cashierId
-                - registrarId
-            example:
-              {
-                "commandName": "beginOfflineSession",
-                "cashierId": "83545ae583811d9f74aab0e9e38010eec2086ca96847ddc1750871425b75955f",
-                "registrarId": "4000066888",
-              }
-      responses:
-        200:
-          description: OK
-          content:
-            application/json;charset=utf-8:
-              schema:
-                properties:
-                  success:
-                    type: boolean
-              example: { "success": true }
+#   /command/beginOfflineSession:
+#     post:
+#       tags:
+#         - "Shift"
+#       summary: Начать офлайн режим
+#       description: Переход в офлайн режим, с обработкой возможных критических событий, связанных с внезапным обрывом связи с фискальным сервером, при котором ПРРО не получает фискальный номер документа от Сервера ДПС.
+#       requestBody:
+#         required: true
+#         content:
+#           application/json;charset=utf-8:
+#             schema:
+#               type: object
+#               properties:
+#                 commandName:
+#                   type: string
+#                   default: "beginOfflineSession"
+#                 cashierId:
+#                   type: string
+#                 registrarId:
+#                   type: string
+#                 revokeLastOnlineDoc:
+#                   type: boolean
+#                   default: false
+#                   description: Значение true, если наступило критическое событие при котором локальному номеру документа не выдан онлайн фискальный номер. Этим полем управляет ПРРО, а не Кассовая система.
+#               required:
+#                 - commandName
+#                 - cashierId
+#                 - registrarId
+#             example:
+#               {
+#                 "commandName": "beginOfflineSession",
+#                 "cashierId": "83545ae583811d9f74aab0e9e38010eec2086ca96847ddc1750871425b75955f",
+#                 "registrarId": "4000066888",
+#               }
+#       responses:
+#         200:
+#           description: OK
+#           content:
+#             application/json;charset=utf-8:
+#               schema:
+#                 properties:
+#                   success:
+#                     type: boolean
+#               example: { "success": true }
 
   /command/finishOfflineSession:
     post:
