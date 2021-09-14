@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: Check-Online API. Goods Release.
   termsOfService: https://forms.gle/kPqAx6WYcaSYtZpN6
-  version: "5.11.288"
+  version: "5.11.289"
   contact:
     name: Check-Online
     email: info@check-online.com.ua
@@ -13,7 +13,7 @@ info:
     <p>
     API - между ПРРО и Кассовой Системой. Фискализация товаров и услуг.
     <p>
-    Реализованы операции: Продажа, Сторно, Возврат, Служебное внесение, Служебная выдача, Онлайн/Оффлайн, Выдача налички, Скидки/Наценки, Округление, Z-отчёт, Cуммирующий Z-отчёт, Ломбардные операции.
+    Реализованы операции: Продажа, Сторно, Возврат, Служебное внесение, Служебная выдача, Онлайн/Оффлайн, Выдача налички, Скидки/Наценки, Округление, Z-отчёт, Cуммирующий Z-отчёт, Ломбардные операции, Акцизные марки и Платёжные Системы.
     <hr>
     Рекомендуемая последовательность команд для первичного теста ПРРО:
 
@@ -2052,6 +2052,41 @@ paths:
                         items:
                           type: number
                           description: Соответствует полю id в таблице Налоговых Групп (см тэг Tax этого API), формируемой при начальной настройке пРРО.
+                      paymentDetails:
+                          type: object
+                          properties:
+                              paymentSystemName:
+                                  type: string
+                                  description: Название платёжной системы
+                                  example: "VISA"
+                              paymentProvider:
+                                  type: string
+                                  description: Название еквайра торговца
+                                  example: "ОЩАДБАНК"
+                              transactionId:
+                                  type: string
+                                  description: Идентификатор транзакции, который выдаётся еквайром и идентифицирует операцию в платёжной системе.
+                                  example: "77777777777"
+                              transactionDateTime:
+                                  type: string
+                                  description: Дата и время транзакции (ддммррррггххсс)
+                                  example: "01032021234653"
+                              receiptNumber:
+                                  type: string
+                                  description: Номер чека транзакции
+                                  example: "9980"
+                              deviceId:
+                                  type: string
+                                  description: Идентификатор платёжного устройства
+                                  example: "S1K10078"
+                              personalAccountNumber:
+                                  type: string
+                                  description: Реквизиты электронного платежного средства
+                                  example: "XXXX XXXX XXXX 1234"
+                              authCode:
+                                  type: string
+                                  description: Код авторизации
+                                  example: "842415"
                       discountSum:
                         type: string
                         description: Скидка применённая к Товару
@@ -2115,79 +2150,109 @@ paths:
                 "commandName": "sale",
                 "cashierId": "83545ae583811d9f74aab0e9e38010eec2086ca96847ddc1750871425b75955f",
                 "registrarId": "4000066888",
-                "products":
-                  [
+                "products": [
                     {
-                      "code": "42342",
-                      "name": "Коньки",
-                      "description": "Элит",
-                      "unitCode": "2009",
-                      "unitName": "шт",
-                      "amount": "1",
-                      "price": "315.15",
-                      "taxRateIds": [1],
-                      "discountSum": "10.00",
-                      "comment": "Этот товар выбирают 98% наших покупателей!",
+                        "code": "42342",
+                        "name": "Коньки",
+                        "description": "Элит",
+                        "unitCode": "2009",
+                        "unitName": "шт",
+                        "amount": "1",
+                        "price": "315.15",
+                        "taxRateIds": [
+                            1
+                        ],
+                        "discountSum": "10.00",
+                        "comment": "Этот товар выбирают 98% наших покупателей!"
                     },
                     {
-                      "code": "12332",
-                      "name": "Шлем",
-                      "description": "Стандарт",
-                      "unitCode": "2009",
-                      "unitName": "шт",
-                      "amount": "10",
-                      "price": "340.50",
-                      "taxRateIds": [2],
-                      "comment": "На складе осталось 5шт этого товара!",
+                        "code": "12332",
+                        "name": "Шлем",
+                        "description": "Стандарт",
+                        "unitCode": "2009",
+                        "unitName": "шт",
+                        "amount": "10",
+                        "price": "340.50",
+                        "taxRateIds": [
+                            2
+                        ],
+                        "comment": "На складе осталось 5шт этого товара!"
                     },
                     {
-                      "code": "42342",
-                      "name": "Шайба",
-                      "description": "Канада",
-                      "unitCode": "2009",
-                      "unitName": "шт",
-                      "amount": "2",
-                      "price": "55.90",
-                      "taxRateIds": [3],
-                      "comment": "Вам начислен Бонус за покупку этого товара 20!",
+                        "code": "42342",
+                        "name": "Шайба",
+                        "description": "Канада",
+                        "unitCode": "2009",
+                        "unitName": "шт",
+                        "amount": "2",
+                        "price": "55.90",
+                        "taxRateIds": [
+                            3
+                        ],
+                        "comment": "Вам начислен Бонус за покупку этого товара 20!"
                     },
                     {
-                      "code": "8765",
-                      "name": "Спирт",
-                      "description": "Экстра",
-                      "unitCode": "2009",
-                      "unitName": "л",
-                      "amount": "1",
-                      "price": "259.90",
-                      "taxRateIds": [1, 4],
-                      "discountSum": "15.00",
-                      "comment": "Этот товар Вам достался со скидкой 15.00!",
+                        "code": "8765",
+                        "name": "Спирт",
+                        "description": "Экстра",
+                        "unitCode": "2009",
+                        "unitName": "л",
+                        "amount": "1",
+                        "price": "259.90",
+                        "taxRateIds": [
+                            1,
+                            4
+                        ],
+                        "exciseLabels": [
+                            "wwrewgbfvdv",
+                            "dfhteyhnyn76",
+                            "fgbhtmjuymfnty6"
+                        ],
+                        "discountSum": "15.00",
+                        "comment": "Этот товар Вам достался со скидкой 15.00!"
                     },
                     {
-                      "code": "987",
-                      "name": "Лёд",
-                      "description": "ХимПром",
-                      "unitCode": "2009",
-                      "unitName": "кг",
-                      "amount": "8",
-                      "price": "314.70",
-                      "taxRateIds": [5],
-                    },
-                  ],
-                "payments":
-                  [
+                        "code": "987",
+                        "name": "Лёд",
+                        "description": "ХимПром",
+                        "unitCode": "2009",
+                        "unitName": "кг",
+                        "amount": "8",
+                        "price": "314.70",
+                        "taxRateIds": [
+                            5
+                        ]
+                    }
+                ],
+                "payments": [
                     {
-                      "paymentTypeId": 1,
-                      "sum": "6084.40",
-                      "provided": "6100.00",
-                      "remains": "15.60",
-                      "sumWithoutRounding": "6084.42",
+                        "paymentTypeId": 1,
+                        "sum": "6084.40",
+                        "provided": "6100.00",
+                        "remains": "15.60",
+                        "sumWithoutRounding": "6084.42"
                     },
-                    { "paymentTypeId": 2, "sum": "400.02" },
-                    { "paymentTypeId": 3, "sum": "100.01" },
-                  ],
-                "comment": "ПРРО Check-Online",
-              }
+                    {
+                        "paymentTypeId": 2,
+                        "sum": "400.02",
+                        "paymentDetails": {
+                            "paymentSystemName": "VISA",
+                            "paymentProvider": "ОЩАДБАНК",
+                            "transactionId": "77777777777",
+                            "transactionDateTime": "01032021234653",
+                            "receiptNumber": "9980",
+                            "deviceId": "S1K10078",
+                            "personalAccountNumber": "XXXX XXXX XXXX 1234",
+                            "authCode": "842415"
+                        }
+                    },
+                    {
+                        "paymentTypeId": 3,
+                        "sum": "100.01"
+                    }
+                ],
+                "comment": "ПРРО Check-Online"
+            }
       responses:
         200:
           description: OK
