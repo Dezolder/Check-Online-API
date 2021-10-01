@@ -2790,6 +2790,101 @@ paths:
                   data:
                     type: object
                     properties:
+                      total:
+                        type: string
+                        description: Общая сумма по чеку (15.2 цифры)
+                      totals:
+                          type: object
+                          properties:
+                             sum:
+                                 type: string
+                             discountSum:
+                                 type: string
+                             sumWithoutRounding:
+                                 type: string
+                             roundingSum:
+                                 type: string
+
+                      payments:
+                        type: array
+                        description: Формы оплаты применённые к товару
+                        items:
+                            type: object
+                            properties:
+                                providedSum:
+                                    type: string
+                                    description: Сумма внесённых денег. Применяется только к наличным способам оплаты.
+                                    example: "100.00"
+                                sumOfRemain:
+                                    type: string
+                                    description: Сумма округления. Применяется только к наличным способам оплаты.
+                                    example: "0.02"
+                                paymentDetails:
+                                    type: object
+                                    properties:
+                                        paymentSystemName:
+                                            type: string
+                                            description: Название платёжной системы
+                                            example: "VISA"
+                                        paymentProvider:
+                                            type: string
+                                            description: Название еквайра торговца
+                                            example: "ОЩАДБАНК"
+                                        transactionId:
+                                            type: string
+                                            description: Идентификатор транзакции, который выдаётся еквайром и идентифицирует операцию в платёжной системе.
+                                            example: "77777777777"
+                                        transactionDateTime:
+                                            type: string
+                                            description: Дата и время транзакции (ддммррррггххсс)
+                                            example: "01032021234653"
+                                        receiptNumber:
+                                            type: string
+                                            description: Номер чека транзакции
+                                            example: "9980"
+                                        deviceId:
+                                            type: string
+                                            description: Идентификатор платёжного устройства
+                                            example: "S1K10078"
+                                        personalAccountNumber:
+                                            type: string
+                                            description: Реквизиты электронного платежного средства
+                                            example: "XXXX XXXX XXXX 1234"
+                                        authCode:
+                                            type: string
+                                            description: Код авторизации
+                                            example: "842415"
+                                sum:
+                                    type: string
+                                    description: Общая сумма. Если указано sumOfRemain, то sum округлено до десятых по правилам округления.
+                                    example: "90.00"
+                                code:
+                                    type: number
+                                    description: Соответствует полю code в таблице Формы оплаты (см тэг PayForm этого API), формируемой при начальной настройке пРРО.
+                                name:
+                                    type: string
+                                    description: Наименование способа оплаты. Соответствует полю name в таблице Формы оплаты (см тэг PayForm этого API), формируемой при начальной настройке пРРО.
+                      taxes:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                              turnoverSum:
+                                  type: string
+                              sourceSum:
+                                  type: string
+                              sum:
+                                  type: string
+                              letter:
+                                  type: string
+                              type:
+                                  type: number
+                              percent:
+                                  type: string
+                              name:
+                                  type: string
+                              sign:
+                                  type: boolean
                       products:
                         type: array
                         items:
@@ -2813,35 +2908,24 @@ paths:
                               type: string
                             price:
                               type: string
+                            cost:
+                                type: string
                             taxRateLetters:
-                              type: string
-                            discountSum:
                               type: string
                             comment:
                               type: string
-                      taxes:
-                        type: array
-                        items:
-                          type: object
-                          properties:
-                            type:
-                              type: number
-                            letter:
+                            discountSum:
                               type: string
-                            name:
-                              type: string
-                            percent:
-                              type: string
-                            sign:
-                              type: boolean
-                            sum:
-                              type: string
-                      total:
-                        type: string
-                        description: Общая сумма по чеку (15.2 цифры)
+                            exciseLabels:
+                                type: array
+                                items:
+                                    type: string
+                            
+
                       companyName:
                         type: string
                         description: Наименование продавца (256 символов)
+                        
                       pointName:
                         type: string
                         description: Наименование точки продажи (256 символов)
@@ -2876,6 +2960,25 @@ paths:
                       shiftId:
                         type: string
                         description: Номер смены (текст)
+
+        # "shiftId": "55539895",
+        # "documentType": "sale",
+        # "dateTime": "02:12:49 02.10.2021",
+        # "receiptLink": "https://cabinet.tax.gov.ua/cashregs/check?id=55547134&fn=4000066879&date=20211002",
+        # "tin": "34554363",
+        # "ipn": "123456789020",
+        # "companyName": "Тестовий платник 4",
+        # "pointName": "Магазин Іван-Тест",
+        # "pointAddress": "УКРАЇНА, СУМСЬКА ОБЛ., М. СУМИ, вул. Соборна 1",
+        # "receiptNumber": 26295,
+        # "registrarLocalNumber": 24,
+        # "registrarId": 4000066879,
+        # "cashierName": "Для РРО № 4000066879",
+        # "comment": "ПРРО Check-Online",
+        # "fiscalNumber": "55547134",
+        # "offline": false
+
+
               example:
                 {
                   "success": true,
