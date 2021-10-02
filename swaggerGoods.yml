@@ -4404,7 +4404,7 @@ paths:
                 "commandName": "storno",
                 "cashierId": "83545ae583811d9f74aab0e9e38010eec2086ca96847ddc1750871425b75955f",
                 "registrarId": "4000066888",
-                "fiscalNumber": "2186577",
+                "fiscalNumber": "55547949",
               }
       responses:
         200:
@@ -4416,6 +4416,444 @@ paths:
                   success:
                     type: boolean
               example: { "success": true }
+
+  /command/getReceipt:
+    post:
+      tags:
+        - "Shift"
+      summary: Получить чек по его Фискальному Номеру
+      description: Получить чек по его Фискальному Номеру для выбранного регистратора
+      requestBody:
+        required: true
+        content:
+          application/json;charset=utf-8:
+            schema:
+              properties:
+                commandName:
+                  type: string
+                  default: "getReceipt"
+                cashierId:
+                  type: string
+                registrarId:
+                  type: string
+                fiscalNumber: 
+                    type: string
+                    description: Фискального Номер вызываемого чека
+              required:
+                - commandName
+                - cashierId
+                - registrarId
+                - fiscalNumber
+            example:
+              {
+                "commandName": "getReceipt",
+                "cashierId": "83545ae583811d9f74aab0e9e38010eec2086ca96847ddc1750871425b75955f",
+                "registrarId": "4000066888",
+                "fiscalNumber": "55547913"
+
+              }
+      responses:
+        200:
+          description: OK
+          content:
+            application/json;charset=utf-8:
+              schema:
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      total:
+                        type: string
+                        description: Общая сумма по чеку (15.2 цифры)
+                      totals:
+                          type: object
+                          properties:
+                             sum:
+                                 type: string
+                                 description: Общая сумма по чеку (15.2 цифры)
+                             discountSum:
+                                 type: string
+                                 description: Общая скидка применённая к операции
+                             sumWithoutRounding:
+                                 type: string
+                                 description: Общая сумма без округления. Применяется только к наличным способам оплаты.
+                             roundingSum:
+                                 type: string
+                                 description: Сумма округления. Применяется только к наличным способам оплаты.
+                      payments:
+                        type: array
+                        description: Формы оплаты применённые к товару
+                        items:
+                            type: object
+                            properties:
+                                providedSum:
+                                    type: string
+                                    description: Сумма внесённых денег. Применяется только к наличным способам оплаты.
+                                    example: "100.00"
+                                sumOfRemain:
+                                    type: string
+                                    description: Сумма округления. Применяется только к наличным способам оплаты.
+                                    example: "0.02"
+                                paymentDetails:
+                                    type: object
+                                    description: Реквизиты платёжной системы. Применяется только к форме оплате банковской картой.
+                                    properties:
+                                        paymentSystemName:
+                                            type: string
+                                            description: Название платёжной системы
+                                            example: "VISA"
+                                        paymentProvider:
+                                            type: string
+                                            description: Название еквайра торговца
+                                            example: "ОЩАДБАНК"
+                                        transactionId:
+                                            type: string
+                                            description: Идентификатор транзакции, который выдаётся еквайром и идентифицирует операцию в платёжной системе.
+                                            example: "77777777777"
+                                        transactionDateTime:
+                                            type: string
+                                            description: Дата и время транзакции (ддммррррггххсс)
+                                            example: "01032021234653"
+                                        receiptNumber:
+                                            type: string
+                                            description: Номер чека транзакции
+                                            example: "9980"
+                                        deviceId:
+                                            type: string
+                                            description: Идентификатор платёжного устройства
+                                            example: "S1K10078"
+                                        personalAccountNumber:
+                                            type: string
+                                            description: Реквизиты электронного платежного средства
+                                            example: "XXXX XXXX XXXX 1234"
+                                        authCode:
+                                            type: string
+                                            description: Код авторизации
+                                            example: "842415"
+                                sum:
+                                    type: string
+                                    description: Общая сумма. Если указано sumOfRemain, то sum округлено до десятых по правилам округления.
+                                    example: "90.00"
+                                code:
+                                    type: number
+                                    description: Соответствует полю code в таблице Формы оплаты (см тэг PayForm этого API), формируемой при начальной настройке пРРО.
+                                name:
+                                    type: string
+                                    description: Наименование способа оплаты. Соответствует полю name в таблице Формы оплаты (см тэг PayForm этого API), формируемой при начальной настройке пРРО.
+                      taxes:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                              turnover:
+                                  type: string
+                                  description: Сумма до применения скидки.
+                              sourceSum:
+                                  type: string
+                                  description: База налогообложения.  
+                              sum:
+                                  type: string
+                                  description: Сумма налога
+                              letter:
+                                  type: string
+                                  description: Буквенное обозначение вида и ставки налога/сбора (А,Б,В,Г,...)
+                              type:
+                                  type: number
+                                  description: Код вида налога/сбора. 0-ПДВ,1-Акциз,2-ПФ...
+                              percent:
+                                  type: string
+                                  description: Процент налога/сбора
+                              name:
+                                  type: string
+                                  description: Название вида налога/сбора
+                              sign:
+                                  type: boolean
+                                  description: Знак налога/сбора, не включённого в цену
+                      products:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            code:
+                              type: string
+                              description: Внутренний код товара
+                            barCode:
+                              type: string
+                              description: Штрихкод товара
+                            uktzed:
+                              type: string
+                              description: Код товара согласно УКТЗЕД
+                            name:
+                              type: string
+                              description: Наименование товара, услуги или операции
+                            description:
+                              type: string
+                              description: Описание товара/услуги
+                            unitCode:
+                              type: string
+                              description: Код единицы измерения согласно классификатору
+                            unitName:
+                              type: string
+                              description: Наименование единиц измерения товара
+                            amount:
+                              type: string
+                              description: Количество/Объём товара
+                            price:
+                              type: string
+                              description: Цена за единицу товара
+                            cost:
+                                type: string
+                                description: Сумма операции
+                            taxRateLetters:
+                              type: string
+                              description: Буквенные обозначения видов и ставок налогов / сборов (15 символов)
+                            comment:
+                              type: string
+                            discountSum:
+                              type: string
+                              description: Скидка применённая к Товару
+                            exciseLabels:
+                                type: array
+                                description: Акцизные марки
+                                items:
+                                    type: string
+                                    description: Серия и номер марки акцизного налога
+                      shiftId:
+                        type: string
+                        description: Номер смены (текст)
+                      documentType:
+                        type: string
+                        description: Тип документа
+                      dateTime:
+                        type: string
+                        description: Время операции (чч:мм:сс чч.мм.гггг)
+                      receiptLink:
+                        type: string
+                        format: url
+                        description: URL фискального чека на портале ДПС
+                      tin:
+                        type: string
+                        description: ЄДРПОУ/ДРФО/№ паспорта продавца (10 символів)
+                      ipn:
+                        type: string
+                        description: Налоговый номер или Индивидуальный номер плательщика НДС (12 символов)
+                      companyName:
+                        type: string
+                        description: Наименование продавца (256 символов)
+                      pointName:
+                        type: string
+                        description: Наименование точки продажи (256 символов)
+                      pointAddress:
+                        type: string
+                        description: Адрес точки продаж (256 символов)
+                      receiptNumber:
+                        type: number
+                        description: Локальный номер документа
+                      registrarLocalNumber:
+                        type: number
+                        description: Локальный номер регистратора
+                      registrarId:
+                        type: number
+                        description: Фискальный номер регистратора
+                      cashierName:
+                        type: string
+                        description: ФИО кассира (128 символов)
+                      comment:
+                        type: string
+                        description: Комментарий к чеку (128 символов)
+                      fiscalNumber:
+                        type: string
+                        description: Фискальный номер документа (128 символов)
+                      offline:
+                        type: boolean
+                        description: Отметка Оффлайн режима
+              example:
+                {
+                    "success": true,
+                    "data": {
+                        "total": "6584.43",
+                        "totals": {
+                            "sum": "6584.43",
+                            "discountSum": "25.00",
+                            "sumWithoutRounding": "6584.45",
+                            "roundingSum": "0.02"
+                        },
+                        "payments": [
+                            {
+                                "providedSum": "6100.00",
+                                "sumOfRemain": "15.60",
+                                "sum": "6084.40",
+                                "code": "0",
+                                "name": "Готівка"
+                            },
+                            {
+                                "paymentDetails": {
+                                    "paymentSystemName": "VISA",
+                                    "paymentProvider": "ОЩАДБАНК",
+                                    "transactionId": "77777777777",
+                                    "transactionDateTime": "01032021234653",
+                                    "receiptNumber": "9980",
+                                    "deviceId": "S1K10078",
+                                    "personalAccountNumber": "XXXX XXXX XXXX 1234",
+                                    "authCode": "842415"
+                                },
+                                "sum": "400.02",
+                                "code": "1",
+                                "name": "Банківська картка"
+                            },
+                            {
+                                "sum": "100.01",
+                                "code": "2",
+                                "name": "Попередня оплата"
+                            }
+                        ],
+                        "taxes": [
+                            {
+                                "turnoverSum": "259.90",
+                                "sourceSum": "244.90",
+                                "sum": "11.66",
+                                "letter": "М",
+                                "type": 1,
+                                "percent": "5.00",
+                                "name": "Акциз",
+                                "sign": false
+                            },
+                            {
+                                "turnoverSum": "575.05",
+                                "sourceSum": "538.39",
+                                "sum": "89.73",
+                                "letter": "A",
+                                "type": 0,
+                                "percent": "20.00",
+                                "name": "ПДВ",
+                                "sign": false
+                            },
+                            {
+                                "turnoverSum": "3405.00",
+                                "sourceSum": "3405.00",
+                                "sum": "222.76",
+                                "letter": "Б",
+                                "type": 0,
+                                "percent": "7.00",
+                                "name": "ПДВ",
+                                "sign": false
+                            },
+                            {
+                                "turnoverSum": "111.80",
+                                "sourceSum": "111.80",
+                                "sum": "0.00",
+                                "letter": "В",
+                                "type": 0,
+                                "percent": "0.00",
+                                "name": "ПДВ",
+                                "sign": false
+                            },
+                            {
+                                "turnoverSum": "2517.60",
+                                "sourceSum": "2517.60",
+                                "sum": "0.00",
+                                "letter": "Д",
+                                "type": 0,
+                                "percent": "0.00",
+                                "name": "ПДВ",
+                                "sign": false
+                            }
+                        ],
+                        "products": [
+                            {
+                                "code": "8765",
+                                "barCode": "4324234",
+                                "uktzed": "1234567",
+                                "name": "Пиво коробка (3 шт)",
+                                "description": "Экстра",
+                                "unitCode": "2009",
+                                "unitName": "л",
+                                "amount": "1.00",
+                                "price": "259.90",
+                                "cost": "259.90",
+                                "taxRateLetters": "AМ",
+                                "comment": "Этот товар Вам достался со скидкой 15.00!",
+                                "discountSum": "15.00",
+                                "exciseLabels": [
+                                    "333333 21/02/2021",
+                                    "444444 25/03/2021",
+                                    "555555 23/04/2021"
+                                ]
+                            },
+                            {
+                                "code": "42342",
+                                "barCode": "43242456",
+                                "name": "Коньки",
+                                "description": "Элит",
+                                "unitCode": "2009",
+                                "unitName": "шт",
+                                "amount": "1.00",
+                                "price": "315.15",
+                                "cost": "315.15",
+                                "taxRateLetters": "A",
+                                "comment": "Этот товар выбирают 98% наших покупателей!",
+                                "discountSum": "10.00"
+                            },
+                            {
+                                "code": "12332",
+                                "barCode": "687568756",
+                                "name": "Шлем",
+                                "description": "Стандарт",
+                                "unitCode": "2009",
+                                "unitName": "шт",
+                                "amount": "10.00",
+                                "price": "340.50",
+                                "cost": "3405.00",
+                                "taxRateLetters": "Б",
+                                "comment": "На складе осталось 5шт этого товара!"
+                            },
+                            {
+                                "code": "42342",
+                                "barCode": "909805654",
+                                "name": "Шайба",
+                                "description": "Канада",
+                                "unitCode": "2009",
+                                "unitName": "шт",
+                                "amount": "2.00",
+                                "price": "55.90",
+                                "cost": "111.80",
+                                "taxRateLetters": "В",
+                                "comment": "Вам начислен Бонус за покупку этого товара 20!"
+                            },
+                            {
+                                "code": "987",
+                                "barCode": "7493085302",
+                                "name": "Лёд",
+                                "description": "ХимПром",
+                                "unitCode": "2009",
+                                "unitName": "кг",
+                                "amount": "8.00",
+                                "price": "314.70",
+                                "cost": "2517.60",
+                                "taxRateLetters": "Д"
+                            }
+                        ],
+                        "shiftId": "51169948",
+                        "documentType": "sale",
+                        "dateTime": "04:09:47 02.10.2021",
+                        "receiptLink": "https://cabinet.tax.gov.ua/cashregs/check?id=55547806&fn=4000066888&date=20211002",
+                        "tin": "34554363",
+                        "ipn": "123456789020",
+                        "companyName": "Тестовий платник 4",
+                        "pointName": "Магазин Іван-Тест",
+                        "pointAddress": "УКРАЇНА, СУМСЬКА ОБЛ., М. СУМИ, вул. Соборна 1",
+                        "receiptNumber": 3442,
+                        "registrarLocalNumber": 51,
+                        "registrarId": 4000066888,
+                        "cashierName": "Для РРО № 4000066888",
+                        "comment": "ПРРО Check-Online",
+                        "fiscalNumber": "55547806",
+                        "offline": false
+                    }
+                }
+
 
   /data/paymentForm:
     get:
