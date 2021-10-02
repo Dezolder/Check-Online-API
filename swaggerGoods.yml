@@ -2681,7 +2681,30 @@ paths:
                 "registrarId": "4000066888",
                 "products": [
                     {
+                        "code": "8765",
+                        "barCode": "4324234",
+                        "name": "Пиво коробка (3 шт)",
+                        "description": "Экстра",
+                        "unitCode": "2009",
+                        "unitName": "л",
+                        "amount": "1",
+                        "price": "259.90",
+                        "uktzed": "1234567",
+                        "taxRateIds": [
+                            1,
+                            4
+                        ],
+                        "exciseLabels": [
+                            "333333 21/02/2021",
+                            "444444 25/03/2021",
+                            "555555 23/04/2021"
+                        ],
+                        "discountSum": "15.00",
+                        "comment": "Этот товар Вам достался со скидкой 15.00!"
+                    },
+                    {
                         "code": "42342",
+                        "barCode": "43242456",
                         "name": "Коньки",
                         "description": "Элит",
                         "unitCode": "2009",
@@ -2696,6 +2719,7 @@ paths:
                     },
                     {
                         "code": "12332",
+                        "barCode": "687568756",
                         "name": "Шлем",
                         "description": "Стандарт",
                         "unitCode": "2009",
@@ -2709,6 +2733,7 @@ paths:
                     },
                     {
                         "code": "42342",
+                        "barCode": "909805654",
                         "name": "Шайба",
                         "description": "Канада",
                         "unitCode": "2009",
@@ -2721,27 +2746,8 @@ paths:
                         "comment": "Вам начислен Бонус за покупку этого товара 20!"
                     },
                     {
-                        "code": "8765",
-                        "name": "Спирт",
-                        "description": "Экстра",
-                        "unitCode": "2009",
-                        "unitName": "л",
-                        "amount": "1",
-                        "price": "259.90",
-                        "taxRateIds": [
-                            1,
-                            4
-                        ],
-                        "exciseLabels": [
-                            "wwrewgbfvdv",
-                            "dfhteyhnyn76",
-                            "fgbhtmjuymfnty6"
-                        ],
-                        "discountSum": "15.00",
-                        "comment": "Этот товар Вам достался со скидкой 15.00!"
-                    },
-                    {
                         "code": "987",
+                        "barCode": "7493085302",
                         "name": "Лёд",
                         "description": "ХимПром",
                         "unitCode": "2009",
@@ -3001,119 +3007,187 @@ paths:
                         description: Отметка Оффлайн режима
               example:
                 {
-                  "success": true,
-                  "data":
-                    {
-                      "products":
-                        [
-                          {
-                            "code": "42342",
-                            "name": "Коньки",
-                            "description": "Элит",
-                            "amount": "1.00",
-                            "price": "315.15",
-                            "unitCode": "2009",
-                            "unitName": "шт",
-                            "taxRateLetters": "A",
-                          },
-                          {
-                            "code": "12332",
-                            "name": "Шлем",
-                            "description": "Стандарт",
-                            "amount": "10.00",
-                            "price": "340.50",
-                            "unitCode": "2009",
-                            "unitName": "шт",
-                            "taxRateLetters": "Б",
-                          },
-                          {
-                            "code": "42342",
-                            "name": "Шайба",
-                            "description": "Канада",
-                            "amount": "2.00",
-                            "price": "55.90",
-                            "unitCode": "2009",
-                            "unitName": "шт",
-                            "taxRateLetters": "В",
-                          },
-                          {
-                            "code": "8765",
-                            "name": "Спирт",
-                            "description": "Экстра",
-                            "amount": "1.00",
-                            "price": "259.90",
-                            "unitCode": "2009",
-                            "unitName": "л",
-                            "taxRateLetters": "AМ",
-                          },
-                          {
-                            "code": "987",
-                            "name": "Лёд",
-                            "description": "ХимПром",
-                            "amount": "8.00",
-                            "price": "314.70",
-                            "unitCode": "2009",
-                            "unitName": "кг",
-                            "taxRateLetters": "Д",
-                          },
+                    "success": true,
+                    "data": {
+                        "total": "6584.43",
+                        "totals": {
+                            "sum": "6584.43",
+                            "discountSum": "25.00",
+                            "sumWithoutRounding": "6584.45",
+                            "roundingSum": "0.02"
+                        },
+                        "payments": [
+                            {
+                                "providedSum": "6100.00",
+                                "sumOfRemain": "15.60",
+                                "sum": "6084.40",
+                                "code": "0",
+                                "name": "Готівка"
+                            },
+                            {
+                                "paymentDetails": {
+                                    "paymentSystemName": "VISA",
+                                    "paymentProvider": "ОЩАДБАНК",
+                                    "transactionId": "77777777777",
+                                    "transactionDateTime": "01032021234653",
+                                    "receiptNumber": "9980",
+                                    "deviceId": "S1K10078",
+                                    "personalAccountNumber": "XXXX XXXX XXXX 1234",
+                                    "authCode": "842415"
+                                },
+                                "sum": "400.02",
+                                "code": "1",
+                                "name": "Банківська картка"
+                            },
+                            {
+                                "sum": "100.01",
+                                "code": "2",
+                                "name": "Попередня оплата"
+                            }
                         ],
-                      "taxes":
-                        [
-                          {
-                            "type": 1,
-                            "name": "Акциз",
-                            "letter": "М",
-                            "percent": "5.00",
-                            "sign": false,
-                            "sum": "11.66",
-                          },
-                          {
-                            "type": 0,
-                            "name": "ПДВ",
-                            "letter": "A",
-                            "percent": "20.00",
-                            "sign": false,
-                            "sum": "89.73",
-                          },
-                          {
-                            "type": 0,
-                            "name": "ПДВ",
-                            "letter": "Б",
-                            "percent": "7.00",
-                            "sign": false,
-                            "sum": "222.76",
-                          },
-                          {
-                            "type": 0,
-                            "name": "ПДВ",
-                            "letter": "В",
-                            "percent": "0.00",
-                            "sign": false,
-                            "sum": "0.00",
-                          },
-                          {
-                            "type": 0,
-                            "name": "ПДВ",
-                            "letter": "Д",
-                            "percent": "0.00",
-                            "sign": false,
-                            "sum": "0.00",
-                          },
+                        "taxes": [
+                            {
+                                "turnoverSum": "259.90",
+                                "sourceSum": "244.90",
+                                "sum": "11.66",
+                                "letter": "М",
+                                "type": 1,
+                                "percent": "5.00",
+                                "name": "Акциз",
+                                "sign": false
+                            },
+                            {
+                                "turnoverSum": "575.05",
+                                "sourceSum": "538.39",
+                                "sum": "89.73",
+                                "letter": "A",
+                                "type": 0,
+                                "percent": "20.00",
+                                "name": "ПДВ",
+                                "sign": false
+                            },
+                            {
+                                "turnoverSum": "3405.00",
+                                "sourceSum": "3405.00",
+                                "sum": "222.76",
+                                "letter": "Б",
+                                "type": 0,
+                                "percent": "7.00",
+                                "name": "ПДВ",
+                                "sign": false
+                            },
+                            {
+                                "turnoverSum": "111.80",
+                                "sourceSum": "111.80",
+                                "sum": "0.00",
+                                "letter": "В",
+                                "type": 0,
+                                "percent": "0.00",
+                                "name": "ПДВ",
+                                "sign": false
+                            },
+                            {
+                                "turnoverSum": "2517.60",
+                                "sourceSum": "2517.60",
+                                "sum": "0.00",
+                                "letter": "Д",
+                                "type": 0,
+                                "percent": "0.00",
+                                "name": "ПДВ",
+                                "sign": false
+                            }
                         ],
-                      "total": "6584.43",
-                      "companyName": "Тестовий платник 4",
-                      "pointName": "Магазин Іван-Тест",
-                      "pointAddress": "УКРАЇНА, СУМСЬКА ОБЛ., М. СУМИ, вул. Соборна 1",
-                      "tin": "34554363",
-                      "ipn": "123456789020",
-                      "cashierName": "Для РРО № 4000066888",
-                      "receiptNumber": "13",
-                      "fiscalNumber": "2186577",
-                      "dateTime": "17:26:16 30.01.2021",
-                      "receiptLink": "https://cabinet.tax.gov.ua/cashregs/check?id=2186577&fn=4000066888&date=20210130",
-                      "offline": false,
-                      "shiftId": "142866",
-                    },
+                        "products": [
+                            {
+                                "code": "8765",
+                                "barCode": "4324234",
+                                "uktzed": "1234567",
+                                "name": "Пиво коробка (3 шт)",
+                                "description": "Экстра",
+                                "unitCode": "2009",
+                                "unitName": "л",
+                                "amount": "1.00",
+                                "price": "259.90",
+                                "cost": "259.90",
+                                "taxRateLetters": "AМ",
+                                "comment": "Этот товар Вам достался со скидкой 15.00!",
+                                "discountSum": "15.00",
+                                "exciseLabels": [
+                                    "333333 21/02/2021",
+                                    "444444 25/03/2021",
+                                    "555555 23/04/2021"
+                                ]
+                            },
+                            {
+                                "code": "42342",
+                                "barCode": "43242456",
+                                "name": "Коньки",
+                                "description": "Элит",
+                                "unitCode": "2009",
+                                "unitName": "шт",
+                                "amount": "1.00",
+                                "price": "315.15",
+                                "cost": "315.15",
+                                "taxRateLetters": "A",
+                                "comment": "Этот товар выбирают 98% наших покупателей!",
+                                "discountSum": "10.00"
+                            },
+                            {
+                                "code": "12332",
+                                "barCode": "687568756",
+                                "name": "Шлем",
+                                "description": "Стандарт",
+                                "unitCode": "2009",
+                                "unitName": "шт",
+                                "amount": "10.00",
+                                "price": "340.50",
+                                "cost": "3405.00",
+                                "taxRateLetters": "Б",
+                                "comment": "На складе осталось 5шт этого товара!"
+                            },
+                            {
+                                "code": "42342",
+                                "barCode": "909805654",
+                                "name": "Шайба",
+                                "description": "Канада",
+                                "unitCode": "2009",
+                                "unitName": "шт",
+                                "amount": "2.00",
+                                "price": "55.90",
+                                "cost": "111.80",
+                                "taxRateLetters": "В",
+                                "comment": "Вам начислен Бонус за покупку этого товара 20!"
+                            },
+                            {
+                                "code": "987",
+                                "barCode": "7493085302",
+                                "name": "Лёд",
+                                "description": "ХимПром",
+                                "unitCode": "2009",
+                                "unitName": "кг",
+                                "amount": "8.00",
+                                "price": "314.70",
+                                "cost": "2517.60",
+                                "taxRateLetters": "Д"
+                            }
+                        ],
+                        "shiftId": "51169948",
+                        "documentType": "sale",
+                        "dateTime": "04:09:47 02.10.2021",
+                        "receiptLink": "https://cabinet.tax.gov.ua/cashregs/check?id=55547806&fn=4000066888&date=20211002",
+                        "tin": "34554363",
+                        "ipn": "123456789020",
+                        "companyName": "Тестовий платник 4",
+                        "pointName": "Магазин Іван-Тест",
+                        "pointAddress": "УКРАЇНА, СУМСЬКА ОБЛ., М. СУМИ, вул. Соборна 1",
+                        "receiptNumber": 3442,
+                        "registrarLocalNumber": 51,
+                        "registrarId": 4000066888,
+                        "cashierName": "Для РРО № 4000066888",
+                        "comment": "ПРРО Check-Online",
+                        "fiscalNumber": "55547806",
+                        "offline": false
+                    }
                 }
 
 
