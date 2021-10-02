@@ -2234,12 +2234,16 @@ paths:
                                   type: number
                                 letter:
                                   type: string
+                                  description: Буквенное обозначение вида и ставки налога/сбора (А,Б,В,Г,...)
                                 name:
                                   type: string
+                                  description: Название вида налога/сбора
                                 percent:
                                   type: string
+                                  description: Процент налога/сбора
                                 sign:
                                   type: boolean
+                                  description: Знак налога/сбора, не включённого в цену
                                 turnover:
                                   type: string
                                   description: Сумма до применения скидки.
@@ -2511,7 +2515,7 @@ paths:
 #               example:
 #                 {
 #                     "myArrayList": [
-#                         "﻿15:19:03 28.07.2021: BundleHost::start() <enter>",
+#                         "15:19:03 28.07.2021: BundleHost::start() <enter>",
 #                         "15:19:03 28.07.2021: properties = {AutoUpdateEnabledByDefault=true, WaitInternetConnectionForCheckUpdates=300}",
 #                         "15:19:03 28.07.2021: mainBundleLocation = file:/C:/Program%20Files/CheckOnline/CheckOnline.jar",
 #                         "15:19:03 28.07.2021: BundleHost::createFramework(config = {org.osgi.framework.bootdelegation=*, org.osgi.framework.storage=C:\\Program Files\\CheckOnline\\loader-cache}) <enter>",
@@ -2798,13 +2802,16 @@ paths:
                           properties:
                              sum:
                                  type: string
+                                 description: Общая сумма по чеку (15.2 цифры)
                              discountSum:
                                  type: string
+                                 description: Общая скидка применённая к операции
                              sumWithoutRounding:
                                  type: string
+                                 description: Общая сумма без округления. Применяется только к наличным способам оплаты.
                              roundingSum:
                                  type: string
-
+                                 description: Сумма округления. Применяется только к наличным способам оплаты.
                       payments:
                         type: array
                         description: Формы оплаты применённые к товару
@@ -2821,6 +2828,7 @@ paths:
                                     example: "0.02"
                                 paymentDetails:
                                     type: object
+                                    description: Реквизиты платёжной системы. Применяется только к форме оплате банковской картой.
                                     properties:
                                         paymentSystemName:
                                             type: string
@@ -2869,22 +2877,30 @@ paths:
                         items:
                           type: object
                           properties:
-                              turnoverSum:
+                              turnover:
                                   type: string
+                                  description: Сумма до применения скидки.
                               sourceSum:
                                   type: string
+                                  description: База налогообложения.  
                               sum:
                                   type: string
+                                  description: Сумма налога
                               letter:
                                   type: string
+                                  description: Буквенное обозначение вида и ставки налога/сбора (А,Б,В,Г,...)
                               type:
                                   type: number
+                                  description: Код вида налога/сбора. 0-ПДВ,1-Акциз,2-ПФ...
                               percent:
                                   type: string
+                                  description: Процент налога/сбора
                               name:
                                   type: string
+                                  description: Название вида налога/сбора
                               sign:
                                   type: boolean
+                                  description: Знак налога/сбора, не включённого в цену
                       products:
                         type: array
                         items:
@@ -2892,93 +2908,97 @@ paths:
                           properties:
                             code:
                               type: string
+                              description: Внутренний код товара
                             barCode:
                               type: string
+                              description: Штрихкод товара
                             uktzed:
                               type: string
+                              description: Код товара согласно УКТЗЕД
                             name:
                               type: string
+                              description: Наименование товара, услуги или операции
                             description:
                               type: string
+                              description: Описание товара/услуги
                             unitCode:
                               type: string
+                              description: Код единицы измерения согласно классификатору
                             unitName:
                               type: string
+                              description: Наименование единиц измерения товара
                             amount:
                               type: string
+                              description: Количество/Объём товара
                             price:
                               type: string
+                              description: Цена за единицу товара
                             cost:
                                 type: string
+                                description: Сумма операции
                             taxRateLetters:
                               type: string
+                              description: Буквенные обозначения видов и ставок налогов / сборов (15 символов)
                             comment:
                               type: string
                             discountSum:
                               type: string
+                              description: Скидка применённая к Товару
                             exciseLabels:
                                 type: array
+                                description: Акцизные марки
                                 items:
                                     type: string
-                            
-
-                      companyName:
+                                    description: Серия и номер марки акцизного налога
+                      shiftId:
                         type: string
-                        description: Наименование продавца (256 символов)
-                        
-                      pointName:
+                        description: Номер смены (текст)
+                      documentType:
                         type: string
-                        description: Наименование точки продажи (256 символов)
-                      pointAddress:
+                        description: Тип документа
+                      dateTime:
                         type: string
-                        description: Адрес точки продаж (256 символов)
+                        description: Время операции (чч:мм:сс чч.мм.гггг)
+                      receiptLink:
+                        type: string
+                        format: url
+                        description: URL фискального чека на портале ДПС
                       tin:
                         type: string
                         description: ЄДРПОУ/ДРФО/№ паспорта продавца (10 символів)
                       ipn:
                         type: string
                         description: Налоговый номер или Индивидуальный номер плательщика НДС (12 символов)
+                      companyName:
+                        type: string
+                        description: Наименование продавца (256 символов)
+                      pointName:
+                        type: string
+                        description: Наименование точки продажи (256 символов)
+                      pointAddress:
+                        type: string
+                        description: Адрес точки продаж (256 символов)
+                      receiptNumber:
+                        type: number
+                        description: Локальный номер документа
+                      registrarLocalNumber:
+                        type: number
+                        description: Локальный номер регистратора
+                      registrarId:
+                        type: number
+                        description: Фискальный номер регистратора
                       cashierName:
                         type: string
                         description: ФИО кассира (128 символов)
-                      receiptNumber:
+                      comment:
                         type: string
-                        description: Локальный номер документа (текст)
+                        description: Комментарий к чеку (128 символов)
                       fiscalNumber:
                         type: string
                         description: Фискальный номер документа (128 символов)
-                      dateTime:
-                        type: string
-                        description: Время операции (ггххсс)
-                      receiptLink:
-                        type: string
-                        format: url
-                        description: URL фискального чека на портале ДПС
                       offline:
                         type: boolean
                         description: Отметка Оффлайн режима
-                      shiftId:
-                        type: string
-                        description: Номер смены (текст)
-
-        # "shiftId": "55539895",
-        # "documentType": "sale",
-        # "dateTime": "02:12:49 02.10.2021",
-        # "receiptLink": "https://cabinet.tax.gov.ua/cashregs/check?id=55547134&fn=4000066879&date=20211002",
-        # "tin": "34554363",
-        # "ipn": "123456789020",
-        # "companyName": "Тестовий платник 4",
-        # "pointName": "Магазин Іван-Тест",
-        # "pointAddress": "УКРАЇНА, СУМСЬКА ОБЛ., М. СУМИ, вул. Соборна 1",
-        # "receiptNumber": 26295,
-        # "registrarLocalNumber": 24,
-        # "registrarId": 4000066879,
-        # "cashierName": "Для РРО № 4000066879",
-        # "comment": "ПРРО Check-Online",
-        # "fiscalNumber": "55547134",
-        # "offline": false
-
-
               example:
                 {
                   "success": true,
@@ -4069,28 +4089,40 @@ paths:
                           properties:
                             code:
                               type: string
+                              description: Внутренний код товара
                             barCode:
                               type: string
+                              description: Штриховой код товара
                             uktzed:
                               type: string
+                              description: Код товара согласно УКТЗЕД
                             name:
                               type: string
+                              description: Наименование товара, услуги или операции
                             description:
                               type: string
+                              description: Описание товара, услуги или операции
                             unitCode:
                               type: string
+                              description: Код единицы измерения согласно классификатора
                             unitName:
                               type: string
+                              description: Наименование единицы измерения
                             amount:
                               type: string
+                              description: Количество / объем товара
                             price:
                               type: string
+                              description: Цена за единицу продукции
                             taxRateLetters:
                               type: string
+                              description: Буквенные обозначения видов и ставок налогов / сборов (15 символов)
                             discountSum:
                               type: string
+                              description: Сумма скидки / наценки к товару
                             comment:
                               type: string
+                              description: Комментарий к товару
                       taxes:
                         type: array
                         items:
