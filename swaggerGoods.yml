@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: Check-Online API. Goods Release.
   termsOfService: https://forms.gle/kPqAx6WYcaSYtZpN6
-  version: "5.11.325"
+  version: "5.11.329"
   contact:
     name: Check-Online
     email: info@check-online.com.ua
@@ -568,6 +568,59 @@ paths:
                   success:
                     type: boolean
               example: { "success": false }
+
+  /command/refreshRegistrarInfo:
+    post:
+      tags:
+        - "Casher"
+      summary: Команда для обновления регистрационных данных из личного кабинета ДПС
+      description: Команда для обновления регистрационных данных из личного кабинета ДПС
+      requestBody:
+        required: true
+        content:
+          application/json;charset=utf-8:
+            schema:
+              properties:
+                commandName:
+                  type: string
+                  default: "refreshRegistrarInfo"
+                cashierId:
+                  type: string
+                registrarId:
+                  type: string
+              required:
+                - commandName
+                - cashierId
+                - registrarId
+            example:
+              {
+                "commandName": "refreshRegistrarInfo",
+                "cashierId": "83545ae583811d9f74aab0e9e38010eec2086ca96847ddc1750871425b75955f",
+                "registrarId": "4000066888",
+              }
+      responses:
+        200:
+          description: OK
+          content:
+            application/json;charset=utf-8:
+              schema:
+                properties:
+                  success:
+                    type: boolean
+              example:
+                {
+                  "success": true
+                }
+        400:
+          description: NOK
+          content:
+            application/json;charset=utf-8:
+              schema:
+                properties:
+                  success:
+                    type: boolean
+              example: { "success": false }
+
 
   /command/serverAvailable:
     post:
