@@ -566,7 +566,7 @@ paths:
       tags:
         - "Casher"
       summary: Команда для обновления регистрационных данных из личного кабинета ДПС
-      description: Команда для обновления регистрационных данных из личного кабинета ДПС
+      description: Команда для принудительного обновления регистрационных данных (например адрес) на ПРРО, на случай если произошло их обновление в личном кабинете ДПС.
       requestBody:
         required: true
         content:
@@ -5744,7 +5744,7 @@ paths:
               properties:
                 commandName:
                   type: string
-                  default: "getReportForPeriod"
+                  default: "getShifts"
                 cashierId:
                   type: string
                 registrarId:
@@ -5765,7 +5765,7 @@ paths:
                 - to
             example:
               {
-                "commandName": "getReportForPeriod",
+                "commandName": "getShifts",
                 "cashierId": "83545ae583811d9f74aab0e9e38010eec2086ca96847ddc1750871425b75955f",
                 "registrarId": "4000066888",
                 "from": "01:00:00 01.06.2021",
