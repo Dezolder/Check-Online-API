@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: Check-Online API. Goods Release.
   termsOfService: https://forms.gle/kPqAx6WYcaSYtZpN6
-  version: "5.11.329"
+  version: "5.11.333"
   contact:
     name: Check-Online
     email: info@check-online.com.ua
@@ -45,7 +45,6 @@ tags:
     description: Сокращённые кодировки налоговых групп
   - name: PayForms
     description: Сокращённые кодировки форм оплаты
-
 
 
 paths:
@@ -2143,7 +2142,7 @@ paths:
     post:
       tags:
         - "Casher"
-      summary: Получить суммирующий Z-Отчёт за перод.
+      summary: Получить суммирующий Z-Отчёт за период.
       description: По фискальному номеру пРРО и датам, собраются все зарегистрированные Z-Отчёты за указанный период, и представляются в виде "Суммируещего Z-отчёта".
       requestBody:
         required: true
@@ -2176,8 +2175,8 @@ paths:
             example:
               {
                 "commandName": "getReportForPeriod",
-                "cashierId": "57360e9ebab39243f28c1858043ec3fb7d60cd1d64d847f94c6c26db838eef23",
-                "registrarId": "4000066889",
+                "cashierId": "83545ae583811d9f74aab0e9e38010eec2086ca96847ddc1750871425b75955f",
+                "registrarId": "4000066888",
                 "from": "01:00:00 01.06.2021",
                 "to": "01:00:00 10.06.2021"
               }
@@ -2557,7 +2556,7 @@ paths:
     post:
       tags:
         - "Casher"
-      summary: Получить копии Z-Отчётов за перод.
+      summary: Получить копии Z-Отчётов за период.
       description: По фискальному номеру пРРО и датам, собраются все зарегистрированные Z-Отчёты за указанный период.
       requestBody:
         required: true
@@ -2590,8 +2589,8 @@ paths:
             example:
               {
                 "commandName": "getCopiesOfZReports",
-                "cashierId": "57360e9ebab39243f28c1858043ec3fb7d60cd1d64d847f94c6c26db838eef23",
-                "registrarId": "4000066889",
+                "cashierId": "83545ae583811d9f74aab0e9e38010eec2086ca96847ddc1750871425b75955f",
+                "registrarId": "4000066888",
                 "from": "23:39:12 17.09.2021",
                 "to": "15:55:34 03.10.2021"
               }
@@ -5267,7 +5266,7 @@ paths:
                   type: string
                 fiscalNumber: 
                     type: string
-                    description: Фискального Номер вызываемого чека
+                    description: Фискальный Номер вызываемого чека
               required:
                 - commandName
                 - cashierId
@@ -5681,8 +5680,7 @@ paths:
                         "fiscalNumber": "55547806",
                         "offline": false
                     }
-                }
-
+                } 
 
   /data/paymentForm:
     get:
